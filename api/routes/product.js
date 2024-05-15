@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router();
 const Product = require('../models/Product')
 
-router.get('/getAllList', async (req, res) => {
-    res.send(JSON.stringify({productsList : await Product.find()}))
+router.get('/getList', async (req, res) => {
+    res.send(JSON.stringify(await Product.find()))
 })
 
 // TODO: add restriction here for only admin 
@@ -16,8 +16,8 @@ router.delete('/delete/:id', async (req, res) => {
     res.send(JSON.stringify({message : 'deleted'}))  //add a check if the prodcut deleted actually
 })
 
-router.put('/update/:id', async (req, res) => {
-    await Product.findByIdAndUpdate({_id: req.params.id}, req.body)
+router.put('/update', async (req, res) => {
+    await Product.findByIdAndUpdate(req.body._id, req.body)
     res.send(JSON.stringify({message : 'updated'}))
 })
 

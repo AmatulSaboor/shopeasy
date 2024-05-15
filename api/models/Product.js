@@ -8,7 +8,7 @@ const ProductSchema = new Schema(
         },
         description: {
             type: String,
-            validate: [true, ]
+            // validate: [true, ]
         },
         category: {
             type: Schema.Types.ObjectId,
@@ -20,14 +20,14 @@ const ProductSchema = new Schema(
         },
         sold: {
             type: Number,
-            validate: {
-                validator: Number.isInteger,
-                message: '{VALUE} is not an integer value'
-            }
+            // validate: {
+            //     validator: Number.isInteger,
+            //     message: '{VALUE} is not an integer value'
+            // }
         },
-        producctImage: {
-            type: Image,
-        }
+        // producctImage: {
+        //     type: Image,
+        // }
     },
     { 
         timestamps: true,

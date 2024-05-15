@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const {isEmail} = require('validator')
+// const {isEmail} = require('validator')
 
 const CustomerSchema = new Schema (
     {
@@ -25,7 +25,7 @@ const CustomerSchema = new Schema (
             required: [true, 'please enter your email'],
             unique: [true, 'email already exist'],
             lowercase: true,
-            validate: [isEmail, 'please enter a valid email address'],
+            // validate: [isEmail, 'please enter a valid email address'],
         },
         mobileNumber: {
             type: String,
@@ -58,9 +58,9 @@ const CustomerSchema = new Schema (
         country: {
             type: String,
         },
-        profileImage: {
-            type: Image,
-        }
+        // profileImage: {
+        //     type: Image,
+        // }
     },
     {
         timestamps: true,
@@ -68,4 +68,4 @@ const CustomerSchema = new Schema (
     }
 )
 
-moulde.export = mongoose.model('Customer', CustomerSchema)
+module.exports = mongoose.model('Customer', CustomerSchema)

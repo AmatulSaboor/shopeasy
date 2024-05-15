@@ -13,10 +13,10 @@ const CartSchema = new Schema(
         },
         quantity: {
             type: Number,
-            validate : {
-                validator: Number.isInteger,
-                message: '{VALUE} is not an integer value'
-            }
+            // validate : {
+            //     validator: Number.isInteger,
+            //     message: '{VALUE} is not an integer value'
+            // }
         }
     },
     {

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import Product from './components/product/Product';
-import AddProduct from './components/product/AddProduct';
+import './App.css';
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <header className="App-header">
       <BrowserRouter>
         <Routes>
-          <Route path='addProduct' element={<AddProduct />} />
           <Route path='products' element={<Product />} />
         </Routes>
       </BrowserRouter>
