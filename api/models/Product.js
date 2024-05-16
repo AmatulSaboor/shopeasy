@@ -25,9 +25,9 @@ const ProductSchema = new Schema(
             //     message: '{VALUE} is not an integer value'
             // }
         },
-        // producctImage: {
-        //     type: Image,
-        // }
+        producctImage: {
+            type: String,
+        }
     },
     { 
         timestamps: true,

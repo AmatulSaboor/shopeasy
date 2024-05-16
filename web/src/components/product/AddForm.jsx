@@ -1,32 +1,41 @@
+import serverURL from "../../config/configFile";
 import { Form, Button } from "react-bootstrap";
 import {useState} from 'react';
-import serverURL from "../../config/configFile";
 
 const AddForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
    const [price, setPrice] = useState('');
+   const [image, setImage] = useState('');
 
    // fetching data on submit
    const handleSubmit = (e) => {
+      console.log('inside form submit', name, price, image)
+      // const formData = new FormData();
+      // formData.append('image', image)
+      // formData.append('name', name)
+      // formData.append('price', price)
+      const formData = new FormData();
+      const fields = { image, name, price };
+      Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
+
       e.preventDefault();
       fetch(serverURL + "product/add",
       {
          mode: 'cors',
          method: 'POST',
-         headers: { 'Content-Type':'application/json' },
-         body: JSON.stringify({ name, price}),
+         body: formData,
         //  credentials: 'include'
       })
       .then((response) => response.json())
       .then(response => {
-         handleCreate({name, price});
+         handleCreate(response);
          handleClose();
       })
       .catch(err => console.log(err));
    }
 
    return (
-   <Form onSubmit={handleSubmit}>
+   <Form encType="multipart/form-data" onSubmit={handleSubmit}>
       <Form.Group>
          <div>
             <label className="form-label">Name: <span className="mandatory"> *</span></label>
@@ -50,7 +59,16 @@ const AddForm = ({handleClose, handleCreate}) => {
                onChange = { (e) => setPrice(e.target.value)}
                required
                min="0"
-               max="30"
+            />
+         </div>
+      </Form.Group>
+      <Form.Group>
+         <div>
+            <Form.Control
+             className="select-form"
+               type="file"
+               name="image"
+               onChange = { (e) => setImage(e.target.files[0])}
             />
          </div>
       </Form.Group>

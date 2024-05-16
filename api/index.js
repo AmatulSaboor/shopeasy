@@ -25,6 +25,7 @@ app.use(cors({
 }));
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(express.static('public'))
 app.use('/product', productRouter)
 app.use('/customer', customerRouter)
 app.use('/cart', cartRouter)
@@ -32,11 +33,6 @@ app.use('/wishlist', wishlistRouter)
 // app.use('/order', orderRouter)
 // app.use('/payment', paymentRouter)
 
-
-// app.get('/getProductsList', async (req,res) => {
-// res.send(
-//     JSON.stringify({productsList : await Products.find({})})
-// )})
 
 app.listen(port, () => {
     console.log(`server is listening at ${port}`)
