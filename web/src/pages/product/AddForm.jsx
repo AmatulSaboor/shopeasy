@@ -1,21 +1,19 @@
 import serverURL from "../../config/configFile";
 import { Form, Button } from "react-bootstrap";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 const AddForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
    const [price, setPrice] = useState('');
+   const [category, setCategory] = useState('kjiu');
+   const [categoriesList, setCategoriesList] = useState([]);
    const [image, setImage] = useState('');
 
    // fetching data on submit
    const handleSubmit = (e) => {
-      console.log('inside form submit', name, price, image)
-      // const formData = new FormData();
-      // formData.append('image', image)
-      // formData.append('name', name)
-      // formData.append('price', price)
+      console.log('inside form submit', name, price, image, category)
       const formData = new FormData();
-      const fields = { image, name, price };
+      const fields = { image, name, price, category };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
 
       e.preventDefault();
@@ -33,6 +31,13 @@ const AddForm = ({handleClose, handleCreate}) => {
       })
       .catch(err => console.log(err));
    }
+
+   useEffect(() => {
+      fetch(serverURL + "category/getList")
+      .then((response) => response.json())
+      .then(response => {setCategoriesList(response);console.log(categoriesList)})
+      .catch(err => console.log(err));
+   }, [categoriesList])
 
    return (
    <Form encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -60,6 +65,20 @@ const AddForm = ({handleClose, handleCreate}) => {
                required
                min="0"
             />
+         </div>
+      </Form.Group>
+      <Form.Group>
+         <div>
+            <label className="form-label">Category : <span className="mandatory"> *</span></label>
+            <select
+            className="select-form"
+            name="category"
+            onChange={e => setCategory(e.target.value)}
+            value={category._id}
+         >
+            <option value="" disabled>select</option>
+            {categoriesList.map((category, key) => (<option key={key} value={category._id}>{category.name}</option>))}
+         </select>
          </div>
       </Form.Group>
       <Form.Group>

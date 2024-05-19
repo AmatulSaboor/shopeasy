@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Modal} from 'react-bootstrap';
 import AddForm from './AddForm';
 
-function AddModal({handleCreate}){
+const AddModal = ({handleCreate}) => {
 const [show, setShow] = useState(false);
 const handleShow = () => setShow(true);
 const handleClose = () => setShow(false);

@@ -18,7 +18,7 @@ const upload = multer({ storage: storage });
 
 
 router.get('/getList', async (req, res) => {
-    res.send(JSON.stringify(await Product.find()))
+    res.send(JSON.stringify(await Product.find().populate('category')))
 })
 
 // TODO: add restriction here for only admin 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Modal, Button} from 'react-bootstrap';
 import EditForm from './EditForm';
 
-function EditModal({item, handleEdit}){
+const EditModal = ({item, handleEdit})=> {
    const [show, setShow] = useState(false);
    const handleShow = () => setShow(true);
    const handleClose = () => setShow(false);

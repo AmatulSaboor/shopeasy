@@ -1,21 +1,20 @@
 
 import { Form, Button } from "react-bootstrap";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import serverURL from "../../config/configFile";
 
 const EditForm = ({item, handleEdit, handleClose}) => {
       const [name, setName] = useState(item.name);
       const [price, setPrice] = useState(item.price);
+      const [category, setCategory] = useState(item.category);
       const [image, setImage] = useState('')
-      // const [tempimage, setTempimage] = useState('');
+      const [categoriesList, setCategoriesList] = useState([]);
 
       const formData = new FormData();
-      const fields = { _id : item._id ,name, price, image };
+      const fields = { _id : item._id ,name, price, image, category };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
       const handleSubmit =  (e) => {
          e.preventDefault();
-         // console.log(tempimage)
-         // if(tempimage) setImage(tempimage)
          console.log(image)
       // console.log(formData.entries)
          fetch(serverURL + "product/update",
@@ -23,8 +22,6 @@ const EditForm = ({item, handleEdit, handleClose}) => {
          mode : 'cors',
          method : 'PUT',
          body : formData,
-         //   headers: { 'Content-Type':'application/json' },
-         //   body: JSON.stringify({ _id:item._id, name, price}),
          //   credentials: 'include'
         })
         .then((response) => response.json())
@@ -34,6 +31,13 @@ const EditForm = ({item, handleEdit, handleClose}) => {
         })
         .catch(err => console.log(err));
    }
+
+   useEffect(() => {
+      fetch(serverURL + "category/getList")
+      .then((response) => response.json())
+      .then(response => {setCategoriesList(response);console.log(categoriesList)})
+      .catch(err => console.log(err));
+   }, [categoriesList])
 
    return (
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -66,6 +70,20 @@ const EditForm = ({item, handleEdit, handleClose}) => {
                   />
             </div>
          </Form.Group>
+         <Form.Group>
+         <div>
+            <label className="form-label">Category : <span className="mandatory"> *</span></label>
+            <select
+            className="select-form"
+            name="category"
+            onChange={e => setCategory(e.target.value)}
+            value={category._id}
+         >
+            <option value="" disabled>select</option>
+            {categoriesList.map((category, key) => (<option key={key} value={category._id}>{category.name}</option>))}
+         </select>
+         </div>
+      </Form.Group>
          <img src={serverURL + `uploads/` + item.image} height={200} width={200} alt="not available" />
          <Form.Group>
             <div>

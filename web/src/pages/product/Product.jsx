@@ -2,13 +2,15 @@ import { useEffect, useState } from "react"
 import serverURL from '../../config/configFile'
 import EditModal from "./EditModal"
 import AddModal from "./AddModal"
-import Pagination from '../pagination/Pagination';
+import Pagination from '../../components/pagination/Pagination';
+import { useNavigate } from "react-router-dom";
 
-let Product = () => {
+const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
     const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate()
 
     // get current posts
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -48,24 +50,39 @@ let Product = () => {
     }
     // get products
     const getProducts = () => {
-        try{
-            fetch(serverURL + `product/getList`)
-            .then(response => {
-                // if (!response.ok) throw new Error('Network response was not ok');
-                return response.json()})
-            .then(data => {
-                setProductsList(data)
-                console.log(productsList)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
+        // try{
+        //     fetch(serverURL + `product/getList`)
+        //     .then(response => {
+        //         // if (!response.ok) throw new Error('Network response was not ok');
+        //         return response.json()})
+        //     .then(data => {
+        //         setProductsList(data)
+        //         // console.log(productsList)
+        //     })
+        //     .catch(e => console.error(e))
+        // }catch(e){
+        //     console.error(e)
+        // }
     }
 
     useEffect(() => {
-        getProducts()
-    }, [])
+        fetch(serverURL + 'auth/session', {
+            credentials: 'include'
+        })
+        .then((res => res.json()))
+        .then(res => {console.log(res); 
+            if(!res.isAuthenticated){
+                return navigate('./login');
+            }else{
+                setLoggedInCustomerEmail(res.email)
+                setLoggedInCustomerName(res.username)
+                getProducts()
+            }
+        })
+        .catch(err => {console.log(err);
+        })
+    }, [navigate, setLoggedInCustomerName, setLoggedInCustomerEmail])
+
 
     return(
         <>  
@@ -79,6 +96,7 @@ let Product = () => {
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Category</th>
                         <th>Image</th>
                         <th></th>
                         <th></th>
@@ -90,6 +108,7 @@ let Product = () => {
                         <tr key={key}>
                             <td>{item.name}</td>
                             <td>{item.price}</td>
+                            <td>{item.category?.name}</td>
                             <td><img src={serverURL + `uploads/` + item.image} height={200} width={200} alt="not available" /></td>
                             <td><EditModal item={item} handleEdit={handleEdit} /></td>
                             <td><button onClick={() => handleDelete(item._id)}>Delete</button></td>
@@ -97,7 +116,7 @@ let Product = () => {
                     )})}
                 </tbody>
             </table>
-            <Pagination postsPerPage = {productsPerPage} totalPosts = {productsList.length} paginate = {paginate}/> 
+            <Pagination postsPerPage = {productsPerPage} totalPosts = {productsList.length} paginate = {paginate}/>
         </>
     )
 }

@@ -8,17 +8,12 @@ const CustomerSchema = new Schema (
             type: Schema.Types.ObjectId,
             ref: 'Role'
         },
-        firstName: {
+        customerName: {
             type: String,
-            required: [true, 'please enter your first name'],
-            minlength: [3, 'first name should be 3 or more characters'],        
-            maxlength: [20, 'first name should be less than 20 characters'],        
-        },
-        lastName: {
-            type: String,
-            required: [true, 'please enter your last name'],
-            minlength: [3, 'last name should be 3 or more characters'],        
-            maxlength: [20, 'last name should be less than 20 characters'],        
+            required: [true, 'please enter your name'],
+            unique: [true, 'name already exist'],
+            minlength: [3, 'name should be 3 or more characters'],        
+            maxlength: [20, 'name should be less than 20 characters'],        
         },
         email: {
             type: String,
@@ -27,7 +22,7 @@ const CustomerSchema = new Schema (
             lowercase: true,
             // validate: [isEmail, 'please enter a valid email address'],
         },
-        mobileNumber: {
+        phone: {
             type: String,
             required: [true, 'please enter your mobile phone'],
             unique: [true, 'mobile number already exists'],
