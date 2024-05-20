@@ -1,0 +1,16 @@
+// ==================== delete product ==================== 
+// router.delete('/delete/:id', async (req, res) => {
+
+//     try{
+//         // deleting the image of the product as well
+//         const prod = await Product.findById(req.params._id)
+//         if(prod.image) fs.unlinkSync(`./public/uploads/${prod.image}`)
+
+//         // TODO: what if the product was in cart or wishlist
+//         const deletedProduct = await Product.findByIdAndDelete({_id:req.params.id})
+//         if (!deletedProduct) 
+//             res.status(200).send(JSON.stringify({message : 'deleted'}))  //add a check if the prodcut deleted actually
+//     }catch(e){
+//         res.status(500).send()
+//     }
+// })

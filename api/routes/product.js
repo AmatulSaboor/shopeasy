@@ -3,6 +3,7 @@ const multer = require('multer')
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
+const mongoose = require('mongoose');
 
 // ==================== set storage for images ==================== 
 const storage = multer.diskStorage({
@@ -17,49 +18,67 @@ const upload = multer({ storage })
 
 // ==================== get products ==================== 
 router.get('/getList', async (req, res) => {
-    try{
+    try {
         const productsList = await Product.find().populate('category')
         res.status(200).send(JSON.stringify({productsList}))
-    }catch(error){
+    } catch(error){
         res.status(500).send(JSON.stringify({error}))
     }
 })
 
 // ==================== create product (only by admin) ==================== 
 router.post('/add', upload.single('image') ,async (req, res) => {
-    try{
-        // console.log(`in create `, req.session.customer.role, req.session.customer.role.name)
+    try {
         if(req.session.customer && req.session.customer.role.name === 'admin'){
             if(req.file) req.body.image = req.file.filename
             const createdProduct = await Product.create(req.body)
             console.log(createdProduct)
+            await createdProduct.populate('category')
+            console.log(createdProduct)
             res.status(201).send({createdProduct})
         }
         else {
-            console.log('in here unauthorized')
-            res.status(403).send({errorMessage : 'unauthorized request'})  // server refuses unauthorized request
+            res.status(403).send({error : 'unauthorized request'})  // server refuses unauthorized request
         }
-    }catch(error){
+    } catch(error){
+        console.log(error)
         res.status(500).send(JSON.stringify({error}))
     }
 })
 
 // ==================== update product ==================== 
 router.put('/update', upload.single('image'), async (req, res) => {
+    const session = await mongoose.startSession();
     try {
+        session.startTransaction()
         const prod = await Product.findById(req.body._id)
+        console.log(`prod`, prod)
         if(req.file){
             if(prod.image)
-                fs.unlinkSync(`./public/uploads/${prod.image}`)
+                fs.unlinkSync(`./public/uploads/products/${prod.image}`)
+            console.log(`prod image `, prod?.image)
             req.body.image = req.file.filename
+            console.log('after image deletion')
         }else{
             req.body.image = prod.image
+            console.log('after image same')
         }
-        const updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body)
+        const updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body, {new : true})
+        console.log('in update product', updatedProduct)
         if(updatedProduct)
-            res.status(200).send(JSON.stringify({updatedProduct}))
-        // else res.status(404).send(JSON.stringify({})) // TODO: try giving a wrong id through postman and check
+            {
+                await session.commitTransaction();
+                session.endSession();
+                res.status(200).send(JSON.stringify({updatedProduct}))
+            }
+        else {
+            await session.abortTransaction();
+            session.endSession();
+            // else res.status(404).send(JSON.stringify({})) // TODO: try giving a wrong id through postman and check
+        }
     } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
         res.status(500).send(JSON.stringify({error}))
     }
 })

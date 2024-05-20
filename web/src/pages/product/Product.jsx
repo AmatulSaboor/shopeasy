@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 9;
+    const productsPerPage = 2;
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate()
     const logout = () => {
@@ -39,15 +39,29 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         setProductsList(copyProdcuts)
     }
 
-    const handleEdit = (item) => {
-        setProductsList(productsList.filter( i => {
-            if (i._id === item._id){
-                i.name = item.name;
-                i.price = item.price;
-            }
-            return item;
-        }))
-    }
+    const handleEdit = (editedItem) => {
+        setProductsList(prevList => {
+            const updatedList = prevList.filter(item => {
+                if (item._id === editedItem._id) {
+                    Object.assign(item, editedItem);
+                }
+                return true;
+            });
+            return updatedList;
+        });
+    };
+    
+    // const handleEdit = (item) => {
+    //     console.log(item)
+    //     setProductsList(productsList.filter( i => {
+    //         if (i._id === item._id){
+    //             console.log('i : ', i)
+    //             console.log('item : ', item)
+    //             i = item
+    //         }
+    //         return item;
+    //     }))
+    // }
 
     const handleDelete = (id)=>{
         fetch(serverURL + `product/delete/${id}`, {method:'DELETE'})
@@ -113,7 +127,7 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
                             <Card.Text>{item.description}</Card.Text>
                             <Card.Text>Rs. {item.price}</Card.Text>
                             <Card.Text>Sold: {item.sold}</Card.Text>
-                            <button onClick={() => handleEdit(item)}>Edit</button>
+                            <EditModal item={item} handleEdit={handleEdit} />
                             <button onClick={() => handleDelete(item._id)}>Delete</button>
                         </Card.Body>
                     </Card>)})}
@@ -126,34 +140,3 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
 }
 
 export default Product
-{/* <table>
-    <thead>
-        <tr>
-            <th>Category</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Sold</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {currentProducts && currentProducts.map((item, key) => {
-        return(
-            <tr key={key}>
-                <td>{item.category?.name}</td>
-                <td>{item.name}</td>
-                <td>{item.description}</td>
-                <td><img src={serverURL + `uploads/products/` + item.image} height={200} width={200} alt="not available" /></td>
-                <td>{item.price}</td>
-                <td>{item.qunatity}</td>
-                <td>{item.sold}</td>
-                <td><EditModal item={item} handleEdit={handleEdit} /></td>
-                <td><button onClick={() => handleDelete(item._id)}>Delete</button></td>
-            </tr>
-        )})}
-    </tbody>
-</table> */}
