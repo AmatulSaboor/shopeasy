@@ -11,7 +11,7 @@ import serverURL from '../../../config/configFile';
 
 export const Login = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [validationError, setValidationError] = useState(null)
-    const [customerName, setCustomerName] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
     useEffect(() => {
@@ -22,7 +22,7 @@ export const Login = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         .then(res => {console.log(res); 
             if(res.isAuthenticated){
                 setLoggedInCustomerEmail(res.email)
-                setLoggedInCustomerName(res.customerName)
+                setLoggedInCustomerName(res.name)
                 return navigate('/');
             }
         })
@@ -38,14 +38,14 @@ export const Login = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
                                 mode: 'cors',
                                 method: 'POST',
                                 headers: { 'Content-Type':'application/json' },
-                                body: JSON.stringify({customerName, password}),
+                                body: JSON.stringify({name, password}),
                                 credentials: 'include'
                             })
                             .then((response) => response.json())
                             .then(response => {console.log(response);
                                 if(response.message){
                                     setLoggedInCustomerEmail(response.email)
-                                    setLoggedInCustomerName(response.customerName)
+                                    setLoggedInCustomerName(response.name)
                                     navigate('/')
                                 }
                                 else{
@@ -64,8 +64,8 @@ export const Login = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
                         <br></br>
                         {/* <h5 className="slagon">Skip the stress.<span className="slagon-part-2">Ship your luggage.</span> </h5> */}
                         {validationError && <div className='validationError m-4'>{validationError}</div>}
-                        <input  className ="text-username" type="text" name="username" required placeholder="Customer Name" onChange={e => setCustomerName(e.target.value)}/>
-                        <input className ="user-password" type="password" name="password" required placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                        <input className ="text-username" type="text" name="name" placeholder="Customer Name" onChange={e => setName(e.target.value)}/>
+                        <input className ="user-password" type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
                         <br></br>
                         <button className="login-button" type="submit">Login</button>
                         <br></br>

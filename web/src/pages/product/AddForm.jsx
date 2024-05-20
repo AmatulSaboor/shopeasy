@@ -5,15 +5,15 @@ import {useEffect, useState} from 'react';
 const AddForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
    const [price, setPrice] = useState('');
-   const [category, setCategory] = useState('kjiu');
+   const [category, setCategory] = useState('');
    const [categoriesList, setCategoriesList] = useState([]);
    const [image, setImage] = useState('');
 
    // fetching data on submit
    const handleSubmit = (e) => {
-      console.log('inside form submit', name, price, image, category)
+      console.log('inside form submit', price, image, category)
       const formData = new FormData();
-      const fields = { image, name, price, category };
+      const fields = { name, price, category, image };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
 
       e.preventDefault();
@@ -22,11 +22,11 @@ const AddForm = ({handleClose, handleCreate}) => {
          mode: 'cors',
          method: 'POST',
          body: formData,
-        //  credentials: 'include'
+         credentials: 'include'
       })
       .then((response) => response.json())
       .then(response => {
-         handleCreate(response);
+         handleCreate(response.createdProduct);
          handleClose();
       })
       .catch(err => console.log(err));
@@ -37,7 +37,7 @@ const AddForm = ({handleClose, handleCreate}) => {
       .then((response) => response.json())
       .then(response => {setCategoriesList(response);console.log(categoriesList)})
       .catch(err => console.log(err));
-   }, [categoriesList])
+   }, [])
 
    return (
    <Form encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -74,7 +74,6 @@ const AddForm = ({handleClose, handleCreate}) => {
             className="select-form"
             name="category"
             onChange={e => setCategory(e.target.value)}
-            value={category._id}
          >
             <option value="" disabled>select</option>
             {categoriesList.map((category, key) => (<option key={key} value={category._id}>{category.name}</option>))}

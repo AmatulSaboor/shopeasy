@@ -4,11 +4,11 @@ const Schema = mongoose.Schema
 
 const CustomerSchema = new Schema (
     {
-        roleID: {
+        role: {
             type: Schema.Types.ObjectId,
             ref: 'Role'
         },
-        customerName: {
+        name: {
             type: String,
             required: [true, 'please enter your name'],
             unique: [true, 'name already exist'],

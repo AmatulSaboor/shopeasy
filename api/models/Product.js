@@ -1,38 +1,53 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const ProductSchema = new Schema(
     {
         name: {
             type: String,
+            required : [true, 'please enter name']
         },
         description: {
             type: String,
-            // validate: [true, ]
         },
         category: {
             type: Schema.Types.ObjectId,
-            ref: 'Category'
+            ref: 'Category',
+            required : [true, 'please select category']
+
         },
         price: {
             type: Number,
-            require: [true, 'please enter price']
+            required: [true, 'please enter price']
+        },
+        quantity: {
+            type: Number,
+            validate: {
+                validator: Number.isInteger,
+                message: '{VALUE} is not an integer value'
+            },
+            required: [true, 'please enter qunatity']
         },
         sold: {
             type: Number,
-            // validate: {
-            //     validator: Number.isInteger,
-            //     message: '{VALUE} is not an integer value'
-            // }
+            default : 0,
+            validate: {
+                validator: Number.isInteger,
+                message: '{VALUE} is not an integer value'
+            }
         },
-        producctImage: {
+        image: {
             type: String,
+        },
+        isAvailable: {
+            type: Boolean,
+            default : true
         }
     },
     { 
         timestamps: true,
         strict: false
     }
-);
+)
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', ProductSchema)

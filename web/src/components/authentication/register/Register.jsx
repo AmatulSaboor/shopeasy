@@ -8,10 +8,10 @@ import serverURL from '../../../config/configFile';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i2.png';
 
-export const Register = ({setLoggedInUserEmail, setLoggedInUserName}) => {
+export const Register = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [validationError, setValidationError] = useState(null)
     const [email, setEmail] = useState('')
-    const [customerName, setCustomerName] = useState('')
+    const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -23,20 +23,20 @@ export const Register = ({setLoggedInUserEmail, setLoggedInUserName}) => {
         .then((res => res.json()))
         .then(res => {console.log(res); 
             if(res.isAuthenticated){
-                setLoggedInUserEmail(res.email)
-                setLoggedInUserName(res.customerName)
+                setLoggedInCustomerEmail(res.email)
+                setLoggedInCustomerName(res.name)
                 return navigate.push('./');
             }
         })
         .catch(err => {console.log(err);
         })
-    }, [navigate, setLoggedInUserName, setLoggedInUserEmail])
+    }, [navigate, setLoggedInCustomerName, setLoggedInCustomerEmail])
     return (
         <div>
             <form onSubmit={(e)=>{
                 e.preventDefault();
                 if(password !== confirmPassword){
-                    setValidationError('Password and Confirm Password do not match')
+                    setValidationError('Password and confirm password do not match')
                     return;
                 }
                 else{
@@ -47,7 +47,7 @@ export const Register = ({setLoggedInUserEmail, setLoggedInUserName}) => {
                     mode: 'cors',
                     method: 'POST',
                     headers: { 'Content-Type':'application/json' },
-                    body: JSON.stringify({phone, confirmPassword, email, customerName, password}),
+                    body: JSON.stringify({phone, confirmPassword, email, name, password, role:'664ada57dde187ee1c525222'}),
                     credentials : 'include'
                 })
                 .then((response) => response.json())
@@ -55,9 +55,9 @@ export const Register = ({setLoggedInUserEmail, setLoggedInUserName}) => {
                     console.log(response)
                     if(response.message){
                         setValidationError(null)
-                        setLoggedInUserName(response.customerName)
-                        setLoggedInUserEmail(response.email)
-                        navigate('./')}
+                        setLoggedInCustomerName(response.name)
+                        setLoggedInCustomerEmail(response.email)
+                        navigate('/')}
                     else if(response.existedCustomer){
                         
                     }else{
@@ -75,11 +75,11 @@ export const Register = ({setLoggedInUserEmail, setLoggedInUserName}) => {
                     {/* <img className="logo" src={logo} alt="Logo" /> */}
                     {/* <h5 className="slagon">Skip the stress.<span className="slagon-part-2">Ship your luggage.</span> </h5> */}
                     {validationError && <div className='validationError m-4'>{validationError}</div>}
-                    <input className="field" type="text" name="customerName" placeholder="Customer Name" required onChange={e => setCustomerName(e.target.value)} />
-                    <input className="field" type="email" name="email" placeholder="Email" required onChange={e => setEmail(e.target.value)} />
-                    <input className="field" type="text" name="phone" placeholder="Phone number" required onChange={e => setPhone(e.target.value)} />
-                    <input className="field" type="password" name="password" placeholder="Password" required onChange={e => setPassword(e.target.value)} />
-                    <input className="field" type="password" name="confirmPassword" placeholder="Confirm password" required onChange={e => setConfirmPassword(e.target.value)} />
+                    <input className="field" type="text" name="name" placeholder="Name" onChange={e => setName(e.target.value)} />
+                    <input className="field" type="email" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+                    <input className="field" type="text" name="phone" placeholder="Phone number" onChange={e => setPhone(e.target.value)} />
+                    <input className="field" type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                    <input className="field" type="password" name="confirmPassword" placeholder="Confirm password" onChange={e => setConfirmPassword(e.target.value)} />
                     <br></br>
                     <div><span className='allfield'>Note:All fields are mandatory</span></div>
                         <button className="button" type="submit">Register</button>

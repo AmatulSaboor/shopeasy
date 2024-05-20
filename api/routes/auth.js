@@ -8,7 +8,7 @@ router.get('/session', (req, res) => {
     console.log(`i am inside session`)
     console.log(req.session)
     if (req.session.isAuthenticated)
-        res.send(JSON.stringify({isAuthenticated: true, error: null, customerName: req.session.customer.customerName, email:req.session.customer.email}));
+        res.send(JSON.stringify({isAuthenticated: true, error: null, name: req.session.customer.name, email:req.session.customer.email, role:req.session.customer.role}));
     else
         res.send(JSON.stringify({isAuthenticated: false, error: 'Some Error Occured, Try Again!!!'}));
 })
@@ -18,16 +18,17 @@ router.post('/login', async (req, res) => {
     console.log('I am inside login....');
     console.log(req.session);
     try {
-        const result = await Customer.findOne({ customerName: req.body.customerName }).exec();
-        console.log(result);
+        const result = await Customer.findOne({ name: req.body.name }).populate('role')
+        console.log(`in result : `, result);
         if (result) {
             const isValidPassword = await bcrypt.compare(req.body.password, result.password);
             if (isValidPassword) {
                 req.session.isAuthenticated = true;
                 req.body.password = await bcrypt.hash(req.body.password, 10);
                 req.body.email = result.email;
+                req.body.role = result.role;
                 req.session.customer = req.body;
-                res.send(JSON.stringify({ message: 'Welcome ' + req.body.customerName, customerName: req.body.customerName, email: result.email }));
+                res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, name: req.body.name, email: result.email, role: result.role }));
             } else {
                 res.send(JSON.stringify({ error: 'Incorrect Password' }));
             }
@@ -76,11 +77,11 @@ router.post('/register', async (req, res) => {
     console.log('inside register post')
     let newCustomer = await Customer.findOne({email: req.body.email});
     if (newCustomer){
-      return res.send(JSON.stringify({error: 'You already have this email address, sign in now!', customerName: newCustomer.customerName}));
+      return res.send(JSON.stringify({error: 'You already have this email address, sign in now!', name: newCustomer.name}));
     }
-    newCustomer = await Customer.findOne({customerName: req.body.customerName});
+    newCustomer = await Customer.findOne({name: req.body.name});
     if (newCustomer){
-      return res.send(JSON.stringify({error: 'You already have this name, sign in now!', customer: newCustomer.customerName}));
+      return res.send(JSON.stringify({error: 'You already have this name, sign in now!', customer: newCustomer.name}));
     }
     try{
         console.log(regex.test(req.body.password));
@@ -91,7 +92,8 @@ router.post('/register', async (req, res) => {
             await newCustomer.save();
             req.session.isAuthenticated = true;
             req.session.customer = req.body;
-            res.send(JSON.stringify({message: req.body.customerName + ' is successfully registered', customerName: req.body.customerName, email:req.body.email}));
+            console.log(`in register ` , req.session.customer)
+            res.send(JSON.stringify({message: req.body.name + ' is successfully registered', name: req.body.name, email:req.body.email, role:req.body.role}));
         }
         else{
             console.log(`invalid password`)
@@ -105,7 +107,7 @@ router.post('/register', async (req, res) => {
           console.log(`inside else for invalid password`)
           e = e.message;
       }
-      return res.send(JSON.stringify({error: e, customerName: req.body.customerName, email:req.body.email}));
+      return res.send(JSON.stringify({error: e, name: req.body.name, email:req.body.email}));
     }
 });
 
