@@ -8,7 +8,7 @@ import serverURL from '../../../config/configFile';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i2.png';
 
-export const Register = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+export const Register = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [validationError, setValidationError] = useState(null)
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -23,6 +23,7 @@ export const Register = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) =>
         .then((res => res.json()))
         .then(res => {console.log(res); 
             if(res.isAuthenticated){
+                setLoggedInCustomerId(res.id)
                 setLoggedInCustomerEmail(res.email)
                 setLoggedInCustomerName(res.name)
                 return navigate.push('./');
@@ -30,7 +31,7 @@ export const Register = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) =>
         })
         .catch(err => {console.log(err);
         })
-    }, [navigate, setLoggedInCustomerName, setLoggedInCustomerEmail])
+    }, [navigate, setLoggedInCustomerId, setLoggedInCustomerName, setLoggedInCustomerEmail])
     return (
         <div>
             <form onSubmit={(e)=>{
@@ -55,6 +56,7 @@ export const Register = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) =>
                     console.log(response)
                     if(response.message){
                         setValidationError(null)
+                        setLoggedInCustomerId(response.id)
                         setLoggedInCustomerName(response.name)
                         setLoggedInCustomerEmail(response.email)
                         navigate('/')}

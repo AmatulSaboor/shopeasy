@@ -11,12 +11,15 @@ import Wishlist from './components/wishlist/Wishlist';
 import Cart from './components/cart/Cart';
 import Order from './components/order/Order';
 import NotFound from './components/notfound/NotFound';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CustomerProductDisplay from './pages/customerProductDisplay/CustomerProductDisplay';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [error] = useState(null)
   const [loggedInCustomerName, setLoggedInCustomerName] = useState(null)
   const [loggedInCustomerEmail, setLoggedInCustomerEmail] = useState(null)
+  const [loggedInCustomerId, setLoggedInCustomerId] = useState(null)
 
   useEffect(() => {
     fetch(serverURL + 'auth/session', 
@@ -43,12 +46,13 @@ function App() {
   return (
     <div className="App">
       {error && <div className="validationError m-4">{error}</div>}
-      <Header loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />
+      {/* <Header loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} /> */}
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Product setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
-          <Route path='/login' element={<Login setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
-          <Route path='/register' element={<Register setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
+          <Route path='/' element={<CustomerProductDisplay loggedInCustomerId={loggedInCustomerId} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
+          {/* <Route path='/' element={<Product setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} /> */}
+          <Route path='/login' element={<Login setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
+          <Route path='/register' element={<Register setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/dashboard' element={<Product loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/wishlist' element={<Wishlist loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/cart' element={<Cart loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />

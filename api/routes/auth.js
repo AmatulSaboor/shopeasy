@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 router.get('/session', (req, res) => {
     console.log(`i am inside session`)
     if (req.session.isAuthenticated)
-        res.send(JSON.stringify({isAuthenticated: true, error: null, name: req.session.customer.name, email:req.session.customer.email, role:req.session.customer.role}));
+        res.send(JSON.stringify({isAuthenticated: true, error: null, id: req.session.customer.id, name: req.session.customer.name, email:req.session.customer.email, role:req.session.customer.role}));
     else
         res.send(JSON.stringify({isAuthenticated: false, error: 'Some Error Occured, Try Again!!!'}));
 })
@@ -17,17 +17,20 @@ router.post('/login', async (req, res) => {
     console.log('I am inside login....');
     console.log(req.session);
     try {
-        const result = await Customer.findOne({ name: req.body.name }).populate('role')
+        // const result = await Customer.findOne({ name: req.body.name }).populate('role')
+        const result = await Customer.findOne({ name: req.body.name })
         console.log(`in result : `, result);
         if (result) {
             const isValidPassword = await bcrypt.compare(req.body.password, result.password);
             if (isValidPassword) {
                 req.session.isAuthenticated = true;
                 req.body.password = await bcrypt.hash(req.body.password, 10);
+                req.body.id = result._id;
                 req.body.email = result.email;
                 req.body.role = result.role;
                 req.session.customer = req.body;
-                res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, name: req.body.name, email: result.email, role: result.role }));
+                // res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, id: result._id, name: req.body.name, email: result.email, role: result.role.name }));
+                res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, id: result._id, name: req.body.name, email: result.email }));
             } else {
                 res.send(JSON.stringify({ error: 'Incorrect Password' }));
             }

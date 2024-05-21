@@ -6,7 +6,7 @@ import AddModal from "./AddModal"
 import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
 
-const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const Product = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
@@ -16,6 +16,7 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
         .then(res => res.json())
         .then(res => {if(res.logout) {
+            setLoggedInCustomerId(null)
             setLoggedInCustomerName(null)
             setLoggedInCustomerEmail(null)
             navigate('/login')
@@ -30,7 +31,7 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         .slice(indexOfFirstProduct,indexOfLastProduct);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleSearchChange = (event) => {
+    const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     }
     const handleCreate = (product) => {
@@ -76,7 +77,6 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         try{
             fetch(serverURL + `product/getList`)
             .then(response => {
-                // if (!response.ok) throw new Error('Network response was not ok');
                 return response.json()})
             .then(data => {
                 setProductsList(data.productsList)
@@ -92,11 +92,12 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
         fetch(serverURL + 'auth/session', {
             credentials: 'include'
         })
-        .then((res => res.json()))
+        .then(res => res.json())
         .then(res => {console.log(res); 
             if(!res.isAuthenticated){
                 return navigate('./login');
             }else{
+                setLoggedInCustomerId(res.id)
                 setLoggedInCustomerEmail(res.email)
                 setLoggedInCustomerName(res.username)
                 getProducts()
@@ -112,7 +113,7 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
             <AddModal handleCreate = {handleCreate}/>
             <div>
                 <label htmlFor="search" >search :</label>
-                <input type="text" name="search" onChange={handleSearchChange} />
+                <input type="text" id="search" onChange={handleSearch} />
             </div>
             <Row>
                 <Col sm={3}> 
@@ -133,7 +134,7 @@ const Product = ({setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
                     </Card>)})}
                 </Col>
             </Row>
-            <Pagination postsPerPage = {productsPerPage} totalPosts = {productsList.length} paginate = {paginate}/>
+            <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
             <button onClick = {logout}>Log Out</button>
         </>
     )

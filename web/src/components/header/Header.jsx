@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaBars, FaHome, FaSignOutAlt } from 'react-icons/fa';
 import Logo from '../../logo.svg';
+import Sidebar from '../sidebar/Sidebar'
 
 const Header = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -24,6 +25,7 @@ const Header = () => {
       </div>
       {showSidebar && (
         <div style={styles.sidebar}>
+          {/* <Sidebar /> */}
           {/* Add your sidebar content here */}
         </div>
       )}

@@ -20,8 +20,8 @@ const Sidebar = ({loggedInCustomerName, loggedInCustomerEmail, setLoggedInCustom
         <div>
             <ul>
                 <li><img src={customerImage} alt="user" /></li>
-                <li>User Name: {loggedInCustomerName}</li>
-                <li>Email: {loggedInCustomerEmail}</li>
+                <li>Welcome {loggedInCustomerName}</li>
+                <li>{loggedInCustomerEmail}</li>
                 <li><Link to = '/dashboard'> Go To Home</Link></li>
                 <li><Link to = '/wishlist'> My Wishlist</Link></li>
                 <li><Link to = 'cart'> My Cart </Link></li>
