@@ -14,6 +14,7 @@ import Checkout from './pages/checkout/Checkout';
 import NotFound from './components/notfound/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomerProductDisplay from './pages/customerProductDisplay/CustomerProductDisplay';
+import Success from './components/success/Success';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -59,6 +60,7 @@ function App() {
           <Route path='/cart' element={<Cart loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/order' element={<Order loggedInCustomerId={loggedInCustomerId} loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/checkout' element={<Checkout loggedInCustomerId={loggedInCustomerId} loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
+          <Route path='/success' element={<Success loggedInCustomerId={loggedInCustomerId} loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path = "*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

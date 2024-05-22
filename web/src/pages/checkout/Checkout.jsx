@@ -49,11 +49,28 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
         const tax = (subTotal * 5)/100
         const shippingCharges = 200
         const grandTotal = subTotal + tax + shippingCharges
-        setOrderSummary({subTotal, tax, shippingCharges, grandTotal})
+
+        setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
     }
 
     const handleConfirmOrder = () => {
         console.log('in confirm order')
+        try {
+            fetch(serverURL + "order/add",
+            {
+                mode: 'cors',
+                method: 'POST',
+                body: {customer,orderSummary, cart},
+                credentials: 'include'
+            })
+            .then((response) => response.json())
+            .then(response => {
+                navigate('/success')
+            })
+      .catch(err => console.log(err));
+        } catch (error) {
+            console.log(error)
+        }
     }
     useEffect(() => {
         try {
@@ -118,7 +135,7 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
                 <p><span>Sub Total : </span> Rs. {orderSummary.subTotal}</p>
                 <p><span>Tax : </span> Rs. {orderSummary.tax}</p>
                 <p><span>Shipping Charges : </span> Rs. {orderSummary.shippingCharges}</p>
-                <p><span><b>Grand Total : </b></span> Rs. {orderSummary.grandTotal}</p>
+                <p><b><span>Grand Total : </span> Rs. {orderSummary.grandTotal}</b></p>
                 <p>Estimated Delivery: 3-5 business days</p>
             </div>
             <Link to='/cart' >back to cart</Link>

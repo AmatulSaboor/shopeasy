@@ -1,19 +1,37 @@
-const { type } = require('express/lib/response')
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const OrderSchema = new Schema(
     {
-        cutomerId: {
+        customerID: {
             type: Schema.Types.ObjectId,
             ref: 'Customer'
         },
-        cutomerName: {
+        customerName: {
             type: String,
         },
-        totalPrice: {
+        customerEmail: {
+            type: String,
+        },
+        customerPhoneNumber: {
+            type: String,
+        },
+        paymentMethod: {
+            type: String,
+        },
+        subTotal: {
             type: Number,
-            require: [true, 'total price are required']
+            require: [true, 'sub total is required']
+        },
+        tax: {
+            type: Number,
+        },
+        shippingCharges: {
+            type: Number,
+        },
+        grandTotal: {
+            type: Number,
+            require: [true, 'grand total are required']
         },
     },
     {

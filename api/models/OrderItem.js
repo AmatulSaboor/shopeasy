@@ -5,7 +5,7 @@ const OrderItemSchema = new Schema(
     {
         orderID: {
             type: Schema.Types.ObjectId,
-            ref: 'Product'
+            ref: 'Order'
         },
         productID: {
             type: Schema.Types.ObjectId,

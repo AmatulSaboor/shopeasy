@@ -1,0 +1,40 @@
+/* SuccessMessage.css */
+.success-message {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    flex-direction: column; /* Align items vertically */
+    text-align: center; /* Center align text */
+    height: 100vh; /* Set height to full viewport height */
+    background-color: #fff9c4; /* Light yellow background */
+  }
+  
+  .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #00e676; /* Green color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .circle svg {
+    fill: white;
+  }
+  
+  .back-button {
+    background-color: #4caf50; /* Green button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #388e3c; /* Darker green color on hover */
+  }
+  
