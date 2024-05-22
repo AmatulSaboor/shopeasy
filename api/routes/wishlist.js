@@ -39,4 +39,13 @@ router.post('/add', async (req, res) => {
     // }
 })
 
+router.delete('/remove/:productID', async (req, res) => {
+    try {
+        await WishList.deleteMany({productID : req.params.productID})
+        res.status(200).send({message : 'deleted'})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = router

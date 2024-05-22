@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 import './CustomerProductCard.css'
 import { useState } from 'react'
 
-const CustomerProductCard = ({product, isInWishlist, loggedInCustomerId}) => {
+const CustomerProductCard = ({product, isInWishlist, isInCart, loggedInCustomerId, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
   const [quantity, setQuantity] = useState(1)
   const increaseQuantity = () => {
     if (quantity < product.quantity- product.sold)
@@ -30,7 +30,10 @@ const CustomerProductCard = ({product, isInWishlist, loggedInCustomerId}) => {
       .then(res => res.json())
       .then(res => {
         console.log(res)
-        
+        handleUpdateWishList({productID: product._id, customerID : loggedInCustomerId})
+        // const copyWishlist = [...wishList];
+        // copyWishlist.push({productID: product._id, customerID : loggedInCustomerId});
+        // setWishList(copyWishlist)
       })
       .catch(e => console.log(e))
     } catch (error) {
@@ -39,7 +42,84 @@ const CustomerProductCard = ({product, isInWishlist, loggedInCustomerId}) => {
   }
 
   const handleRemoveFromWishList = () => {
+    console.log(product._id, ' : ', loggedInCustomerId)
+    try {
+      fetch(serverURL + `wishlist/remove/${product._id}`,
+      {
+        mode: 'cors',
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json' // Specify content type as JSON
+        },
+        // body: JSON.stringify({productID: product._id, customerID : loggedInCustomerId}),
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        handleRemoveWL(product._id)
+        // const copyWishlist = [...wishList];
+        // copyWishlist.push({productID: product._id, customerID : loggedInCustomerId});
+        // setWishList(copyWishlist)
+      })
+      .catch(e => console.log(e))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
+  const handleAddToCart = () => {
+    console.log(product._id, ' : ', loggedInCustomerId)
+    try {
+      fetch(serverURL + `cart/add`,
+      {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Specify content type as JSON
+        },
+        body: JSON.stringify({productID: product._id, customerID : loggedInCustomerId}),
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        handleUpdateCart({productID: product._id, customerID : loggedInCustomerId})
+        // const copyWishlist = [...wishList];
+        // copyWishlist.push({productID: product._id, customerID : loggedInCustomerId});
+        // setWishList(copyWishlist)
+      })
+      .catch(e => console.log(e))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleRemoveFromCart = () => {
+    console.log(product._id, ' : ', loggedInCustomerId)
+    try {
+      fetch(serverURL + `cart/remove/${product._id}`,
+      {
+        mode: 'cors',
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json' // Specify content type as JSON
+        },
+        // body: JSON.stringify({productID: product._id, customerID : loggedInCustomerId}),
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        handleRemoveCT(product._id)
+        // const copyWishlist = [...wishList];
+        // copyWishlist.push({productID: product._id, customerID : loggedInCustomerId});
+        // setWishList(copyWishlist)
+      })
+      .catch(e => console.log(e))
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -63,7 +143,10 @@ const CustomerProductCard = ({product, isInWishlist, loggedInCustomerId}) => {
         <Button onClick={handleRemoveFromWishList}>Remove from Whishlist</Button> : 
         <Button onClick={handleAddToWishList}>Add to Whishlist</Button> }
       <br />
-        <Button variant="primary">Add to cart</Button>
+          {isInCart(product._id) ?          
+          <Button variant="primary" onClick={handleRemoveFromCart}>Remove from cart</Button> :
+          <Button variant="primary" onClick={handleAddToCart}>Add to cart</Button>
+          }
       </Card.Body>
   </Card>
   );
