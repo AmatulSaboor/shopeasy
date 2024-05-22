@@ -31,9 +31,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, loggedInCustomerI
       .then(res => {
         console.log(res)
         handleUpdateWishList({productID: product._id, customerID : loggedInCustomerId})
-        // const copyWishlist = [...wishList];
-        // copyWishlist.push({productID: product._id, customerID : loggedInCustomerId});
-        // setWishList(copyWishlist)
       })
       .catch(e => console.log(e))
     } catch (error) {

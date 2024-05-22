@@ -10,6 +10,7 @@ import Header from './components/header/Header';
 import Wishlist from './components/wishlist/Wishlist';
 import Cart from './components/cart/Cart';
 import Order from './components/order/Order';
+import Checkout from './pages/checkout/Checkout';
 import NotFound from './components/notfound/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomerProductDisplay from './pages/customerProductDisplay/CustomerProductDisplay';
@@ -57,6 +58,7 @@ function App() {
           <Route path='/wishlist' element={<Wishlist loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/cart' element={<Cart loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path='/order' element={<Order loggedInCustomerId={loggedInCustomerId} loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
+          <Route path='/checkout' element={<Checkout loggedInCustomerId={loggedInCustomerId} loggedInCustomerName={loggedInCustomerName} loggedInCustomerEmail={loggedInCustomerEmail} setLoggedInCustomerId={setLoggedInCustomerId} setLoggedInCustomerEmail={setLoggedInCustomerEmail} setLoggedInCustomerName={setLoggedInCustomerName} />} />
           <Route path = "*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

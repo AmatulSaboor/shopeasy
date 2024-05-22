@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { Pagination } from "react-bootstrap"
 
 const Cart = ({loggedInCustomerId, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
@@ -131,7 +131,7 @@ const Cart = ({loggedInCustomerId, setLoggedInCustomerId, setLoggedInCustomerEma
                         })}
                 </tbody>
             </table>
-            < >Checkout</button>
+            <Link to='/checkout'>Checkout</Link>
         </>
     )
 }

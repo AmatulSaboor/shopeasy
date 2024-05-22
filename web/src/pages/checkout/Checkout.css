@@ -1,0 +1,43 @@
+    
+    .checkout-page {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 20px;
+    padding: 20px;
+    }
+
+    .section {
+    background-color: #fff9c4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    color: #455a64;
+    }
+
+    .personal-info h2,
+    .shipping-address h2,
+    .order-items h2,
+    .order-summary h2 {
+    color: #2e7d32;
+    }
+
+    h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    }
+
+    p, ul {
+    margin: 5px 0;
+    }
+
+    ul {
+    list-style-type: none;
+    padding: 0;
+    }
+
+    ul li {
+    margin: 5px 0;
+    }
+
+    

@@ -104,7 +104,7 @@ const CustomerProductDisplay = ({loggedInCustomerId, setLoggedInCustomerId, setL
                 .then(res => res.json())
                 .then(res => {
                     if(!res.isAuthenticated)
-                return navigate('./login')
+                return navigate('/login')
             else{
                 setLoggedInCustomerId(res.id)
                 setLoggedInCustomerEmail(res.email)
