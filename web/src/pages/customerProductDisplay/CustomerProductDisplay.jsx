@@ -90,11 +90,12 @@ const CustomerProductDisplay = ({loggedInCustomerId, setLoggedInCustomerId, setL
             console.log(item.productID); 
             return item.productID === productId});
         };
-        const isInCart = (productId) => {
-            return cart.some(item => { 
-                console.log(item.productID); 
-                return item.productID === productId});
-            };
+    const isInCart = (productId) => {
+        return cart.some(item => { 
+            console.log(item.productID); 
+            return item.productID === productId}
+        );
+    };
             
             useEffect(() => {
                 fetch(serverURL + 'auth/session', {
@@ -138,7 +139,7 @@ const CustomerProductDisplay = ({loggedInCustomerId, setLoggedInCustomerId, setL
         })
         .catch(err => console.log(err))
     }, [navigate, setLoggedInCustomerId, setLoggedInCustomerName, setLoggedInCustomerEmail, loggedInCustomerId])
-    
+
     return(
         <>
             <button ><Link to='/cart'>Go to cart</Link></button>

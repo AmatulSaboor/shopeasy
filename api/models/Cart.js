@@ -11,13 +11,10 @@ const CartSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Product'
         },
-        // quantity: {
-            // type: Number,
-            // validate : {
-            //     validator: Number.isInteger,
-            //     message: '{VALUE} is not an integer value'
-            // }
-        // }
+        quantity: {
+            type: Number,
+            default : 1
+        }
     },
     {
         timestamps: true,

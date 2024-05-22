@@ -98,7 +98,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, loggedInCustomerI
   const handleRemoveFromCart = () => {
     console.log(product._id, ' : ', loggedInCustomerId)
     try {
-      fetch(serverURL + `cart/remove/${product._id}`,
+      fetch(serverURL + `cart/remove/${product._id}/${loggedInCustomerId}`,
       {
         mode: 'cors',
         method: 'DELETE',
