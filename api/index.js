@@ -14,6 +14,7 @@ const orderRouter = require('./routes/order')
 const wishlistRouter = require('./routes/wishlist')
 const cartRouter = require('./routes/cart');
 const authRouter = require('./routes/auth');
+const emailRouter = require('./routes/email');
 const express = require('express');
 
 // connection to DB
@@ -52,6 +53,8 @@ app.use('/cart', cartRouter)
 app.use('/wishlist', wishlistRouter)
 app.use('/category', categoryRouter)
 app.use('/auth', authRouter)
+app.use('/order', orderRouter)
+app.use('/email', emailRouter)
 // app.use('/order', orderRouter)
 // app.use('/payment', paymentRouter)
 

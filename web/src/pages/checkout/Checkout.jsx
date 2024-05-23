@@ -45,7 +45,8 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
     }
 
     const getOrderSummary = () => {
-        const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0,)
+
+        const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
         const tax = (subTotal * 5)/100
         const shippingCharges = 200
         const grandTotal = subTotal + tax + shippingCharges
@@ -60,7 +61,10 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
             {
                 mode: 'cors',
                 method: 'POST',
-                body: {customer,orderSummary, cart},
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({customer,orderSummary, cart}),
                 credentials: 'include'
             })
             .then((response) => response.json())
@@ -139,7 +143,7 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
                 <p>Estimated Delivery: 3-5 business days</p>
             </div>
             <Link to='/cart' >back to cart</Link>
-            <button onClick={handleConfirmOrder}>Confirm Order</button>
+            <button onClick={() => handleConfirmOrder()}>Confirm Order</button>
         </div>
     )
 }

@@ -3,8 +3,10 @@ const router = express.Router();
 const Cart = require('../models/Cart')
 const Order = require('../models/Order')
 const OrderItem = require('../models/OrderItem')
+const mongoose = require('mongoose')
 
 router.post('/add', async (req, res) => {
+    console.log('in order')
     const session = await mongoose.startSession();
     try {
         session.startTransaction()
@@ -25,9 +27,9 @@ router.post('/add', async (req, res) => {
 
         // save items in order items table
         const orderItemsData = req.body.cart.map(item1 => {
-            const item3 = order.find(item => item.id === item1.id);
+            // const item3 = order.find(item => item.id === item1.id);
             return {
-                orderID: item3._id,
+                orderID: order._id,
                 productID: item1.productID,
                 productName: item1.productID.name,
                 price: item1.productID.price,
@@ -46,6 +48,8 @@ router.post('/add', async (req, res) => {
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        res.status(500).send({message:error})
+        res.status(500).send({message:error.message})
     }
 })
+
+module.exports = router
