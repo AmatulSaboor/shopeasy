@@ -7,8 +7,10 @@ import serverURL from '../../../config/configFile';
 // import logo from '../../../assets/img/logo-02.png';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i2.png';
+import { useAuth } from '../../../context/AuthContext';
 
-export const Register = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+
+    const Register = () => {
     const [validationError, setValidationError] = useState(null)
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -16,22 +18,29 @@ export const Register = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLo
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const navigate = useNavigate();
+    const {setLoading, setUser, setIsAuthenticated, isAuthenticated} = useAuth();
+
     useEffect(() => {
-        fetch(serverURL + 'auth/session', {
-            credentials: 'include'
-        })
-        .then((res => res.json()))
-        .then(res => {console.log(res); 
-            if(res.isAuthenticated){
-                setLoggedInCustomerId(res.id)
-                setLoggedInCustomerEmail(res.email)
-                setLoggedInCustomerName(res.name)
-                return navigate.push('./');
-            }
-        })
-        .catch(err => {console.log(err);
-        })
-    }, [navigate, setLoggedInCustomerId, setLoggedInCustomerName, setLoggedInCustomerEmail])
+        if (isAuthenticated){
+            navigate('/')
+        }
+    }, [isAuthenticated, navigate])
+    useEffect(() => {
+        // fetch(serverURL + 'auth/session', {
+        //     credentials: 'include'
+        // })
+        // .then((res => res.json()))
+        // .then(res => {console.log(res); 
+        //     if(res.isAuthenticated){
+        //         setLoggedInCustomerId(res.id)
+        //         setLoggedInCustomerEmail(res.email)
+        //         setLoggedInCustomerName(res.name)
+        //         return navigate.push('./');
+        //     }
+        // })
+        // .catch(err => {console.log(err);
+        // })
+    }, [])
     return (
         <div>
             <form onSubmit={(e)=>{
@@ -56,9 +65,9 @@ export const Register = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLo
                     console.log(response)
                     if(response.message){
                         setValidationError(null)
-                        setLoggedInCustomerId(response.id)
-                        setLoggedInCustomerName(response.name)
-                        setLoggedInCustomerEmail(response.email)
+                        setLoading(false)
+                        setUser({id:response.id, name:response.name, email: response.email})
+                        setIsAuthenticated(true)
                         navigate('/')}
                     else if(response.existedCustomer){
                         
@@ -92,3 +101,5 @@ export const Register = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLo
         </div>
     )
 }
+
+export default Register

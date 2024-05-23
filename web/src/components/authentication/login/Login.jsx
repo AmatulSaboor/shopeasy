@@ -10,7 +10,7 @@ import serverURL from '../../../config/configFile';
 // import image from '../../../assets/img/i5.png';
 import { useAuth } from '../../../context/AuthContext';
 
-export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const Login = () => {
     const [validationError, setValidationError] = useState(null)
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -19,9 +19,10 @@ export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLogge
 
     useEffect(() => {
         if (isAuthenticated){
-            navigate('/dashboard')
+            navigate('/')
         }
-    })
+    }, [isAuthenticated, navigate])
+
     // useEffect(() => {
     //     fetch(serverURL + 'auth/session', {
     //         credentials: 'include'
@@ -56,10 +57,10 @@ export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLogge
                                     setLoading(false)
                                     setUser({id:response.id, name:response.name, email: response.email})
                                     setIsAuthenticated(true)
+                                    navigate('/')
                                     // setLoggedInCustomerId(response.id)
                                     // setLoggedInCustomerEmail(response.email)
                                     // setLoggedInCustomerName(response.name)
-                                    navigate('/dashboard')
                                 }
                                 else{
                                     setValidationError(response.error)
@@ -93,3 +94,5 @@ export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLogge
         </div>
     )
 }
+
+export default Login

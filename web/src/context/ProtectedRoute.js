@@ -1,11 +1,14 @@
 // ProtectedRoute.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 const ProtectedRoute = ({ element: Element, ...rest }) => {
-    const { isAuthenticated, loading} = useAuth();
-  
+  const { isAuthenticated, loading} = useAuth();
+  useEffect(() => {
+    console.log(isAuthenticated)
+  },[isAuthenticated])
+    console.log(isAuthenticated)
     if (loading) {
       return <div>Loading...</div>;
     }

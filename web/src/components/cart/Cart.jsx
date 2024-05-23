@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
 import { useNavigate, Link } from "react-router-dom"
-import { Pagination } from "react-bootstrap"
-
-const Cart = ({loggedInCustomerId, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+// import { Pagination } from "react-bootstrap"
+import { useAuth } from "../../context/AuthContext"
+const Cart = () => {
     
     const navigate = useNavigate()
     const [cart, setCart] = useState([])
-    const [currentCart, setCurrentCart] = useState([])
+    const { user } = useAuth()
+    // const [currentCart, setCurrentCart] = useState([])
     // const [quantity, setQuantity] = useState(1)
     const increaseQuantity = (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
@@ -55,9 +56,9 @@ const Cart = ({loggedInCustomerId, setLoggedInCustomerId, setLoggedInCustomerEma
     useEffect(() => {
         const getCart = () => {
             try{
-                console.log(loggedInCustomerId)
+                console.log(user.id)
                 // fetch(serverURL + `cart/getList/${loggedInCustomerId}`)
-                fetch(serverURL + `cart/getList/664adb51dde187ee1c52523a`)
+                fetch(serverURL + `cart/getList/${user.id}`)
                 .then(response => response.json())
                 .then(data => {
                     // console.log(data)
@@ -76,23 +77,22 @@ const Cart = ({loggedInCustomerId, setLoggedInCustomerId, setLoggedInCustomerEma
                 console.error(e)
             }
         }
-        fetch(serverURL + 'auth/session', {
-            credentials : 'include'
-        })
-        .then(res => res.json())
-        .then(res => {
-            if(!res.isAuthenticated)
-                return navigate('/login')
-            else{
-                console.log(res)
-                setLoggedInCustomerId(res.id)
-                setLoggedInCustomerEmail(res.email)
-                setLoggedInCustomerName(res.username) 
-                getCart()           
-            }
-        })
-        .catch(err => console.log(err))
-    }, [navigate, setLoggedInCustomerId, setLoggedInCustomerName, setLoggedInCustomerEmail, loggedInCustomerId])
+
+        getCart()
+        // fetch(serverURL + 'auth/session', {
+        //     credentials : 'include'
+        // })
+        // .then(res => res.json())
+        // .then(res => {
+        //     if(!res.isAuthenticated)
+        //         return navigate('/login')
+        //     else{
+                
+        //         getCart()           
+        //     }
+        // })
+        // .catch(err => console.log(err))
+    }, [navigate, user.id])
 
 
     return(

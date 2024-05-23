@@ -5,13 +5,16 @@ import EditModal from "./EditModal"
 import AddModal from "./AddModal"
 import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
+// import { useAuth } from '../../context/AuthContext'
 
-const Product = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const AadminProductDisplay = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate()
+    // const {user, isAuthenticated} = useAuth();
+
     const logout = () => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
         .then(res => res.json())
@@ -89,23 +92,30 @@ const Product = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCu
     }
 
     useEffect(() => {
-        fetch(serverURL + 'auth/session', {
-            credentials: 'include'
-        })
-        .then(res => res.json())
-        .then(res => {console.log(res); 
-            if(!res.isAuthenticated){
-                return navigate('./login');
-            }else{
-                setLoggedInCustomerId(res.id)
-                setLoggedInCustomerEmail(res.email)
-                setLoggedInCustomerName(res.username)
-                getProducts()
-            }
-        })
-        .catch(err => {console.log(err);
-        })
-    }, [navigate, setLoggedInCustomerName, setLoggedInCustomerEmail])
+        // if (isAuthenticated){
+        //     navigate('/')
+        // }
+        getProducts()
+    }, [])
+
+    useEffect(() => {
+
+        // fetch(serverURL + 'auth/session', {
+        //     credentials: 'include'
+        // })
+        // .then(res => res.json())
+        // .then(res => {console.log(res); 
+        //     if(!res.isAuthenticated){
+        //         return navigate('./login');
+        //     }else{
+        //         setLoggedInCustomerId(res.id)
+        //         setLoggedInCustomerEmail(res.email)
+        //         setLoggedInCustomerName(res.username)
+        //     }
+        // })
+        // .catch(err => {console.log(err);
+        // })
+    }, [])
 
 
     return(
@@ -140,4 +150,4 @@ const Product = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCu
     )
 }
 
-export default Product
+export default AadminProductDisplay

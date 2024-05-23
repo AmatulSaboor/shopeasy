@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     
     useEffect(() => {
     const fetchUser = async () => {
-      fetch(serverURL + 'auth/session', {
+      await fetch(serverURL + 'auth/session', {
         credentials: 'include'
       })
     .then((res => res.json()))

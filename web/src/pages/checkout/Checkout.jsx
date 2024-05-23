@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import serverURL from "../../config/configFile"
 import './Checkout.css'
+import { useAuth } from '../../context/AuthContext';
 
-const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEmail, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const Checkout = () => {
 
     const navigate = useNavigate()
+    const {user} = useAuth()
     const [cart, setCart] = useState([])
     const [customer, setCustomer] = useState({})
     const [orderSummary, setOrderSummary] = useState({})
@@ -14,10 +16,10 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     };
-    const getCart = () => {
+    useEffect(() => {
         try{
             // fetch(serverURL + `cart/getList/${loggedInCustomerId}`)
-            fetch(serverURL + `cart/getList/664adb51dde187ee1c52523a`)
+            fetch(serverURL + `cart/getList/${user.id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -27,32 +29,32 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
         }catch(e){
             console.error(e)
         }
-    }
+    }, [user.id])
 
-    const getCustomer = () => {
-        try{
-            // fetch(serverURL + `customer/getById/${loggedInCustomerId}`)
-            fetch(serverURL + `customer/getById/664adb51dde187ee1c52523a`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setCustomer(data.customer)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    }
+    // const getCustomer = () => {
+    //     try{
+    //         // fetch(serverURL + `customer/getById/${loggedInCustomerId}`)
+    //         fetch(serverURL + `customer/getById/${user.id}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             setCustomer(data.customer)
+    //         })
+    //         .catch(e => console.error(e))
+    //     }catch(e){
+    //         console.error(e)
+    //     }
+    // }
 
-    const getOrderSummary = () => {
+    // const calculateOrderSummary = () => {
 
-        const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
-        const tax = (subTotal * 5)/100
-        const shippingCharges = 200
-        const grandTotal = subTotal + tax + shippingCharges
+    //     const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
+    //     const tax = (subTotal * 5)/100
+    //     const shippingCharges = 200
+    //     const grandTotal = subTotal + tax + shippingCharges
 
-        setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
-    }
+    //     setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
+    // }
 
     const handleConfirmOrder = () => {
         console.log('in confirm order')
@@ -77,28 +79,40 @@ const Checkout = ({loggedInCustomerId, loggedInCustomerName, loggedInCustomerEma
         }
     }
     useEffect(() => {
-        try {
-            fetch(serverURL + 'auth/session', {
-                credentials : 'include'
+        // getCart()
+        try{
+            // fetch(serverURL + `customer/getById/${loggedInCustomerId}`)
+            fetch(serverURL + `customer/getById/${user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setCustomer(data.customer)
             })
-            .then(res => res.json())
-            .then(res => {
-                if(!res.isAuthenticated)
-                    return navigate('/login')
-                else{
-                    setLoggedInCustomerId(res.id)
-                    setLoggedInCustomerEmail(res.email)
-                    setLoggedInCustomerName(res.username)
-                    getCart()
-                    getCustomer()
-                    getOrderSummary()
-                }
-            }
-        )
-        } catch (error) {
-            console.log(error)
+            .catch(e => console.error(e))
+        }catch(e){
+            console.error(e)
         }
-            }, [navigate, setLoggedInCustomerId, setLoggedInCustomerName, setLoggedInCustomerEmail])
+        // getCustomer()
+    }, [user.id])
+    useEffect(() => {
+        if (cart.length > 0) {
+            const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
+            const tax = (subTotal * 5)/100
+            const shippingCharges = 200
+            const grandTotal = subTotal + tax + shippingCharges
+
+        setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
+        }
+    }, [cart, paymentMethod]);
+    // useEffect(() => {
+    //     const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
+    //     const tax = (subTotal * 5)/100
+    //     const shippingCharges = 200
+    //     const grandTotal = subTotal + tax + shippingCharges
+
+    //     setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
+    //     // getOrderSummary()
+    // }, [cart])
     return(
             <div className="checkout-page">
             <div className="section personal-info">

@@ -13,7 +13,7 @@ const Success = () => {
         </svg>
       </div>
       <p>Congratulations! The email has been sent with the order summary!</p>
-      <Link to="/dashboard">
+      <Link to="/">
         <button className="back-button">Keep Shopping</button>
       </Link>
     </div>
