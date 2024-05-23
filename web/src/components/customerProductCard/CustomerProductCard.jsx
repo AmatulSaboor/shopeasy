@@ -22,7 +22,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         mode: 'cors',
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json' // Specify content type as JSON
+          'Content-Type': 'application/json' 
         },
         body: JSON.stringify({productID: product._id, customerID : userID}),
         credentials: 'include'
@@ -46,7 +46,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         mode: 'cors',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json' // Specify content type as JSON
+          'Content-Type': 'application/json' 
         },
         // body: JSON.stringify({productID: product._id, customerID : userID}),
         credentials: 'include'
@@ -55,9 +55,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
       .then(res => {
         console.log(res)
         handleRemoveWL(product._id)
-        // const copyWishlist = [...wishList];
-        // copyWishlist.push({productID: product._id, customerID : userID});
-        // setWishList(copyWishlist)
       })
       .catch(e => console.log(e))
     } catch (error) {
@@ -73,7 +70,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         mode: 'cors',
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json' // Specify content type as JSON
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({productID: product._id, customerID : userID}),
         credentials: 'include'
@@ -82,9 +79,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
       .then(res => {
         console.log(res)
         handleUpdateCart({productID: product._id, customerID : userID})
-        // const copyWishlist = [...wishList];
-        // copyWishlist.push({productID: product._id, customerID : userID});
-        // setWishList(copyWishlist)
       })
       .catch(e => console.log(e))
     } catch (error) {
@@ -100,7 +94,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         mode: 'cors',
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json' // Specify content type as JSON
+          'Content-Type': 'application/json'
         },
         // body: JSON.stringify({productID: product._id, customerID : userID}),
         credentials: 'include'
@@ -109,9 +103,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
       .then(res => {
         console.log(res)
         handleRemoveCT(product._id)
-        // const copyWishlist = [...wishList];
-        // copyWishlist.push({productID: product._id, customerID : userID});
-        // setWishList(copyWishlist)
       })
       .catch(e => console.log(e))
     } catch (error) {

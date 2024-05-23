@@ -5,7 +5,6 @@ import EditModal from "./EditModal"
 import AddModal from "./AddModal"
 import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from '../../context/AuthContext'
 
 const AadminProductDisplay = () => {
     const [productsList, setProductsList] = useState([])
@@ -13,7 +12,6 @@ const AadminProductDisplay = () => {
     const productsPerPage = 2;
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate()
-    // const {user, isAuthenticated} = useAuth();
 
     const logout = () => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
@@ -52,18 +50,6 @@ const AadminProductDisplay = () => {
         });
     };
     
-    // const handleEdit = (item) => {
-    //     console.log(item)
-    //     setProductsList(productsList.filter( i => {
-    //         if (i._id === item._id){
-    //             console.log('i : ', i)
-    //             console.log('item : ', item)
-    //             i = item
-    //         }
-    //         return item;
-    //     }))
-    // }
-
     const handleDelete = (id)=>{
         fetch(serverURL + `product/delete/${id}`, {method:'DELETE'})
         .then( response => response.json())
@@ -89,9 +75,6 @@ const AadminProductDisplay = () => {
     }
 
     useEffect(() => {
-        // if (isAuthenticated){
-        //     navigate('/')
-        // }
         getProducts()
     }, [])
 

@@ -8,7 +8,6 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Wishlist from './components/wishlist/Wishlist';
 import Cart from './components/cart/Cart';
-// import Cart from './components/cart/CartCopy';
 import Order from './components/order/Order';
 import Checkout from './pages/checkout/Checkout';
 import NotFound from './components/notfound/NotFound';
@@ -26,7 +25,6 @@ function App() {
     <div className="App">
     {/* TODO:  remove this error diva nd its state variable if not needed */}
       {error && <div className="validationError m-4">{error}</div>}
-
       <AuthProvider>
         <BrowserRouter>
         <Header />

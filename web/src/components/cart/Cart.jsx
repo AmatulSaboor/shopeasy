@@ -1,15 +1,24 @@
 import { useCallback, useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
-import { useNavigate, Link } from "react-router-dom"
-// import { Pagination } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import { Pagination } from "react-bootstrap"
 import { useAuth } from "../../context/AuthContext"
 const Cart = () => {
     
-    const navigate = useNavigate()
     const [cart, setCart] = useState([])
     const { user } = useAuth()
-    // const [currentCart, setCurrentCart] = useState([])
-    // const [quantity, setQuantity] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 2;
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const [searchQuery, setSearchQuery] = useState("");
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+    }
+    const currentCart = cart
+        .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(indexOfFirstProduct,indexOfLastProduct);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const increaseQuantity = (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
             {const updatedCart = cart.map(cartItem => 
@@ -20,7 +29,6 @@ const Cart = () => {
               setCart(updatedCart);}
     }
     const decreaseQuantity = (item) => {
-        // if (item.quantity > 0)
             const updatedCart = cart.map(cartItem => 
                 cartItem.productID._id === item.productID._id
                   ? { ...cartItem, quantity: Math.max(cartItem.quantity - 1, 1) }
@@ -38,7 +46,7 @@ const Cart = () => {
               mode: 'cors',
               method: 'DELETE',
               headers: {
-                'Content-Type': 'application/json' // Specify content type as JSON
+                'Content-Type': 'application/json' 
               },
               // body: JSON.stringify({productID: product._id, customerID : user.id}),
               credentials: 'include'
@@ -75,6 +83,10 @@ const Cart = () => {
 
     return(
         <>
+            <div>
+                <label htmlFor="search" >search :</label>
+                <input type="text" id="search" onChange={handleSearch} />
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -88,7 +100,7 @@ const Cart = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cart && cart.map((item, key) => {
+                    {currentCart && currentCart.map((item, key) => {
                         return(
                               <tr key={key}>
                                 <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
@@ -109,6 +121,7 @@ const Cart = () => {
                         })}
                 </tbody>
             </table>
+            <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
             <Link to='/checkout'>Checkout</Link>
         </>
     )

@@ -1,7 +1,6 @@
-// SuccessMessage.js
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
-import './Success.css'; // Import CSS file for styling
+import { Link } from 'react-router-dom'; 
+import './Success.css';
 
 const Success = () => {
   return (

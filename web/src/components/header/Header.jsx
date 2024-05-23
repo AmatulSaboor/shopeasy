@@ -53,12 +53,12 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'relative', // Added
+    position: 'relative', 
   },
   leftSection: {
     display: 'flex',
     alignItems: 'center',
-    zIndex: 1, // Added
+    zIndex: 1, 
   },
   logo: {
     width: '50px',
@@ -77,7 +77,7 @@ const styles = {
     color: '#fff',
     cursor: 'pointer',
     marginRight: '10px',
-    zIndex: 1, // Added
+    zIndex: 1, 
   },
   iconLink: {
     fontSize: '20px',
@@ -97,7 +97,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    zIndex: 2, // Added
+    zIndex: 2, 
   },
 };
 

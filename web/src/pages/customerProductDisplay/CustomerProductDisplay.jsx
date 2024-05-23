@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import CustomerProductCard from '../../components/customerProductCard/CustomerProductCard'
 import serverURL from "../../config/configFile"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Pagination from "../../components/pagination/Pagination"
 import { useAuth } from "../../context/AuthContext"
 
@@ -13,7 +13,6 @@ const CustomerProductDisplay = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
     const [searchQuery, setSearchQuery] = useState('')
-    const navigate = useNavigate()
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProductsList = productsList
@@ -50,7 +49,6 @@ const CustomerProductDisplay = () => {
                 return response.json()})
             .then(data => {
                 setProductsList(data.productsList)
-                // console.log(productsList)
             })
             .catch(e => console.error(e))
         }catch(e){
@@ -63,7 +61,6 @@ const CustomerProductDisplay = () => {
             fetch(serverURL + `cart/getList/${user.id}`)
             .then(response => response.json())
             .then(data => {
-                // console.log(data)
                 setCart(data.cart)
             })
             .catch(e => console.error(e))
@@ -74,12 +71,10 @@ const CustomerProductDisplay = () => {
     
     const isInWishlist = (productId) => {
         return wishList.some(item => { 
-            // console.log(item.productID); 
             return item.productID === productId});
         };
     const isInCart = (productId) => {
         return cart.some(item => { 
-            // console.log(item.productID); 
             return item.productID === productId}
         );
     };
@@ -97,11 +92,11 @@ const CustomerProductDisplay = () => {
         }
     },[user.id])
             
-            useEffect(() => {      
-                getProducts()
-                getWishlist()
-                getCart()
-            }, [user.id, getWishlist, getCart])
+    useEffect(() => {      
+        getProducts()
+        getWishlist()
+        getCart()
+    }, [user.id, getWishlist, getCart])
 
     return(
         <>

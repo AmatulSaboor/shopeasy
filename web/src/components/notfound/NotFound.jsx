@@ -18,7 +18,6 @@ const styles = {
     justifyContent: 'center',
     height: '100vh',
     fontFamily: 'Arial, sans-serif',
-    // paddingTop: '1vh', 
   },
   heading: {
     fontSize: '6em',
