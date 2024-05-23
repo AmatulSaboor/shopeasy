@@ -25,22 +25,7 @@ import { useAuth } from '../../../context/AuthContext';
             navigate('/')
         }
     }, [isAuthenticated, navigate])
-    useEffect(() => {
-        // fetch(serverURL + 'auth/session', {
-        //     credentials: 'include'
-        // })
-        // .then((res => res.json()))
-        // .then(res => {console.log(res); 
-        //     if(res.isAuthenticated){
-        //         setLoggedInCustomerId(res.id)
-        //         setLoggedInCustomerEmail(res.email)
-        //         setLoggedInCustomerName(res.name)
-        //         return navigate.push('./');
-        //     }
-        // })
-        // .catch(err => {console.log(err);
-        // })
-    }, [])
+
     return (
         <div>
             <form onSubmit={(e)=>{

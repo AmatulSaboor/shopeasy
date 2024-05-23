@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
 import { useNavigate, Link } from "react-router-dom"
 // import { Pagination } from "react-bootstrap"
@@ -32,7 +32,7 @@ const Cart = () => {
     const handleRemoveProductFromCart = (item) => {
         try {
             console.log(item)
-            // fetch(serverURL + `cart/remove/${item._id}/${loggedInCustomerId}`,
+            // fetch(serverURL + `cart/remove/${item._id}/${user.id}`,
             fetch(serverURL + `cart/remove/${item._id}`,
             {
               mode: 'cors',
@@ -40,7 +40,7 @@ const Cart = () => {
               headers: {
                 'Content-Type': 'application/json' // Specify content type as JSON
               },
-              // body: JSON.stringify({productID: product._id, customerID : loggedInCustomerId}),
+              // body: JSON.stringify({productID: product._id, customerID : user.id}),
               credentials: 'include'
             })
             .then(res => res.json())
@@ -53,46 +53,24 @@ const Cart = () => {
             console.log(error)
           }
     }
-    useEffect(() => {
-        const getCart = () => {
+
+    const getCart = useCallback(() => {
             try{
                 console.log(user.id)
-                // fetch(serverURL + `cart/getList/${loggedInCustomerId}`)
                 fetch(serverURL + `cart/getList/${user.id}`)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     setCart(data.cart)
-                    // const updatedCart = cart.map(item => ({
-                    //     ...item,
-                    //     productID: {
-                    //         ...item.productID,
-                    //         cartQuantity: 1,  // Default quantity value, adjust as 
-                    //     }  // Default quantity value, adjust as needed
-                    // }));
-                    // setCart(updatedCart)
                 })
                 .catch(e => console.error(e))
             }catch(e){
                 console.error(e)
             }
-        }
 
+    }, [user.id])
+    useEffect(() => {
         getCart()
-        // fetch(serverURL + 'auth/session', {
-        //     credentials : 'include'
-        // })
-        // .then(res => res.json())
-        // .then(res => {
-        //     if(!res.isAuthenticated)
-        //         return navigate('/login')
-        //     else{
-                
-        //         getCart()           
-        //     }
-        // })
-        // .catch(err => console.log(err))
-    }, [navigate, user.id])
+    }, [getCart])
 
 
     return(

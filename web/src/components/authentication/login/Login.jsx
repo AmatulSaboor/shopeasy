@@ -22,23 +22,6 @@ const Login = () => {
             navigate('/')
         }
     }, [isAuthenticated, navigate])
-
-    // useEffect(() => {
-    //     fetch(serverURL + 'auth/session', {
-    //         credentials: 'include'
-    //     })
-    //     .then((res => res.json()))
-    //     .then(res => {console.log(res); 
-    //         if(res.isAuthenticated){
-    //             setLoggedInCustomerId(res.id)
-    //             setLoggedInCustomerEmail(res.email)
-    //             setLoggedInCustomerName(res.name)
-    //             return navigate('/');
-    //         }
-    //     })
-    //     .catch(err => {console.log(err);
-    //     })
-    // }, [navigate, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName])
     return (
         <div>
             <form onSubmit={(e)=>{
@@ -58,9 +41,6 @@ const Login = () => {
                                     setUser({id:response.id, name:response.name, email: response.email})
                                     setIsAuthenticated(true)
                                     navigate('/')
-                                    // setLoggedInCustomerId(response.id)
-                                    // setLoggedInCustomerEmail(response.email)
-                                    // setLoggedInCustomerName(response.name)
                                 }
                                 else{
                                     setValidationError(response.error)

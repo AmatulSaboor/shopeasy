@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import CustomerProductCard from '../../components/customerProductCard/CustomerProductCard'
 import serverURL from "../../config/configFile"
 import { Link, useNavigate } from "react-router-dom"
@@ -58,84 +58,50 @@ const CustomerProductDisplay = () => {
         }
     }
     
-    // const getWishlist = () => {
-        //     try{
-            //         fetch(serverURL + `wishlist/getList/${loggedInCustomerId}`)
-            //         .then(response => response.json())
-            //         .then(data => {
-                //             // console.log(data)
-                //             setWishList(data.wishList)
-    //         })
-    //         .catch(e => console.error(e))
-    //     }catch(e){
-    //         console.error(e)
-    //     }
-    //     }
-    
-    // const getCart = () => {
-    //     try{
-    //         fetch(serverURL + `cart/getList/${user.id}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             // console.log(data)
-    //             setCart(data.cart)
-    //         })
-    //         .catch(e => console.error(e))
-    //     }catch(e){
-    //         console.error(e)
-    //     }
-    // }
-    
+    const getCart = useCallback(() => {
+        try{
+            fetch(serverURL + `cart/getList/${user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data)
+                setCart(data.cart)
+            })
+            .catch(e => console.error(e))
+        }catch(e){
+            console.error(e)
+        }
+    },[user.id])
     
     const isInWishlist = (productId) => {
         return wishList.some(item => { 
-            console.log(item.productID); 
+            // console.log(item.productID); 
             return item.productID === productId});
         };
     const isInCart = (productId) => {
         return cart.some(item => { 
-            console.log(item.productID); 
+            // console.log(item.productID); 
             return item.productID === productId}
         );
     };
+    const getWishlist = useCallback(() => {
+        try{
+            fetch(serverURL + `wishlist/getList/${user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.wishList)
+                setWishList(data.wishList)
+            })
+            .catch(e => console.error(e))
+        }catch(e){
+            console.error(e)
+        }
+    },[user.id])
             
-            useEffect(() => {
-                // fetch(serverURL + 'auth/session', {
-                //     credentials : 'include'
-                // })
-                // .then(res => res.json())
-                // .then(res => {
-                //     if(!res.isAuthenticated)
-                // return navigate('/login')
-            // else{
-             
+            useEffect(() => {      
                 getProducts()
-                // getWishlist()
-                try{
-                    fetch(serverURL + `wishlist/getList/${user.id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data.wishList)
-                        setWishList(data.wishList)
-                    })
-                    .catch(e => console.error(e))
-                }catch(e){
-                    console.error(e)
-                }
-                
-                try{
-                    fetch(serverURL + `cart/getList/${user.id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // console.log(data)
-                        setCart(data.cart)
-                    })
-                    .catch(e => console.error(e))
-                }catch(e){
-                    console.error(e)
-                }
-                // getCart()
-            }, [navigate, user.id])
+                getWishlist()
+                getCart()
+            }, [user.id, getWishlist, getCart])
 
     return(
         <>
@@ -147,7 +113,7 @@ const CustomerProductDisplay = () => {
             <div>
                 {currentProductsList && currentProductsList.map((product, key) => {
                     return(
-                        <CustomerProductCard key={key} product={product} isInWishlist={isInWishlist} loggedInCustomerId={user.id} handleUpdateWishList={handleUpdateWishList} handleRemoveWL={handleRemoveWL} isInCart={isInCart} handleUpdateCart={handleUpdateCart} handleRemoveCT={handleRemoveCT} />
+                        <CustomerProductCard key={key} product={product} isInWishlist={isInWishlist} userID={user.id} handleUpdateWishList={handleUpdateWishList} handleRemoveWL={handleRemoveWL} isInCart={isInCart} handleUpdateCart={handleUpdateCart} handleRemoveCT={handleRemoveCT} />
                     )
                 })}
             </div>

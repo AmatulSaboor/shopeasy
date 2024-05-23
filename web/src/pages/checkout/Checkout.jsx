@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import serverURL from "../../config/configFile"
 import './Checkout.css'
@@ -16,9 +16,8 @@ const Checkout = () => {
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     };
-    useEffect(() => {
+    const getCart = useCallback(() => {
         try{
-            // fetch(serverURL + `cart/getList/${loggedInCustomerId}`)
             fetch(serverURL + `cart/getList/${user.id}`)
             .then(response => response.json())
             .then(data => {
@@ -31,30 +30,6 @@ const Checkout = () => {
         }
     }, [user.id])
 
-    // const getCustomer = () => {
-    //     try{
-    //         // fetch(serverURL + `customer/getById/${loggedInCustomerId}`)
-    //         fetch(serverURL + `customer/getById/${user.id}`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //             setCustomer(data.customer)
-    //         })
-    //         .catch(e => console.error(e))
-    //     }catch(e){
-    //         console.error(e)
-    //     }
-    // }
-
-    // const calculateOrderSummary = () => {
-
-    //     const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
-    //     const tax = (subTotal * 5)/100
-    //     const shippingCharges = 200
-    //     const grandTotal = subTotal + tax + shippingCharges
-
-    //     setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
-    // }
 
     const handleConfirmOrder = () => {
         console.log('in confirm order')
@@ -78,10 +53,9 @@ const Checkout = () => {
             console.log(error)
         }
     }
-    useEffect(() => {
-        // getCart()
+
+    const getCustomer = useCallback(() => {
         try{
-            // fetch(serverURL + `customer/getById/${loggedInCustomerId}`)
             fetch(serverURL + `customer/getById/${user.id}`)
             .then(response => response.json())
             .then(data => {
@@ -92,8 +66,12 @@ const Checkout = () => {
         }catch(e){
             console.error(e)
         }
-        // getCustomer()
     }, [user.id])
+    useEffect(() => {
+        getCart()
+        
+        getCustomer()
+    }, [getCustomer, getCart])
     useEffect(() => {
         if (cart.length > 0) {
             const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
@@ -104,15 +82,6 @@ const Checkout = () => {
         setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
         }
     }, [cart, paymentMethod]);
-    // useEffect(() => {
-    //     const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
-    //     const tax = (subTotal * 5)/100
-    //     const shippingCharges = 200
-    //     const grandTotal = subTotal + tax + shippingCharges
-
-    //     setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
-    //     // getOrderSummary()
-    // }, [cart])
     return(
             <div className="checkout-page">
             <div className="section personal-info">

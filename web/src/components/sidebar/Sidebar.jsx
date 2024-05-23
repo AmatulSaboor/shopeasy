@@ -1,18 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import serverURL from '../../config/configFile'
+import { useAuth } from '../../context/AuthContext'
 
-
-const Sidebar = ({loggedInCustomerName, loggedInCustomerEmail, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const Sidebar = () => {
     const customerImage = ''
     const navigate = useNavigate()
-
+    const { user } = useAuth()
     const logout = () => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
         .then(res => res.json())
         .then(res => {if(res.logout) {
-            setLoggedInCustomerName(null)
-            setLoggedInCustomerEmail(null)
-            navigate('/login')
         }})
         .catch( err => console.log(err))
     }
@@ -20,8 +17,8 @@ const Sidebar = ({loggedInCustomerName, loggedInCustomerEmail, setLoggedInCustom
         <div>
             <ul>
                 <li><img src={customerImage} alt="user" /></li>
-                <li>Welcome {loggedInCustomerName}</li>
-                <li>{loggedInCustomerEmail}</li>
+                <li>Welcome {user.name}</li>
+                <li>{user.email}</li>
                 <li><Link to = '/dashboard'> Go To Home</Link></li>
                 <li><Link to = '/wishlist'> My Wishlist</Link></li>
                 <li><Link to = 'cart'> My Cart </Link></li>

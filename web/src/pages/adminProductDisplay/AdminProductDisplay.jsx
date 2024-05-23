@@ -7,7 +7,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
 // import { useAuth } from '../../context/AuthContext'
 
-const AadminProductDisplay = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
+const AadminProductDisplay = () => {
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
@@ -19,9 +19,6 @@ const AadminProductDisplay = ({setLoggedInCustomerId, setLoggedInCustomerEmail, 
         fetch(serverURL + `auth/logout`, {credentials : `include`})
         .then(res => res.json())
         .then(res => {if(res.logout) {
-            setLoggedInCustomerId(null)
-            setLoggedInCustomerName(null)
-            setLoggedInCustomerEmail(null)
             navigate('/login')
         }})
         .catch( err => console.log(err))
@@ -96,25 +93,6 @@ const AadminProductDisplay = ({setLoggedInCustomerId, setLoggedInCustomerEmail, 
         //     navigate('/')
         // }
         getProducts()
-    }, [])
-
-    useEffect(() => {
-
-        // fetch(serverURL + 'auth/session', {
-        //     credentials: 'include'
-        // })
-        // .then(res => res.json())
-        // .then(res => {console.log(res); 
-        //     if(!res.isAuthenticated){
-        //         return navigate('./login');
-        //     }else{
-        //         setLoggedInCustomerId(res.id)
-        //         setLoggedInCustomerEmail(res.email)
-        //         setLoggedInCustomerName(res.username)
-        //     }
-        // })
-        // .catch(err => {console.log(err);
-        // })
     }, [])
 
 

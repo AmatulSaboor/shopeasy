@@ -19,9 +19,6 @@ const Header = () => {
       setIsAuthenticated(false)
       setLoading(false)
       console.log('in logout conaolw')
-        // setLoggedInCustomerName(null)
-        // setLoggedInCustomerEmail(null)
-        // navigate('/login')
     }})
     .catch( err => console.log(err))}
   return (
