@@ -8,28 +8,36 @@ import serverURL from '../../../config/configFile';
 // import logo from '../../../assets/img/logo-02.png';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i5.png';
+import { useAuth } from '../../../context/AuthContext';
 
 export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName}) => {
     const [validationError, setValidationError] = useState(null)
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
+    const {setLoading, setUser, setIsAuthenticated, isAuthenticated} = useAuth();
+
     useEffect(() => {
-        fetch(serverURL + 'auth/session', {
-            credentials: 'include'
-        })
-        .then((res => res.json()))
-        .then(res => {console.log(res); 
-            if(res.isAuthenticated){
-                setLoggedInCustomerId(res.id)
-                setLoggedInCustomerEmail(res.email)
-                setLoggedInCustomerName(res.name)
-                return navigate('/');
-            }
-        })
-        .catch(err => {console.log(err);
-        })
-    }, [navigate, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName])
+        if (isAuthenticated){
+            navigate('/dashboard')
+        }
+    })
+    // useEffect(() => {
+    //     fetch(serverURL + 'auth/session', {
+    //         credentials: 'include'
+    //     })
+    //     .then((res => res.json()))
+    //     .then(res => {console.log(res); 
+    //         if(res.isAuthenticated){
+    //             setLoggedInCustomerId(res.id)
+    //             setLoggedInCustomerEmail(res.email)
+    //             setLoggedInCustomerName(res.name)
+    //             return navigate('/');
+    //         }
+    //     })
+    //     .catch(err => {console.log(err);
+    //     })
+    // }, [navigate, setLoggedInCustomerId, setLoggedInCustomerEmail, setLoggedInCustomerName])
     return (
         <div>
             <form onSubmit={(e)=>{
@@ -45,10 +53,13 @@ export const Login = ({setLoggedInCustomerId, setLoggedInCustomerEmail, setLogge
                             .then((response) => response.json())
                             .then(response => {console.log(response);
                                 if(response.message){
-                                    setLoggedInCustomerId(response.id)
-                                    setLoggedInCustomerEmail(response.email)
-                                    setLoggedInCustomerName(response.name)
-                                    navigate('/')
+                                    setLoading(false)
+                                    setUser({id:response.id, name:response.name, email: response.email})
+                                    setIsAuthenticated(true)
+                                    // setLoggedInCustomerId(response.id)
+                                    // setLoggedInCustomerEmail(response.email)
+                                    // setLoggedInCustomerName(response.name)
+                                    navigate('/dashboard')
                                 }
                                 else{
                                     setValidationError(response.error)

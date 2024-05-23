@@ -2,13 +2,28 @@ import React, { useState } from 'react';
 import { FaBars, FaHome, FaSignOutAlt } from 'react-icons/fa';
 import Logo from '../../logo.svg';
 import Sidebar from '../sidebar/Sidebar'
-
+import serverURL from '../../config/configFile';
+import { useAuth } from '../../context/AuthContext';
 const Header = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
 
+  const {setUser, setIsAuthenticated, setLoading} = useAuth();
+  const logout = () => {
+    fetch(serverURL + `auth/logout`, {credentials : `include`})
+    .then(res => res.json())
+    .then(res => {if(res.logout) {
+      setUser(null)
+      setIsAuthenticated(false)
+      setLoading(false)
+      console.log('in logout conaolw')
+        // setLoggedInCustomerName(null)
+        // setLoggedInCustomerEmail(null)
+        // navigate('/login')
+    }})
+    .catch( err => console.log(err))}
   return (
     <header style={styles.header}>
       <div style={styles.leftSection}>
@@ -21,7 +36,7 @@ const Header = () => {
       </div>
       <div style={styles.rightSection}>
         <a href="/home" style={styles.iconLink}><FaHome /></a>
-        <a href="/logout" style={styles.iconLink}><FaSignOutAlt /></a>
+        <button onClick={() => logout()} style={styles.iconLink}><FaSignOutAlt /></button>
       </div>
       {showSidebar && (
         <div style={styles.sidebar}>
