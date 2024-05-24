@@ -63,6 +63,7 @@ router.put('/update', upload.single('image'), async (req, res) => {
             req.body.image = prod.image
             console.log('after image same')
         }
+        console.log(req.body)
         const updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body, {new : true})
         console.log('in update product', updatedProduct)
         if(updatedProduct)

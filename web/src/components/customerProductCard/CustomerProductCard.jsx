@@ -122,11 +122,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
           <div className="col-md-6">{product.category.name}</div>
           <div className="col-md-6">RS. {product.price}</div>
         </div>
-        <div className="row text-center">
-          <div className="col-md-4 fs-small border"><button onClick={decreaseQuantity}>-</button></div>
-          <div className="col-md-4">{quantity}</div>
-          <div className="col-md-4 border"><button onClick={increaseQuantity}>+</button></div>
-        </div>
         <div>description : {product.description}</div>
         {isInWishlist(product._id) ? 
         <Button onClick={handleRemoveFromWishList}>Remove from Whishlist</Button> : 

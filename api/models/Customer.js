@@ -44,8 +44,14 @@ const CustomerSchema = new Schema (
         dob: {
             type: Date,
         },
-        address: {
+        houseNumber: {
             type: String,
+        },
+        street: {
+            type: String,
+        },
+        postalCode: {
+            type: Number,
         },
         city: {
             type: String,

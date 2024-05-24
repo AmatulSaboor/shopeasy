@@ -3,10 +3,14 @@ import serverURL from "../../config/configFile"
 import { Link } from "react-router-dom"
 import { Pagination } from "react-bootstrap"
 import { useAuth } from "../../context/AuthContext"
+import useFetch from "../../custom hooks/useFetch"
+
 const Cart = () => {
     
-    const [cart, setCart] = useState([])
     const { user } = useAuth()
+    const url = `cart/getList/${user.id}`;
+    const { data, error, loading} = useFetch(url)
+    const [cart, setCart] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
     const indexOfLastProduct = currentPage * productsPerPage;
@@ -87,24 +91,29 @@ const Cart = () => {
           }
     }
 
-    const getCart = useCallback(() => {
-            try{
-                console.log(user.id)
-                fetch(serverURL + `cart/getList/${user.id}`)
-                .then(response => response.json())
-                .then(data => {
-                    setCart(data.cart)
-                })
-                .catch(e => console.error(e))
-            }catch(e){
-                console.error(e)
-            }
+    // const getCart = useCallback(() => {
+    //         try{
+    //             console.log(user.id)
+    //             fetch(serverURL + `cart/getList/${user.id}`)
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 setCart(data.cart)
+    //             })
+    //             .catch(e => console.error(e))
+    //         }catch(e){
+    //             console.error(e)
+    //         }
 
-    }, [user.id])
+    // }, [user.id])
     useEffect(() => {
-        getCart()
-    }, [getCart])
+        if(data)
+            setCart(data.cart)
+        // getCart()
+    }, [data])
 
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
 
     return(
         <>

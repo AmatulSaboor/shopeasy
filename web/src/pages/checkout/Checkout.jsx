@@ -3,13 +3,18 @@ import { Link, useNavigate } from "react-router-dom"
 import serverURL from "../../config/configFile"
 import './Checkout.css'
 import { useAuth } from '../../context/AuthContext';
+import useFetch from "../../custom hooks/useFetch";
 
 const Checkout = () => {
 
     const navigate = useNavigate()
     const {user} = useAuth()
+    const cartUrl = `cart/getList/${user.id}`
+    const customerUrl = `customer/getById/${user.id}`
+    const { data: cartData, error: cartError, loading: cartLoading} = useFetch(cartUrl)
+    const { data : customerData, error : customerError, loading : customerLoading} = useFetch(customerUrl)
     const [cart, setCart] = useState([])
-    const [customer, setCustomer] = useState({})
+    const [customer, setCustomer] = useState({name:'', email: '', houseNumber: ''})
     const [orderSummary, setOrderSummary] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('cash on delivery');
     const paymentMethods = ['cash on delivery', 'card on delivery (not available)', 'card (not available)', 'easy paisa (not available)'];
@@ -68,13 +73,16 @@ const Checkout = () => {
         }
     }, [user.id])
     useEffect(() => {
-        getCart()
-        
-        getCustomer()
-    }, [getCustomer, getCart])
+        if(cartData)
+            setCart(cartData.cart)
+        if(customerData)
+            setCustomer(customerData.customer)
+        // getCart()
+        // getCustomer()
+    }, [cartData, customerData])
     useEffect(() => {
         if (cart.length > 0) {
-            const subTotal = cart.reduce((acc, current) => acc + current.productID.price, 0)
+            const subTotal = cart.reduce((acc, current) => acc + current.productID.price *  current.productID.quantity, 0)
             const tax = (subTotal * 5)/100
             const shippingCharges = 200
             const grandTotal = subTotal + tax + shippingCharges
@@ -82,6 +90,18 @@ const Checkout = () => {
         setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
         }
     }, [cart, paymentMethod]);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setCustomer((prevCustomer) => ({
+            ...prevCustomer,
+            [name]: value,
+        }));
+        console.log(customer)
+    };
+
+    if (cartLoading || customerLoading ) return <div>Loading...</div>;
+    if (cartError || customerError ) return <div>Error fetching data</div>;
+
     return(
             <div className="checkout-page">
             <div className="section personal-info">
@@ -92,8 +112,12 @@ const Checkout = () => {
             </div>
             <div className="section shipping-address">
                 <h2>Shipping Address</h2>
-                <p>House # {customer.houseNumber}, street {customer.street}</p>
-                <p>{customer.city} {customer.country} {customer.postalCode}</p>
+                <p>House # <input type="text" name="houseNumber" value={customer.houseNumber ? customer.houseNumber : ''} onChange={handleInputChange}/>, 
+                street {customer.street} <input type="text" name="street" value={customer.street ? customer.street : ''} onChange={handleInputChange}/></p>
+                <p><input type="text" name="city" placeholder="city" value={customer.city ? customer.city : ''} onChange={handleInputChange}/>
+                <input type="text" name="country" placeholder="country" value={customer.country ? customer.country : ''} onChange={handleInputChange}/>
+                <input type="text" name="postalCode" placeholder="postal code" value={customer.postalCode ? customer.postalCode : ''} onChange={handleInputChange}/></p>
+                {/* <textarea name="description" TODO: add aditional comments section */}
             </div>
             <div className="section order-items">
                 <h2>Order Items</h2>

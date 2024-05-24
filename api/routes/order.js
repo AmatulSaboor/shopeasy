@@ -10,6 +10,7 @@ router.post('/add', async (req, res) => {
     const session = await mongoose.startSession();
     try {
         session.startTransaction()
+        console.log(req.body)
 
         // save order
         const orderData = {
@@ -17,12 +18,15 @@ router.post('/add', async (req, res) => {
             customerName : req.body.customer.name,
             customerEmail : req.body.customer.email,
             customerPhoneNumber : req.body.customer.phoneNumber,
+            customerAddressLine1 : `${req.body.customer.houseNumber},  ${req.body.customer.street}`,
+            customerAddressLine2 : `${req.body.customer.city}, ${req.body.customer.country}, ${req.body.customer.postalCode}`,
             paymentMethod : req.body.orderSummary.paymentMethod,
             subTotal : req.body.orderSummary.subTotal,
             tax : req.body.orderSummary.tax,
             shippingCharges : req.body.orderSummary.shippingCharges,
             grandTotal : req.body.orderSummary.grandTotal,
         }
+        console.log(orderData)
         const order = await Order.create(orderData)
 
         // save items in order items table

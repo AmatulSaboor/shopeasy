@@ -4,10 +4,18 @@ import serverURL from "../../config/configFile"
 import { Link } from "react-router-dom"
 import Pagination from "../../components/pagination/Pagination"
 import { useAuth } from "../../context/AuthContext"
+import useFetch from "../../custom hooks/useFetch"
+
 
 const CustomerProductDisplay = () => {
     const [productsList, setProductsList] = useState([])
     const {user} = useAuth()
+    const cartUrl = `cart/getList/${user.id}`
+    const wishlistUrl = `wishlist/getList/${user.id}`
+    const productUrl = `product/getList`
+    const { data: cartData, error: cartError, loading: cartLoading} = useFetch(cartUrl)
+    const { data : wishlistData, error : wishlistError, loading : wishlistLoading} = useFetch(wishlistUrl)
+    const { data : productData, error : productError, loading : productLoading} = useFetch(productUrl)
     const [wishList, setWishList] = useState([])
     const [cart, setCart] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -99,11 +107,20 @@ const CustomerProductDisplay = () => {
         }
     },[user.id])
             
-    useEffect(() => {      
-        getProducts()
-        getWishlist()
-        getCart()
-    }, [user.id, getWishlist, getCart])
+    useEffect(() => {
+        if(cartData)
+            setCart(cartData.cart)
+        if(wishlistData)
+            setWishList(wishlistData.wishList)  
+        if(productData)
+            setProductsList(productData.productsList)
+        // getProducts()
+        // getWishlist()
+        // getCart()
+    }, [cartData, wishlistData, productData])
+
+    if (cartLoading || wishlistLoading || productLoading) return <div>Loading...</div>;
+    if (cartError || wishlistError || productError) return <div>Error fetching data</div>;
 
     return(
         <>

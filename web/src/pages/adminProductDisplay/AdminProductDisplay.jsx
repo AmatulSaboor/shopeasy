@@ -5,8 +5,11 @@ import EditModal from "./EditModal"
 import AddModal from "./AddModal"
 import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../custom hooks/useFetch"
 
 const AadminProductDisplay = () => {
+    const url = `product/getList`
+    const {data, error, loading} = useFetch(url)
     const [productsList, setProductsList] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 2;
@@ -75,10 +78,14 @@ const AadminProductDisplay = () => {
     }
 
     useEffect(() => {
-        getProducts()
-    }, [])
+        // getProducts()
+        if(data)
+            setProductsList(data.productsList)
+    }, [data])
 
 
+    if ( loading ) return <div>Loading...</div>;
+    if ( error ) return <div>Error fetching data</div>;
     return(
         <>  
             <AddModal handleCreate = {handleCreate}/>

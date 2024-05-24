@@ -6,19 +6,19 @@ import serverURL from '../../config/configFile';
 const CartComponent = () => {
     const { user } = useAuth()
 
-  const url = `${serverURL}cart/getList/${user.id}`;
-  const { data, loading, error } = useFetch(url, [user.id]);
-    const [myCart, setMyCart] = useState([])
+  const url = `cart/getList/${user.id}`;
+  const { data, loading, error } = useFetch(url);
+  const [myCart, setMyCart] = useState([])
 
 //   const setCart = useCallback((cartData) => {
 //     setMyCart(cartData)
 //   }, []);
 
   useEffect(() => {
-    console.log(data, loading, error)
+    // console.log(data, loading, error)
     if (data) {
         console.log(data)
-    //   setMyCart(data.cart);
+      setMyCart(data.cart);
     }
   }, [data, setMyCart, error, loading]);
 

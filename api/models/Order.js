@@ -16,6 +16,12 @@ const OrderSchema = new Schema(
         customerPhoneNumber: {
             type: String,
         },
+        customerAddressLine1: {
+            type: String,
+        },
+        customerAddressLine2: {
+            type: String,
+        },
         paymentMethod: {
             type: String,
         },
