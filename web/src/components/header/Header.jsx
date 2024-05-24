@@ -11,12 +11,12 @@ const Header = () => {
     setShowSidebar(!showSidebar);
   };
 
-  const {setUser, setIsAuthenticated, setLoading} = useAuth();
+  const {setCustomer, setIsAuthenticated, setLoading} = useAuth();
   const logout = () => {
     fetch(serverURL + `auth/logout`, {credentials : `include`})
     .then(res => res.json())
     .then(res => {if(res.logout) {
-      setUser(null)
+      setCustomer(null)
       setIsAuthenticated(false)
       setLoading(false)
       console.log('in logout conaolw')

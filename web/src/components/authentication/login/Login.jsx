@@ -15,7 +15,7 @@ const Login = () => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
-    const {setLoading, setUser, setIsAuthenticated, isAuthenticated} = useAuth();
+    const {setLoading, setCustomer, setIsAuthenticated, isAuthenticated} = useAuth();
 
     useEffect(() => {
         if (isAuthenticated){
@@ -38,7 +38,7 @@ const Login = () => {
                             .then(response => {console.log(response);
                                 if(response.message){
                                     setLoading(false)
-                                    setUser({id:response.id, name:response.name, email: response.email})
+                                    setCustomer({id:response.id, name:response.name, email: response.email})
                                     setIsAuthenticated(true)
                                     navigate('/')
                                 }

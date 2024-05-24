@@ -10,7 +10,7 @@ router.post('/send-email', async (req, res) => {
         service: 'gmail',
             auth: {
             user: 'amatulsaboor221@gmail.com',
-            pass: 'qmmn eiqe zpmi tsgx' // replace with your email password
+            pass: 'qmmn eiqe zpmi tsgx'
         }
     });
 

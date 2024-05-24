@@ -18,7 +18,7 @@ import { useAuth } from '../../../context/AuthContext';
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const navigate = useNavigate();
-    const {setLoading, setUser, setIsAuthenticated, isAuthenticated} = useAuth();
+    const {setLoading, setCustomer, setIsAuthenticated, isAuthenticated} = useAuth();
 
     useEffect(() => {
         if (isAuthenticated){
@@ -51,7 +51,7 @@ import { useAuth } from '../../../context/AuthContext';
                     if(response.message){
                         setValidationError(null)
                         setLoading(false)
-                        setUser({id:response.id, name:response.name, email: response.email})
+                        setCustomer({id:response.id, name:response.name, email: response.email})
                         setIsAuthenticated(true)
                         navigate('/')}
                     else if(response.existedCustomer){

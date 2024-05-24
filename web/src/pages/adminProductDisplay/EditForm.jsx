@@ -2,7 +2,7 @@
 import { Form, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import serverURL from "../../config/configFile";
-
+import useFetch from "../../custom hooks/useFetch";
 const EditForm = ({item, handleEdit, handleClose}) => {
       console.log(`in edit from`, item)
       const [name, setName] = useState(item.name);
@@ -13,7 +13,8 @@ const EditForm = ({item, handleEdit, handleClose}) => {
       const [category, setCategory] = useState(item.category._id);
       const [image, setImage] = useState('')
       const [categoriesList, setCategoriesList] = useState([]);
-
+      const url = `category/getList`
+      const {data, error, loading} = useFetch(url)
       const formData = new FormData();
       const fields = { _id : item._id ,name, price, image, category, quantity, isAvailable, description };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
@@ -37,12 +38,12 @@ const EditForm = ({item, handleEdit, handleClose}) => {
    }
 
    useEffect(() => {
-      fetch(serverURL + "category/getList")
-      .then((response) => response.json())
-      .then(response => {setCategoriesList(response)})
-      .catch(err => console.log(err));
-   }, [])
+     if(data)
+      setCategoriesList(data)
+   }, [data])
 
+   if(loading) return <div>Loading....</div>
+   if(error) return <div>{error}</div>
    return (
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
          {/* {validationError && <div className='validationError m-4'>{validationError}</div>} */}  

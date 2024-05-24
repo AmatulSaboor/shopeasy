@@ -8,13 +8,13 @@ import useFetch from "../../custom hooks/useFetch";
 const Checkout = () => {
 
     const navigate = useNavigate()
-    const {user} = useAuth()
-    const cartUrl = `cart/getList/${user.id}`
-    const customerUrl = `customer/getById/${user.id}`
+    const {customer} = useAuth()
+    const cartUrl = `cart/getList/${customer.id}`
+    const customerUrl = `customer/getById/${customer.id}`
     const { data: cartData, error: cartError, loading: cartLoading} = useFetch(cartUrl)
     const { data : customerData, error : customerError, loading : customerLoading} = useFetch(customerUrl)
     const [cart, setCart] = useState([])
-    const [customer, setCustomer] = useState({name:'', email: '', houseNumber: ''})
+    const [customerDetails, setCustomerDetails] = useState({name:'', email: '', houseNumber: ''})
     const [orderSummary, setOrderSummary] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('cash on delivery');
     const paymentMethods = ['cash on delivery', 'card on delivery (not available)', 'card (not available)', 'easy paisa (not available)'];
@@ -23,7 +23,7 @@ const Checkout = () => {
     };
     const getCart = useCallback(() => {
         try{
-            fetch(serverURL + `cart/getList/${user.id}`)
+            fetch(serverURL + `cart/getList/${customer.id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -33,7 +33,7 @@ const Checkout = () => {
         }catch(e){
             console.error(e)
         }
-    }, [user.id])
+    }, [customer.id])
 
 
     const handleConfirmOrder = () => {
@@ -61,22 +61,22 @@ const Checkout = () => {
 
     const getCustomer = useCallback(() => {
         try{
-            fetch(serverURL + `customer/getById/${user.id}`)
+            fetch(serverURL + `customer/getById/${customer.id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                setCustomer(data.customer)
+                setCustomerDetails(data.customer)
             })
             .catch(e => console.error(e))
         }catch(e){
             console.error(e)
         }
-    }, [user.id])
+    }, [customer.id])
     useEffect(() => {
         if(cartData)
             setCart(cartData.cart)
         if(customerData)
-            setCustomer(customerData.customer)
+            setCustomerDetails(customerData.customer)
         // getCart()
         // getCustomer()
     }, [cartData, customerData])
@@ -92,7 +92,7 @@ const Checkout = () => {
     }, [cart, paymentMethod]);
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setCustomer((prevCustomer) => ({
+        setCustomerDetails((prevCustomer) => ({
             ...prevCustomer,
             [name]: value,
         }));
@@ -106,17 +106,17 @@ const Checkout = () => {
             <div className="checkout-page">
             <div className="section personal-info">
                 <h2>Personal Info</h2>
-                <p>{customer.name}</p>
-                <p>{customer.email}</p>
-                <p>{customer.phone}</p>
+                <p>{customerDetails.name}</p>
+                <p>{customerDetails.email}</p>
+                <p>{customerDetails.phone}</p>
             </div>
             <div className="section shipping-address">
                 <h2>Shipping Address</h2>
-                <p>House # <input type="text" name="houseNumber" value={customer.houseNumber ? customer.houseNumber : ''} onChange={handleInputChange}/>, 
-                street {customer.street} <input type="text" name="street" value={customer.street ? customer.street : ''} onChange={handleInputChange}/></p>
-                <p><input type="text" name="city" placeholder="city" value={customer.city ? customer.city : ''} onChange={handleInputChange}/>
-                <input type="text" name="country" placeholder="country" value={customer.country ? customer.country : ''} onChange={handleInputChange}/>
-                <input type="text" name="postalCode" placeholder="postal code" value={customer.postalCode ? customer.postalCode : ''} onChange={handleInputChange}/></p>
+                <p>House # <input type="text" name="houseNumber" value={customerDetails.houseNumber ? customerDetails.houseNumber : ''} onChange={handleInputChange}/>, 
+                street {customerDetails.street} <input type="text" name="street" value={customerDetails.street ? customerDetails.street : ''} onChange={handleInputChange}/></p>
+                <p><input type="text" name="city" placeholder="city" value={customerDetails.city ? customerDetails.city : ''} onChange={handleInputChange}/>
+                <input type="text" name="country" placeholder="country" value={customerDetails.country ? customerDetails.country : ''} onChange={handleInputChange}/>
+                <input type="text" name="postalCode" placeholder="postal code" value={customerDetails.postalCode ? customerDetails.postalCode : ''} onChange={handleInputChange}/></p>
                 {/* <textarea name="description" TODO: add aditional comments section */}
             </div>
             <div className="section order-items">

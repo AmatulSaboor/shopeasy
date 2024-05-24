@@ -9,9 +9,9 @@ import useFetch from "../../custom hooks/useFetch"
 
 const CustomerProductDisplay = () => {
     const [productsList, setProductsList] = useState([])
-    const {user} = useAuth()
-    const cartUrl = `cart/getList/${user.id}`
-    const wishlistUrl = `wishlist/getList/${user.id}`
+    const {customer} = useAuth()
+    const cartUrl = `cart/getList/${customer.id}`
+    const wishlistUrl = `wishlist/getList/${customer.id}`
     const productUrl = `product/getList`
     const { data: cartData, error: cartError, loading: cartLoading} = useFetch(cartUrl)
     const { data : wishlistData, error : wishlistError, loading : wishlistLoading} = useFetch(wishlistUrl)
@@ -65,47 +65,6 @@ const CustomerProductDisplay = () => {
             return item.productID._id === productId}
         );
     };
-    const getProducts = () => {
-        try{
-            fetch(serverURL + `product/getList`)
-            .then(response => {
-                return response.json()})
-            .then(data => {
-                setProductsList(data.productsList)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    }
-    
-    const getCart = useCallback(() => {
-        try{
-            fetch(serverURL + `cart/getList/${user.id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.cart)
-                setCart(data.cart)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    },[user.id])
-    
-    const getWishlist = useCallback(() => {
-        try{
-            fetch(serverURL + `wishlist/getList/${user.id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.wishList)
-                setWishList(data.wishList)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    },[user.id])
             
     useEffect(() => {
         if(cartData)
@@ -114,9 +73,6 @@ const CustomerProductDisplay = () => {
             setWishList(wishlistData.wishList)  
         if(productData)
             setProductsList(productData.productsList)
-        // getProducts()
-        // getWishlist()
-        // getCart()
     }, [cartData, wishlistData, productData])
 
     if (cartLoading || wishlistLoading || productLoading) return <div>Loading...</div>;
@@ -132,7 +88,15 @@ const CustomerProductDisplay = () => {
             <div>
                 {currentProductsList && currentProductsList.map((product, key) => {
                     return(
-                        <CustomerProductCard key={key} product={product} isInWishlist={isInWishlist} userID={user.id} handleUpdateWishList={handleUpdateWishList} handleRemoveWL={handleRemoveWL} isInCart={isInCart} handleUpdateCart={handleUpdateCart} handleRemoveCT={handleRemoveCT} />
+                        <CustomerProductCard key={key} 
+                        product={product}
+                        isInWishlist={isInWishlist} 
+                        customerID={customer.id} 
+                        handleUpdateWishList={handleUpdateWishList} 
+                        handleRemoveWL={handleRemoveWL} 
+                        isInCart={isInCart} 
+                        handleUpdateCart={handleUpdateCart} 
+                        handleRemoveCT={handleRemoveCT} />     
                     )
                 })}
             </div>

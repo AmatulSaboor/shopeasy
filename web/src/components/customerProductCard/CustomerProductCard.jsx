@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card'
 import './CustomerProductCard.css'
 import { useState } from 'react'
 
-const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
+const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
   const [quantity, setQuantity] = useState(1)
   const increaseQuantity = () => {
     if (quantity < product.quantity- product.sold)
@@ -16,7 +16,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   }
   
   const handleAddToWishList = () => {
-    console.log(product._id, ' : ', userID)
+    console.log(product._id, ' : ', customerID)
     try {
       fetch(serverURL + `wishlist/add`,
       {
@@ -25,7 +25,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         headers: {
           'Content-Type': 'application/json' 
         },
-        body: JSON.stringify({productID: product._id, customerID : userID}),
+        body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())
@@ -40,7 +40,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   }
 
   const handleAddToCart = () => {
-    console.log(product._id, ' : ', userID)
+    console.log(product._id, ' : ', customerID)
     try {
       fetch(serverURL + `cart/add`,
       {
@@ -49,7 +49,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({productID: product._id, customerID : userID}),
+        body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())
@@ -64,16 +64,16 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   }
 
   const handleRemoveFromWishList = () => {
-    console.log(product._id, ' : ', userID)
+    console.log(product._id, ' : ', customerID)
     try {
-      fetch(serverURL + `wishlist/removeOne/${product._id}/${userID}`,
+      fetch(serverURL + `wishlist/removeOne/${product._id}/${customerID}`,
       {
         mode: 'cors',
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json' 
         },
-        // body: JSON.stringify({productID: product._id, customerID : userID}),
+        // body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())
@@ -88,16 +88,16 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   }
 
   const handleRemoveFromCart = () => {
-    console.log(product._id, ' : ', userID)
+    console.log(product._id, ' : ', customerID)
     try {
-      fetch(serverURL + `cart/removeOne/${product._id}/${userID}`,
+      fetch(serverURL + `cart/removeOne/${product._id}/${customerID}`,
       {
         mode: 'cors',
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
-        // body: JSON.stringify({productID: product._id, customerID : userID}),
+        // body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())

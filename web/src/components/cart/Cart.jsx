@@ -7,8 +7,8 @@ import useFetch from "../../custom hooks/useFetch"
 
 const Cart = () => {
     
-    const { user } = useAuth()
-    const url = `cart/getList/${user.id}`;
+    const { customer } = useAuth()
+    const url = `cart/getList/${customer.id}`;
     const { data, error, loading} = useFetch(url)
     const [cart, setCart] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
@@ -69,15 +69,15 @@ const Cart = () => {
     const handleRemoveProductFromCart = (item) => {
         try {
             console.log(item)
-            // fetch(serverURL + `cart/remove/${item._id}/${user.id}`,
-            fetch(serverURL + `cart/removeOne/${item.productID._id}/${user.id}`,
+            // fetch(serverURL + `cart/remove/${item._id}/${customer.id}`,
+            fetch(serverURL + `cart/removeOne/${item.productID._id}/${customer.id}`,
             {
               mode: 'cors',
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json' 
               },
-              // body: JSON.stringify({productID: product._id, customerID : user.id}),
+              // body: JSON.stringify({productID: product._id, customerID : customer.id}),
               credentials: 'include'
             })
             .then(res => res.json())
@@ -93,8 +93,8 @@ const Cart = () => {
 
     // const getCart = useCallback(() => {
     //         try{
-    //             console.log(user.id)
-    //             fetch(serverURL + `cart/getList/${user.id}`)
+    //             console.log(customer.id)
+    //             fetch(serverURL + `cart/getList/${customer.id}`)
     //             .then(response => response.json())
     //             .then(data => {
     //                 setCart(data.cart)
@@ -104,7 +104,7 @@ const Cart = () => {
     //             console.error(e)
     //         }
 
-    // }, [user.id])
+    // }, [customer.id])
     useEffect(() => {
         if(data)
             setCart(data.cart)

@@ -4,12 +4,12 @@ import serverURL from '../config/configFile';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [customer, setCustomer] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-    const fetchUser = async () => {
+    const fetchCustomer = async () => {
       await fetch(serverURL + 'auth/session', {
         credentials: 'include'
       })
@@ -18,28 +18,28 @@ export const AuthProvider = ({ children }) => {
         if(res.isAuthenticated){
           setLoading(false)
           setIsAuthenticated(res.isAuthenticated)
-          setUser({id : res.id, name:res.name,  email:res.email})
+          setCustomer({id : res.id, name:res.name,  email:res.email})
         }
     })
     .catch(err => {console.log(err);
     })
-      // // Replace this with your actual authentication check and fetching user data
-      // const userData = {
+      // // Replace this with your actual authentication check and fetching customer data
+      // const customerData = {
       //   id: 1,
       //   name: 'John Doe',
       //   email: 'john@example.com',
       // };
 
-      // setUser(userData);
+      // setCustomer(customerData);
       // setIsAuthenticated(authStatus);
       // setLoading(false);
     };
 
-    fetchUser();
+    fetchCustomer();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loading, setUser, setLoading, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ customer, isAuthenticated, loading, setCustomer, setLoading, setIsAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
