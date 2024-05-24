@@ -82,7 +82,7 @@ const Checkout = () => {
     }, [cartData, customerData])
     useEffect(() => {
         if (cart.length > 0) {
-            const subTotal = cart.reduce((acc, current) => acc + current.productID.price *  current.productID.quantity, 0)
+            const subTotal = cart.reduce((acc, current) => acc + (current.productID.price *  current.quantity), 0)
             const tax = (subTotal * 5)/100
             const shippingCharges = 200
             const grandTotal = subTotal + tax + shippingCharges
