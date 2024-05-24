@@ -17,6 +17,23 @@ router.post('/add', async (req, res) => {
     res.send({ createdCart })
 })
 
+router.put('/changeItemQty', async (req, res) => {
+    try {
+        console.log(req.body.item)
+        const id = req.body.id
+        console.log(id)
+        const quantity = req.body.quantity
+        const result = await Cart.findByIdAndUpdate(
+            id,
+            {quantity},
+            {new: true}
+        )
+            res.status(200).send({message : result})
+    } catch (error) {
+        console.log(error)
+    }
+}) 
+
 router.delete('/removeAll/:customerID', async (req, res) => {
     try {
         // const {productID, customerID} = req.params
@@ -28,9 +45,9 @@ router.delete('/removeAll/:customerID', async (req, res) => {
     }
 })
 
-router.delete('/removeOne/:productID', async (req, res) => {
+router.delete('/removeOne/:productID/:customerID', async (req, res) => {
     try {
-        const result = await Cart.deleteMany({productID:req.params.productID})
+        const result = await Cart.deleteMany({productID:req.params.productID, customerID: req.params.customerID})
         console.log(result.deletedCount)
         if(result.deletedCount > 0)
             res.status(200).send({message : 'deleted'})

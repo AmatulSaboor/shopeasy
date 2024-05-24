@@ -51,9 +51,9 @@ router.delete('/removeAll/:customerID', async (req, res) => {
     }
 })
 
-router.delete('/removeOne/:productID', async (req, res) => {
+router.delete('/removeOne/:productID/:customerID', async (req, res) => {
     try {
-        const result = await WishList.deleteMany({productID:req.params.productID})
+        const result = await WishList.deleteMany({productID:req.params.productID, customerID: req.params.customerID})
         if (result.deletedCount > 0)
             res.status(200).send({message : 'deleted'})
     } catch (error) {

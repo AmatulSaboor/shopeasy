@@ -19,29 +19,54 @@ const Cart = () => {
     //     .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
     //     .slice(indexOfFirstProduct,indexOfLastProduct);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-    const increaseQuantity = (item) => {
+    const increaseQuantity = async (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
             {const updatedCart = cart.map(cartItem => 
                 cartItem.productID._id === item.productID._id
                   ? { ...cartItem, quantity: cartItem.quantity + 1 }
                   : cartItem
               );
-              setCart(updatedCart);}
+              setCart(updatedCart);
+
+              await fetch(serverURL + `cart/changeItemQty`,
+                {
+                    mode: 'cors',
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({id:item._id, quantity:item.quantity+1}),
+                    credentials: 'include' 
+                }
+              )
+            }
     }
-    const decreaseQuantity = (item) => {
+    const decreaseQuantity = async (item) => {
             const updatedCart = cart.map(cartItem => 
                 cartItem.productID._id === item.productID._id
                   ? { ...cartItem, quantity: Math.max(cartItem.quantity - 1, 1) }
                   : cartItem
               );
               setCart(updatedCart);
+
+              await fetch(serverURL + `cart/changeItemQty`,
+                {
+                    mode: 'cors',
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify({id:item._id, quantity:item.quantity-1}),
+                    credentials: 'include' 
+                }
+              )
     }
 
     const handleRemoveProductFromCart = (item) => {
         try {
             console.log(item)
             // fetch(serverURL + `cart/remove/${item._id}/${user.id}`,
-            fetch(serverURL + `cart/remove/${item._id}`,
+            fetch(serverURL + `cart/removeOne/${item.productID._id}/${user.id}`,
             {
               mode: 'cors',
               method: 'DELETE',
@@ -54,7 +79,7 @@ const Cart = () => {
             .then(res => res.json())
             .then(res => {
               console.log(res)
-              setCart(cart.filter(i => i.productID !== item._id))
+              setCart(cart.filter(i => i.productID._id !== item.productID._id))
             })
             .catch(e => console.log(e))
           } catch (error) {

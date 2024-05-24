@@ -66,7 +66,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   const handleRemoveFromWishList = () => {
     console.log(product._id, ' : ', userID)
     try {
-      fetch(serverURL + `wishlist/removeOne/${product._id}`,
+      fetch(serverURL + `wishlist/removeOne/${product._id}/${userID}`,
       {
         mode: 'cors',
         method: 'DELETE',
@@ -90,7 +90,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   const handleRemoveFromCart = () => {
     console.log(product._id, ' : ', userID)
     try {
-      fetch(serverURL + `cart/removeOne/${product._id}`,
+      fetch(serverURL + `cart/removeOne/${product._id}/${userID}`,
       {
         mode: 'cors',
         method: 'DELETE',
