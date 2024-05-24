@@ -1,10 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import serverURL from '../../config/configFile'
 import { useAuth } from '../../context/AuthContext'
 
 const Sidebar = () => {
     const customerImage = ''
-    const navigate = useNavigate()
     const { user } = useAuth()
     const logout = () => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
@@ -19,9 +18,9 @@ const Sidebar = () => {
                 <li><img src={customerImage} alt="user" /></li>
                 <li>Welcome {user.name}</li>
                 <li>{user.email}</li>
-                <li><Link to = '/dashboard'> Go To Home</Link></li>
+                <li><Link to = '/'> Go To Home</Link></li>
                 <li><Link to = '/wishlist'> My Wishlist</Link></li>
-                <li><Link to = 'cart'> My Cart </Link></li>
+                <li><Link to = '/cart'> My Cart </Link></li>
                 <li><Link to = '/order'> My Orders</Link></li>
                 <li><button onClick = {logout}>Log Out</button></li>
            </ul>

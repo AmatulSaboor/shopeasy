@@ -12,13 +12,15 @@ router.get('/getList/:customerID', async (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-    res.send({ createdCart :  await Cart.create(req.body)})
+    let createdCart = await Cart.create(req.body)
+    createdCart = await createdCart.populate('productID')
+    res.send({ createdCart })
 })
 
-router.delete('/removeByData/:productID/:customerID', async (req, res) => {
+router.delete('/removeAll/:customerID', async (req, res) => {
     try {
-        const {productID, customerID} = req.params
-        const result = await Cart.deleteMany({productID, customerID})
+        // const {productID, customerID} = req.params
+        const result = await Cart.deleteMany({customerID : req.params.customerID})
         console.log(result.deletedCount)
         res.status(200).send({message : 'deleted'})
     } catch (error) {
@@ -26,11 +28,12 @@ router.delete('/removeByData/:productID/:customerID', async (req, res) => {
     }
 })
 
-router.delete('/removeById/:id', async (req, res) => {
+router.delete('/removeOne/:productID', async (req, res) => {
     try {
-        const result = await Cart.findByIdAndDelete(req.params.id)
+        const result = await Cart.deleteMany({productID:req.params.productID})
         console.log(result.deletedCount)
-        res.status(200).send({message : 'deleted'})
+        if(result.deletedCount > 0)
+            res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
     }

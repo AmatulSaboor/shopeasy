@@ -26,22 +26,37 @@ const CustomerProductDisplay = () => {
     }
 
     const handleUpdateWishList = (wishlistEntry) => {
+        console.log('isinaddwishlist', wishlistEntry)
         const copyWishlist = [...wishList];
         copyWishlist.push(wishlistEntry);
         setWishList(copyWishlist)
     }
     const handleUpdateCart = (cartEntry) => {
+        console.log('isinaddcart', cartEntry)
         const copyCart = [...cart];
         copyCart.push(cartEntry);
         setCart(copyCart)
     }
 
     const handleRemoveWL = (removedEntry) => {
-        setWishList(wishList.filter(i => i.productID !== removedEntry))
+        console.log('isinremovewishlist', removedEntry)
+        setWishList(wishList.filter(i => i.productID._id !== removedEntry))
     }
     const handleRemoveCT = (removedEntry) => {
-        setCart(wishList.filter(i => i.productID !== removedEntry))
+        console.log('isinremovewcart', removedEntry)
+        setCart(cart.filter(i => i.productID._id !== removedEntry))
     }
+    const isInWishlist = (productId) => {
+        return wishList.some(item => { 
+            console.log('isinwishlist', item.productID._id, productId)
+            return item.productID._id === productId});
+        };
+    const isInCart = (productId) => {
+        return cart.some(item => { 
+            console.log('isincart', item.productID._id, productId)
+            return item.productID._id === productId}
+        );
+    };
     const getProducts = () => {
         try{
             fetch(serverURL + `product/getList`)
@@ -61,6 +76,7 @@ const CustomerProductDisplay = () => {
             fetch(serverURL + `cart/getList/${user.id}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data.cart)
                 setCart(data.cart)
             })
             .catch(e => console.error(e))
@@ -69,15 +85,6 @@ const CustomerProductDisplay = () => {
         }
     },[user.id])
     
-    const isInWishlist = (productId) => {
-        return wishList.some(item => { 
-            return item.productID === productId});
-        };
-    const isInCart = (productId) => {
-        return cart.some(item => { 
-            return item.productID === productId}
-        );
-    };
     const getWishlist = useCallback(() => {
         try{
             fetch(serverURL + `wishlist/getList/${user.id}`)

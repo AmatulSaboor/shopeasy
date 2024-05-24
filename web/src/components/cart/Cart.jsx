@@ -15,9 +15,9 @@ const Cart = () => {
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     }
-    const currentCart = cart
-        .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        .slice(indexOfFirstProduct,indexOfLastProduct);
+    // const currentCart = cart
+    //     .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    //     .slice(indexOfFirstProduct,indexOfLastProduct);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const increaseQuantity = (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
@@ -100,7 +100,7 @@ const Cart = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentCart && currentCart.map((item, key) => {
+                    {cart && cart.map((item, key) => {
                         return(
                               <tr key={key}>
                                 <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
@@ -121,7 +121,7 @@ const Cart = () => {
                         })}
                 </tbody>
             </table>
-            <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
+            {/* <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/> */}
             <Link to='/checkout'>Checkout</Link>
         </>
     )

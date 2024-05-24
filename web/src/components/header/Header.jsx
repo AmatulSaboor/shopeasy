@@ -4,6 +4,7 @@ import Logo from '../../logo.svg';
 import Sidebar from '../sidebar/Sidebar'
 import serverURL from '../../config/configFile';
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 const Header = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const toggleSidebar = () => {
@@ -32,12 +33,12 @@ const Header = () => {
         </div>
       </div>
       <div style={styles.rightSection}>
-        <a href="/home" style={styles.iconLink}><FaHome /></a>
+        <Link to="/" style={styles.iconLink}><FaHome /></Link>
         <button onClick={() => logout()} style={styles.iconLink}><FaSignOutAlt /></button>
       </div>
       {showSidebar && (
         <div style={styles.sidebar}>
-          {/* <Sidebar /> */}
+          <Sidebar />
           {/* Add your sidebar content here */}
         </div>
       )}

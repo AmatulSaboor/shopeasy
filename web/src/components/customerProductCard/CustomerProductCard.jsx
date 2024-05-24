@@ -14,6 +14,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
     if (quantity > 0)
       setQuantity(prevCount => prevCount - 1)
   }
+  
   const handleAddToWishList = () => {
     console.log(product._id, ' : ', userID)
     try {
@@ -30,31 +31,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
       .then(res => res.json())
       .then(res => {
         console.log(res)
-        handleUpdateWishList({productID: product._id, customerID : userID})
-      })
-      .catch(e => console.log(e))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleRemoveFromWishList = () => {
-    console.log(product._id, ' : ', userID)
-    try {
-      fetch(serverURL + `wishlist/remove/${product._id}`,
-      {
-        mode: 'cors',
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json' 
-        },
-        // body: JSON.stringify({productID: product._id, customerID : userID}),
-        credentials: 'include'
-      })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res)
-        handleRemoveWL(product._id)
+        handleUpdateWishList(res.wishlistEntry)
       })
       .catch(e => console.log(e))
     } catch (error) {
@@ -78,7 +55,31 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
       .then(res => res.json())
       .then(res => {
         console.log(res)
-        handleUpdateCart({productID: product._id, customerID : userID})
+        handleUpdateCart(res.createdCart)
+      })
+      .catch(e => console.log(e))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleRemoveFromWishList = () => {
+    console.log(product._id, ' : ', userID)
+    try {
+      fetch(serverURL + `wishlist/removeOne/${product._id}`,
+      {
+        mode: 'cors',
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json' 
+        },
+        // body: JSON.stringify({productID: product._id, customerID : userID}),
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        handleRemoveWL(product._id)
       })
       .catch(e => console.log(e))
     } catch (error) {
@@ -89,7 +90,7 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, userID, handleUpd
   const handleRemoveFromCart = () => {
     console.log(product._id, ' : ', userID)
     try {
-      fetch(serverURL + `cart/remove/${product._id}/${userID}`,
+      fetch(serverURL + `cart/removeOne/${product._id}`,
       {
         mode: 'cors',
         method: 'DELETE',

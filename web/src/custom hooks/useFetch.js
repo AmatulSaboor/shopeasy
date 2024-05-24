@@ -1,30 +1,30 @@
-import serverURL from '../config/configFile'
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-const useFetch = (url, options = {}) => {
-    const [data, setData] = useState()
-    const [error, setError] = useState()
-    const [isLoading, setIsLoading] = useState(true)
+const useFetch = (url, dependencies = []) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        try{
-            fetch(serverURL + url, options)
-            .then(response => response.json())
-            .then(response => {
-                setData(response)
-                setIsLoading(false)
-            })
-            .catch(e => {
-                setError(e)
-                setIsLoading(false)
-        })
-    }catch(e){
-        setError(e)
-        setIsLoading(false)
-    }
-    }, [url, options])
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return [data, error, isLoading]
-}
+    fetchData();
+  },[ url, dependencies]);
 
+  return { data, loading, error };
+};
 export default useFetch;

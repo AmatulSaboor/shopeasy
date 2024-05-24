@@ -5,7 +5,7 @@ const WishList = require('../models/WishList')
 router.get('/getList/:customerID', async (req, res) => {
     try {
         console.log(req.params.customerID)
-        res.send(JSON.stringify({wishList : await WishList.find({customerID : req.params.customerID })}))
+        res.send(JSON.stringify({wishList : await WishList.find({customerID : req.params.customerID }).populate('productID')}))
     } catch (error) {
         console.log(error)
     }
@@ -13,7 +13,8 @@ router.get('/getList/:customerID', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     try {
-        const wishlistEntry = await WishList.create(req.body)
+        let wishlistEntry = await WishList.create(req.body)
+        wishlistEntry = await wishlistEntry.populate('productID')
         res.status(200).send({wishlistEntry})
     } catch (error) {
         console.log(error)
@@ -39,10 +40,22 @@ router.post('/add', async (req, res) => {
     // }
 })
 
-router.delete('/remove/:productID', async (req, res) => {
+router.delete('/removeAll/:customerID', async (req, res) => {
     try {
-        await WishList.deleteMany({productID : req.params.productID})
+        // const {productID, customerID} = req.params
+        const result = await WishList.deleteMany({customerID : req.params.customerID})
+        console.log(result.deletedCount)
         res.status(200).send({message : 'deleted'})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.delete('/removeOne/:productID', async (req, res) => {
+    try {
+        const result = await WishList.deleteMany({productID:req.params.productID})
+        if (result.deletedCount > 0)
+            res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
     }
