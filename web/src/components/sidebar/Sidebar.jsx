@@ -1,14 +1,20 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import serverURL from '../../config/configFile'
 import { useAuth } from '../../context/AuthContext'
 
 const Sidebar = () => {
     const customerImage = ''
-    const { customer } = useAuth()
+    const { customer, setCustomer, setIsAutheticated, setLoading } = useAuth()
+    const navigate = useNavigate()
+
     const logout = () => {
         fetch(serverURL + `auth/logout`, {credentials : `include`})
         .then(res => res.json())
         .then(res => {if(res.logout) {
+            setCustomer(null) 
+            setIsAutheticated(false)
+            setLoading(false)
+            navigate('/login')
         }})
         .catch( err => console.log(err))
     }

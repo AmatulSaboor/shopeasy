@@ -1,0 +1,44 @@
+/* .menu-icon {
+    width: 20px !important;
+    height: 20px !important;
+    display: none;
+} */
+
+.btn-light {
+    background-color: white !important;
+
+}
+
+.logo {
+    height: 130px;
+    width: 140px;
+}
+
+.user-icon {
+    height: 60px;
+    width: 60px;
+}
+
+.sidebar {
+    width: 250px !important;
+}
+
+.offcanvas-backdrop {
+    background-color: white !important;
+    width: 0 !important;
+}
+
+.logout {
+    width: 30px;
+    height: 30px;
+}
+.menu-icon {
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+/* .logo {
+    display: none;
+    visibility: hidden;
+} */
