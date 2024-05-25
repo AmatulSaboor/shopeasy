@@ -26,8 +26,8 @@ const CustomerSchema = new Schema (
             type: String,
             required: [true, 'please enter your mobile phone'],
             unique: [true, 'mobile number already exists'],
-            minlength: [11, 'mobile number should be of 11 digits'],
-            maxlength: [11, 'mobile number should be of 11 digits'],
+            // minlength: [11, 'mobile number should be of 11 digits'],
+            // maxlength: [11, 'mobile number should be of 11 digits'],
         },
         password: {
             type: String,

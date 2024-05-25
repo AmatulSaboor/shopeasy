@@ -39,6 +39,10 @@ const OrderSchema = new Schema(
             type: Number,
             require: [true, 'grand total are required']
         },
+        status: {
+            type: String,
+            default: 'in process'
+        },
     },
     {
         timestamps: true,

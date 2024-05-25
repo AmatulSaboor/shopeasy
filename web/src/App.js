@@ -49,7 +49,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
-        {/* <Footer /> */}
+        <Footer />
         </BrowserRouter>
       </AuthProvider>
     </div>

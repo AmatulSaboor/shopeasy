@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 
 const Sidebar = () => {
     const customerImage = ''
-    const { customer, setCustomer, setIsAutheticated, setLoading } = useAuth()
+    const { customer, setCustomer, setIsAuthenticated, setLoading } = useAuth()
     const navigate = useNavigate()
 
     const logout = () => {
@@ -12,7 +12,7 @@ const Sidebar = () => {
         .then(res => res.json())
         .then(res => {if(res.logout) {
             setCustomer(null) 
-            setIsAutheticated(false)
+            setIsAuthenticated(false)
             setLoading(false)
             navigate('/login')
         }})

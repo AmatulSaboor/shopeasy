@@ -5,6 +5,21 @@ const Order = require('../models/Order')
 const OrderItem = require('../models/OrderItem')
 const mongoose = require('mongoose')
 
+router.get('/getList/:customerID', async (req, res) => {
+    try {
+        console.log(req.params.customerID)
+        const orders =  await Order.find({customerEmail : req.params.customerID })
+        const orderItems = await Promise.all(orders.map(async (order) => {
+            return await OrderItem.find({ orderID: order._id });
+          }));
+          console.log(orderItems)
+        res.send(JSON.stringify({orders , orderItems}))
+        // res.send(JSON.stringify({orders : await Order.find({customerEmail : req.params.customerID }).populate('productID')}))
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 router.post('/add', async (req, res) => {
     console.log('in order')
     const session = await mongoose.startSession();

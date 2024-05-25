@@ -4,7 +4,7 @@ import { FaBars, FaHome, FaSignOutAlt, FaWallet } from 'react-icons/fa';
 import Sidebar from '../sidebar/Sidebar'
 import serverURL from '../../config/configFile';
 import { useAuth } from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaShop } from 'react-icons/fa6';
 import './Header.css'
 import Button from 'react-bootstrap/Button';
@@ -21,7 +21,7 @@ const Header = () => {
     setShowSidebar(!showSidebar);
   };
   const [show, setShow] = useState(false);
-  
+  const navigate = useNavigate()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -33,7 +33,8 @@ const Header = () => {
       setCustomer(null)
       setIsAuthenticated(false)
       setLoading(false)
-      console.log('in logout conaolw')
+      console.log('in logout console')
+      navigate('/login')
     }})
     .catch( err => console.log(err))}
   return (
@@ -42,15 +43,14 @@ const Header = () => {
         <Navbar>
           <Container className="d-flex justify-content-start">
             <Navbar.Brand href="#home" className="d-flex justify-content-start">
-            <Button onClick={handleShow} className="btn-light">
-                <img src={Hamburger} alt="menu" className="menu-icon"  />
-            </Button>
-            
+            {isAuthenticated && <Button onClick={handleShow} className="btn-light">
+                <img src={Hamburger} alt="menu" className="menu-icon" />
+            </Button>}
               <Offcanvas show={show} onHide={handleClose} className="sidebar">
                 <Offcanvas.Header closeButton>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                  <Sidebar />
+                  {isAuthenticated &&  <Sidebar />}
                 </Offcanvas.Body>
               </Offcanvas>
             </Navbar.Brand>

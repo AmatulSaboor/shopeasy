@@ -6,7 +6,6 @@
 
 .btn-light {
     background-color: white !important;
-
 }
 
 .logo {
@@ -32,12 +31,11 @@
     width: 30px;
     height: 30px;
 }
+
 .menu-icon {
     display: flex;
     justify-content: flex-start;
-
 }
-
 /* .logo {
     display: none;
     visibility: hidden;

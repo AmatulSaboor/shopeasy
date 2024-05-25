@@ -6,8 +6,10 @@ import AddModal from "./AddModal"
 import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../custom hooks/useFetch"
+import { useAuth } from "../../context/AuthContext"
 
 const AdminProducts = () => {
+    const { customer } = useAuth()
     const url = `product/getList`
     const {data, error, loading} = useFetch(url)
     const [productsList, setProductsList] = useState([])
@@ -61,31 +63,19 @@ const AdminProducts = () => {
             })
         .catch(e => console.log(e));
     }
-    // get products
-    const getProducts = () => {
-        try{
-            fetch(serverURL + `product/getList`)
-            .then(response => {
-                return response.json()})
-            .then(data => {
-                setProductsList(data.productsList)
-                // console.log(productsList)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    }
 
     useEffect(() => {
+    if (customer.role !== `664ada4ddde187ee1c525220`) (navigate('/customer/products'))
+
         // getProducts()
         if(data)
             setProductsList(data.productsList)
-    }, [data])
+    }, [data, customer.role, navigate])
 
 
     if ( loading ) return <div>Loading...</div>;
     if ( error ) return <div>Error fetching data</div>;
+
     return(
         <>  
             <AddModal handleCreate = {handleCreate}/>
@@ -93,29 +83,62 @@ const AdminProducts = () => {
                 <label htmlFor="search" >search :</label>
                 <input type="text" id="search" onChange={handleSearch} />
             </div>
-            <Row>
-                <Col sm={3}> 
-                {currentProducts && currentProducts.map((item, key) => {
-                    return(
-                    <Card key={key} style={{ width: '18rem', margin: '10px' }}>
-                        <Card.Body >
-                            <Card.Title>{item.category?.name}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
-                            <Card.Text>{item.quantity}</Card.Text>
-                            <Card.Img variant="top" src={serverURL + `uploads/products/` + item.image} width={200} height={200} />
-                            <Card.Text>{item.description}</Card.Text>
-                            <Card.Text>Rs. {item.price}</Card.Text>
-                            <Card.Text>Sold: {item.sold}</Card.Text>
-                            <EditModal item={item} handleEdit={handleEdit} />
-                            <button onClick={() => handleDelete(item._id)}>Delete</button>
-                        </Card.Body>
-                    </Card>)})}
-                </Col>
-            </Row>
+            <div className="row">
+                {currentProducts && currentProducts.map((item , key) => {
+                    return (
+                        <div className="col-md-3">
+                            <Card key={key} style={{ width: '18rem', margin: '10px' }}>
+                                <Card.Body >
+                                    <Card.Title>{item.category?.name}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
+                                    <Card.Text>{item.quantity}</Card.Text>
+                                    <Card.Img variant="top" src={serverURL + `uploads/products/` + item.image} width={200} height={200} />
+                                    <Card.Text>{item.description}</Card.Text>
+                                    <Card.Text>Rs. {item.price}</Card.Text>
+                                    <Card.Text>Sold: {item.sold}</Card.Text>
+                                    <EditModal item={item} handleEdit={handleEdit} />
+                                    <button onClick={() => handleDelete(item._id)}>Delete</button>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    )
+                })}  
+            </div>
+
             <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
             <button onClick = {logout}>Log Out</button>
-        </>
+        </>
     )
+    // return(
+    //     <>  
+    //         <AddModal handleCreate = {handleCreate}/>
+    //         <div>
+    //             <label htmlFor="search" >search :</label>
+    //             <input type="text" id="search" onChange={handleSearch} />
+    //         </div>
+    //         <Row>
+    //             <Col sm={3}> 
+    //             {currentProducts && currentProducts.map((item, key) => {
+    //                 return(
+    //                 <Card key={key} style={{ width: '18rem', margin: '10px' }}>
+    //                     <Card.Body >
+    //                         <Card.Title>{item.category?.name}</Card.Title>
+    //                         <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
+    //                         <Card.Text>{item.quantity}</Card.Text>
+    //                         <Card.Img variant="top" src={serverURL + `uploads/products/` + item.image} width={200} height={200} />
+    //                         <Card.Text>{item.description}</Card.Text>
+    //                         <Card.Text>Rs. {item.price}</Card.Text>
+    //                         <Card.Text>Sold: {item.sold}</Card.Text>
+    //                         <EditModal item={item} handleEdit={handleEdit} />
+    //                         <button onClick={() => handleDelete(item._id)}>Delete</button>
+    //                     </Card.Body>
+    //                 </Card>)})}
+    //             </Col>
+    //         </Row>
+    //         <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
+    //         <button onClick = {logout}>Log Out</button>
+    //     </>
+    // )
 }
 
 export default AdminProducts
