@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ element: Element, ...rest }) => {
+const AuthenticatedRoutes = ({ element: Element, ...rest }) => {
   const { isAuthenticated, loading} = useAuth();
   useEffect(() => {
     console.log(isAuthenticated)
@@ -15,7 +15,7 @@ const ProtectedRoute = ({ element: Element, ...rest }) => {
     return isAuthenticated ? <Outlet {...rest} /> : <Navigate to="/login" />;
   };
 
-export default ProtectedRoute;
+export default AuthenticatedRoutes;
 // const ProtectedRoute = ({ component: Component, ...rest }) => {
 //   const { isAuthenticated, loading } = useAuth();
 

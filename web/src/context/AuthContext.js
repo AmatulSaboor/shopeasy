@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         if(res.isAuthenticated){
           setLoading(false)
           setIsAuthenticated(res.isAuthenticated)
-          setCustomer({id : res.id, name:res.name,  email:res.email})
+          setCustomer({id : res.id, name:res.name,  email:res.email, role : res.role})
         }
     })
     .catch(err => {console.log(err);

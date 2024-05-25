@@ -1,25 +1,26 @@
+require('dotenv').config();
 const express = require('express')
 const nodemailer = require('nodemailer')
 const router = express.Router();
 
 router.post('/send-email', async (req, res) => {
-    const { to, subject, text } = req.body;
+    const { to, subject, body } = req.body;
 
     // Configure the email transporter
     let transporter = nodemailer.createTransport({
         service: 'gmail',
             auth: {
-            user: 'amatulsaboor221@gmail.com',
-            pass: 'qmmn eiqe zpmi tsgx'
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     });
 
     // Email options
     let mailOptions = {
-        from: 'amatulsaboor221@gmail.com',
-        to: 'amatulsaboor221@gmail.com',
-        subject: 'test',
-        text: 'I hope to see you in my inbox inshaAllah'
+        from: process.env.EMAIL_USER,
+        to: to,
+        subject: subject,
+        text: body
     };
 
     // Send the email

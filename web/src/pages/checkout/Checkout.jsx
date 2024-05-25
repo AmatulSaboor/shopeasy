@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import serverURL from "../../config/configFile"
 import './Checkout.css'
@@ -11,6 +11,8 @@ const Checkout = () => {
     const {customer} = useAuth()
     const cartUrl = `cart/getList/${customer.id}`
     const customerUrl = `customer/getById/${customer.id}`
+    const [emailBody, setEmailBody] = useState('')
+    const emailData = {to: customer.email, subject : `Confirm Order`, body :emailBody}
     const { data: cartData, error: cartError, loading: cartLoading} = useFetch(cartUrl)
     const { data : customerData, error : customerError, loading : customerLoading} = useFetch(customerUrl)
     const [cart, setCart] = useState([])
@@ -21,21 +23,28 @@ const Checkout = () => {
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     };
-    const getCart = useCallback(() => {
-        try{
-            fetch(serverURL + `cart/getList/${customer.id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setCart(data.cart)
+
+    const sendEmail = () => {
+        try {
+            fetch(serverURL + "email/send-email",
+            {
+                mode: 'cors',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(emailData),
+                credentials: 'include'
             })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
+            .then((response) => response.json())
+            .then(response => {
+                console.log(`email has been sent successfully`)
+            })
+      .catch(err => console.log(err));
+        } catch (error) {
+            console.log(error)
         }
-    }, [customer.id])
-
-
+    }
     const handleConfirmOrder = () => {
         console.log('in confirm order')
         try {
@@ -51,6 +60,7 @@ const Checkout = () => {
             })
             .then((response) => response.json())
             .then(response => {
+                sendEmail(emailData)
                 navigate('/success')
             })
       .catch(err => console.log(err));
@@ -59,19 +69,6 @@ const Checkout = () => {
         }
     }
 
-    const getCustomer = useCallback(() => {
-        try{
-            fetch(serverURL + `customer/getById/${customer.id}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                setCustomerDetails(data.customer)
-            })
-            .catch(e => console.error(e))
-        }catch(e){
-            console.error(e)
-        }
-    }, [customer.id])
     useEffect(() => {
         if(cartData)
             setCart(cartData.cart)
@@ -88,8 +85,10 @@ const Checkout = () => {
             const grandTotal = subTotal + tax + shippingCharges
 
         setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
+        const emailtext = `Dear ${customer.name}, \nyour order has been placed. Details are given below: \nSub total: ${subTotal}`
+        setEmailBody(emailtext);
         }
-    }, [cart, paymentMethod]);
+    }, [cart, paymentMethod, customer.name]);
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCustomerDetails((prevCustomer) => ({

@@ -1,10 +1,13 @@
+require('dotenv').config();
 const path = require('path');
 const app = require('express')()
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session)
 const port = process.env.PORT || 9000;
 const cors = require('cors')
-const uri = 'mongodb+srv://Admin:Password123@cluster0.vzs9g.mongodb.net/ShopEasy?retryWrites=true&w=majority';
+const sessionSecret = process.env.SESSION_SECRET;
+const corsOrigin = process.env.CORS_ORIGIN;
+const uri = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const productRouter = require('./routes/product')
 const categoryRouter = require('./routes/category')
@@ -32,7 +35,7 @@ const store = new MongoDBStore({
   autoRemoveInterval: 1
 });
 app.use(session({
-  secret: 'a very secret key',
+  secret: sessionSecret,
   resave: false,
   saveUninitialized: false,
   store: store,
@@ -41,7 +44,7 @@ app.use(session({
 
 // middleswares
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: corsOrigin,
   credentials: true
 }));
 app.use(express.urlencoded({extended:true}))

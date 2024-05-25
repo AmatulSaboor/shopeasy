@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import CustomerProductCard from '../../components/customerProductCard/CustomerProductCard'
-import serverURL from "../../config/configFile"
 import { Link } from "react-router-dom"
 import Pagination from "../../components/pagination/Pagination"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 
 
-const CustomerProductDisplay = () => {
+const CustomerProducts = () => {
     const [productsList, setProductsList] = useState([])
     const {customer} = useAuth()
     const cartUrl = `cart/getList/${customer.id}`
@@ -105,4 +104,4 @@ const CustomerProductDisplay = () => {
     )
 }
 
-export default CustomerProductDisplay
+export default CustomerProducts

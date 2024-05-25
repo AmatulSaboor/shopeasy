@@ -40,10 +40,6 @@ const AddForm = ({handleClose, handleCreate}) => {
    useEffect(() => {
       if (data)
          setCategoriesList(data)
-      // fetch(serverURL + "category/getList")
-      // .then((response) => response.json())
-      // .then(response => {setCategoriesList(response)})
-      // .catch(err => console.log(err));
    }, [data])
 
    if(loading) return <div>Loading...</div>

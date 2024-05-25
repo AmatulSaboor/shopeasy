@@ -2,12 +2,12 @@ import React from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 // import {useHistory} from "react-router-dom";
-import serverURL from '../../../config/configFile';
+import serverURL from '../../config/configFile';
 // import '../register/Register.css';
 // import logo from '../../../assets/img/logo-02.png';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i2.png';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 
     const Register = () => {

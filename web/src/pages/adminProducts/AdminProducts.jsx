@@ -7,7 +7,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../custom hooks/useFetch"
 
-const AadminProductDisplay = () => {
+const AdminProducts = () => {
     const url = `product/getList`
     const {data, error, loading} = useFetch(url)
     const [productsList, setProductsList] = useState([])
@@ -118,4 +118,4 @@ const AadminProductDisplay = () => {
     )
 }
 
-export default AadminProductDisplay
+export default AdminProducts

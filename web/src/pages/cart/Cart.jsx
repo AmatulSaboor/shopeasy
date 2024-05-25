@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
 import { Link } from "react-router-dom"
 import { Pagination } from "react-bootstrap"
@@ -90,21 +90,6 @@ const Cart = () => {
             console.log(error)
           }
     }
-
-    // const getCart = useCallback(() => {
-    //         try{
-    //             console.log(customer.id)
-    //             fetch(serverURL + `cart/getList/${customer.id}`)
-    //             .then(response => response.json())
-    //             .then(data => {
-    //                 setCart(data.cart)
-    //             })
-    //             .catch(e => console.error(e))
-    //         }catch(e){
-    //             console.error(e)
-    //         }
-
-    // }, [customer.id])
     useEffect(() => {
         if(data)
             setCart(data.cart)

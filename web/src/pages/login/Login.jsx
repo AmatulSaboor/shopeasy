@@ -2,13 +2,13 @@ import React from 'react'
 import {useState, useEffect} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 // import {useHistory} from "react-router-dom";
-import serverURL from '../../../config/configFile';
+import serverURL from '../../config/configFile';
 // import '../../../assets/style.css'
 // import '../login/Login.css';
 // import logo from '../../../assets/img/logo-02.png';
 // import '../../../assets/img/background-image.png';
 // import image from '../../../assets/img/i5.png';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
     const [validationError, setValidationError] = useState(null)
