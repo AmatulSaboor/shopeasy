@@ -8,7 +8,8 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Wishlist from './pages/wishlist/Wishlist';
 import Cart from './pages/cart/Cart';
-import Order from './pages/order/Order';
+import CustomerOrder from './pages/customerOrder/CustomerOrder';
+import AdminOrder from './pages/adminOrder/AdminOrder';
 import Checkout from './pages/checkout/Checkout';
 import NotFound from './pages/notfound/NotFound';
 import CustomerProducts from './pages/customerProducts/CustomerProducts';
@@ -37,19 +38,20 @@ function App() {
             <Route element={<AuthenticatedRoutes />}>
               {/* <Route path="/" element={user.role === ADMIN_ROLE ? <AdminProducts /> : user.role === CUSTOMER_ROLE ? <CustomerProducts /> : <Login/>} /> */}
               <Route path="/" element={ ADMIN_ROLE ? <AdminProducts /> :  CUSTOMER_ROLE ? <CustomerProducts /> : <Login/>} />
-              <Route path="/customer" element={<Navigate to="/customer/products" />} />
-              <Route path="/customer/products" element={<CustomerProducts />} />
-              <Route path="/admin" element={<Navigate to="/admin/products" />} />
-              <Route path="/admin/products" element={<AdminProducts />} />
+              {/* <Route path="/customer" element={<Navigate to="/customer/products" />} /> */}
+              <Route path="/customer-products" element={<CustomerProducts />} />
+              {/* <Route path="/admin" element={<Navigate to="/admin/products" />} /> */}
+              <Route path="/admin-products" element={<AdminProducts />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/order" element={<Order />} />
+              <Route path="/customer-orders" element={<CustomerOrder />} />
+              <Route path="/admin-orders" element={<AdminOrder />} />
               <Route path="/success" element={<Success />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
-        <Footer />
+        {/* <Footer /> */}
         </BrowserRouter>
       </AuthProvider>
     </div>

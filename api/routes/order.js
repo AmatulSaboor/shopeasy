@@ -9,9 +9,26 @@ router.get('/getList/:customerID', async (req, res) => {
     try {
         console.log(req.params.customerID)
         const orders =  await Order.find({customerEmail : req.params.customerID })
-        const orderItems = await Promise.all(orders.map(async (order) => {
+        let orderItems = await Promise.all(orders.map(async (order) => {
             return await OrderItem.find({ orderID: order._id });
           }));
+          orderItems = orderItems.flat()
+          console.log(orderItems)
+        res.send(JSON.stringify({orders , orderItems}))
+        // res.send(JSON.stringify({orders : await Order.find({customerEmail : req.params.customerID }).populate('productID')}))
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.get('/getList', async (req, res) => {
+    try {
+        const orders =  await Order.find()
+        const orderItems = await OrderItem.find()
+        // let orderItems = await Promise.all(orders.map(async (order) => {
+        //     return await OrderItem.find({ orderID: order._id });
+        //   }));
+        //   orderItems = orderItems.flat()
           console.log(orderItems)
         res.send(JSON.stringify({orders , orderItems}))
         // res.send(JSON.stringify({orders : await Order.find({customerEmail : req.params.customerID }).populate('productID')}))
@@ -59,7 +76,7 @@ router.post('/add', async (req, res) => {
         await OrderItem.create(orderItemsData)
         
         // delete items from cart
-        await Cart.deleteMany({customerID:req.body.customer._id})
+        await Cart.deleteMany({customerID:req.body.customer.id})
 
         await session.commitTransaction();
         session.endSession();

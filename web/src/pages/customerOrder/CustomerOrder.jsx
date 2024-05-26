@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
-
-const Order = () => {
+import React, { Fragment } from 'react';
+const CustomerOrder = () => {
 
     const {customer} = useAuth()
     const orderUrl = `order/getList/${customer.email}`
@@ -19,7 +19,7 @@ const Order = () => {
         console.log(`data` ,data)
         if(data){
             setOrder(data.orders)
-            setOrderItems(data.orderItems[0])
+            setOrderItems(data.orderItems)
         }
     },[data])
 
@@ -30,28 +30,36 @@ const Order = () => {
         <div>
             <p>My Orders</p>
             {order && console.log(orderItems)}
-            {order && order.map((item, key) => {
-                return(
-                        <table key={key}>
-                            <thead>
-                                <tr>
-                                    <th>Order Number</th>
-                                    <th>Order Date</th>
-                                    <th>Status</th>
-                                    <th>Sub Total</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{item._id}</td>
-                                    <td>{formatDate(item.createdAt)}</td>
-                                    <td>{item.status}</td>
-                                    <td>Rs. {item.subTotal}</td>
-                                    <td>Rs. {item.grandTotal}</td>
-                                </tr>
-                                {/* <a href="/">see item details</a> */}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Sub Total</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {order && order.map((item, key) => {
+                    return(
+                        <React.Fragment key={key}><tr>
+                            <td>{item._id}</td>
+                            <td>{formatDate(item.createdAt)}</td>
+                            <td>{item.status}</td>
+                            <td>Rs. {item.subTotal}</td>
+                            <td>Rs. {item.grandTotal}</td>
+                        </tr>
+                        {/* <button>see more</button> */}
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                        
                                 {orderItems && orderItems.map((i, k) => {
+                                    console.log(k, item._id, i.orderID)
                                     if(item._id === i.orderID)
                                     return(
                                         <tr key={k}>
@@ -63,12 +71,12 @@ const Order = () => {
                                     )
                                     else return null
                                 })}
-                            </tbody>
-                        </table>
-                    )}
+                    </React.Fragment>)}
                 )}
+                </tbody>
+            </table>
         </div>
     )
 }
 
-export default Order
+export default CustomerOrder
