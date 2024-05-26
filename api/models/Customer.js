@@ -39,11 +39,11 @@ const CustomerSchema = new Schema (
             required: [true, 'Confirm password is required'],
         },
         gender: {
-            type: Boolean,
+            type: String,
         },
-        dob: {
-            type: Date,
-        },
+        // dob: {
+        //     type: Date,
+        // },
         houseNumber: {
             type: String,
         },

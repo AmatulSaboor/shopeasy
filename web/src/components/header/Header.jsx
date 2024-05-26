@@ -6,14 +6,16 @@ import serverURL from '../../config/configFile';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaShop } from 'react-icons/fa6';
-import './Header.css'
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import './Header.css';
 import Logout from '../../assets/logout.png'
+import Cart from '../../assets/cart.png'
 import Hamburger from '../../assets/hamburger.png'
+import Home from '../../assets/home.png'
+import Heart from '../../assets/heart.png'
 import Logo from '../../assets/logo.png'
 const Header = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -38,31 +40,59 @@ const Header = () => {
     }})
     .catch( err => console.log(err))}
   return (
-    // return (
-      <>
-        <Navbar>
-          <Container className="d-flex justify-content-start">
-            <Navbar.Brand href="#home" className="d-flex justify-content-start">
-            {isAuthenticated && <Button onClick={handleShow} className="btn-light">
-                <img src={Hamburger} alt="menu" className="menu-icon" />
-            </Button>}
-              <Offcanvas show={show} onHide={handleClose} className="sidebar">
-                <Offcanvas.Header closeButton>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                  {isAuthenticated &&  <Sidebar />}
-                </Offcanvas.Body>
-              </Offcanvas>
-            </Navbar.Brand>
-          <Navbar.Brand href="./cards" className="logo d-flex justify-content-start" >
-              <img src={Logo} alt="shopEasy" />
-            </Navbar.Brand>
-          </Container>
-            <Navbar.Brand href="#" className="me-5" >
-              <img src={Logout} alt="logout" className="logout" />
-            </Navbar.Brand>
-        </Navbar>       
-      </>
+    <>
+    <Navbar>
+      <Container className="d-flex justify-content-start">
+        <Navbar.Brand href="#home" className="d-flex justify-content-start">
+        {isAuthenticated && <Button onClick={handleShow} className="btn-light">
+            <img src={Hamburger} alt="menu" className="menu-icon" />
+        </Button>}
+          <Offcanvas show={show} onHide={handleClose} className="sidebar">
+            <Offcanvas.Header closeButton>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              {isAuthenticated &&  <Sidebar />}
+            </Offcanvas.Body>
+          </Offcanvas>
+        </Navbar.Brand>
+      <Navbar.Brand href="./cards" className="logo d-flex justify-content-start" >
+          <img src={Logo} alt="shopEasy" />
+          <h3 className="m-auto shopeasy-deading">ShopEasy</h3>
+        </Navbar.Brand>
+          {/* <h3 className="m-auto tagline">We Make your Shopping easy :)</h3> */}
+      </Container>
+        <Navbar.Brand href="#" className="me-5" >
+         <Button className="btn-warning me-3"><Link to='/' className="add-to-cart"><img src={Home} className="me-2" alt=''/>Go to Home</Link></Button>
+         <Button className="btn-warning me-3"><Link to='/wishlist' className="add-to-cart"><img src={Heart} className="me-2" alt='' />Go to Whishlist</Link></Button>
+         <Button className="btn-warning me-3"><Link to='/cart' className="add-to-cart"><img src={Cart} className="me-2" alt='' />Go to cart</Link></Button>
+          <img src={Logout} alt="logout" className="logout" onClick={logout}/>
+        </Navbar.Brand>
+    </Navbar>       
+      </>
+      // <>
+      //   <Navbar>
+      //     <Container className="d-flex justify-content-start">
+      //       <Navbar.Brand href="#home" className="d-flex justify-content-start">
+      //       {isAuthenticated && <Button onClick={handleShow} className="btn-light">
+      //           <img src={Hamburger} alt="menu" className="menu-icon" />
+      //       </Button>}
+      //         <Offcanvas show={show} onHide={handleClose} className="sidebar">
+      //           <Offcanvas.Header closeButton>
+      //           </Offcanvas.Header>
+      //           <Offcanvas.Body>
+      //             {isAuthenticated &&  <Sidebar />}
+      //           </Offcanvas.Body>
+      //         </Offcanvas>
+      //       </Navbar.Brand>
+      //     <Navbar.Brand href="./cards" className="logo d-flex justify-content-start" >
+      //         <img src={Logo} alt="shopEasy" />
+      //       </Navbar.Brand>
+      //     </Container>
+      //       <Navbar.Brand href="#" className="me-5" >
+      //         <img src={Logout} alt="logout" className="logout" />
+      //       </Navbar.Brand>
+      //   </Navbar>       
+      // </>
     )
   
     // <header style={styles.header}>

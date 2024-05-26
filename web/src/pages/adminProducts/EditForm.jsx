@@ -39,7 +39,7 @@ const EditForm = ({item, handleEdit, handleClose}) => {
 
    useEffect(() => {
      if(data)
-      setCategoriesList(data)
+      setCategoriesList(data.categories)
    }, [data])
 
    if(loading) return <div>Loading....</div>
@@ -96,7 +96,8 @@ const EditForm = ({item, handleEdit, handleClose}) => {
             value={category}
             onChange={e => setCategory(e.target.value)}
          >
-         {categoriesList.map((category, key) => (<option key={key} value={category._id}>{category.name}</option>))}
+         {console.log(`hi `, categoriesList)}
+         {categoriesList && categoriesList.map((category, key) => (<option key={key} value={category._id}>{category.name}</option>))}
          </select>
          </div>
       </Form.Group>

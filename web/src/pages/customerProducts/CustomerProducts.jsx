@@ -69,7 +69,7 @@ const CustomerProducts = () => {
         if(cartData)
             setCart(cartData.cart)
         if(wishlistData)
-            setWishList(wishlistData.wishList)  
+            setWishList(wishlistData.wishlist)  
         if(productData)
             setProductsList(productData.productsList)
     }, [cartData, wishlistData, productData])

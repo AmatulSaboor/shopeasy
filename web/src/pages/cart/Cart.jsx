@@ -4,6 +4,12 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
+import Table from 'react-bootstrap/Table';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import './Cart.css'
+
 const Cart = () => {
     
     const { customer } = useAuth()
@@ -101,51 +107,116 @@ const Cart = () => {
     if (error) return <div>Error: {error.message}</div>;
 
     return(
-        <>
-            <div>
-                <label htmlFor="search" >search :</label>
-                <input type="text" id="search" onChange={handleSearch} />
+      <>
+          <div className="d-flex justify-content-center">
+                {/* <label htmlFor="search" >search :</label>
+                <input type="text" id="search" onChange={handleSearch} /> */}
+                 <Form className="d-flex justify-content-center col-md-3">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                    onChange={handleSearch}
+                  />
+                  <Button variant="outline-success" className="bg-warning">Search</Button>
+                </Form>
             </div>
             {currentCart.length === 0 ? (<div>no data available </div>) : (
             <>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Unit Price</th>
-                        <th>In stock</th>
-                        <th>Available</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>delete</th>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Unit Price</th>
+                  <th>In stock</th>
+                  <th>Available</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th>delete</th>
+                </tr>
+              </thead>
+              <tbody>
+              {currentCart && currentCart.map((item,key)=> {
+                  return (
+                  <>  
+                    <tr key={key}>
+                      <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
+                      <td>{item.productID.name}</td>
+                      <td>{item.productID.price}</td>
+                      <td>{item.productID.quantity - item.productID.sold}</td>
+                      <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
+                      <td>
+                      <InputGroup className="mb-3 col-md-3">
+                        <InputGroup.Text onClick={() => decreaseQuantity(item)}>-</InputGroup.Text>
+                        <Form.Control value={item.quantity}/>
+                        <InputGroup.Text onClick={() => increaseQuantity(item)}>+</InputGroup.Text>
+                      </InputGroup>
+                      </td>
+                      <td>{item.productID.price * item.quantity}</td>
+                      <td><Button onClick={() => handleRemoveProductFromCart(item)} className="bg-danger">delete</Button></td>
                     </tr>
-                </thead>
-                <tbody>
-                    {currentCart && currentCart.map((item, key) => {
-                        return(
-                              <tr key={key}>
-                                <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
-                                <td>{item.productID.name}</td>
-                                <td>{item.productID.price}</td>
-                                <td>{item.productID.quantity - item.productID.sold}</td>
-                                <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
-                                <td>
-                                    <div className="row text-center">
-                                        <div className="col-md-4 fs-small border"><button onClick={() => decreaseQuantity(item)}>-</button></div>
-                                        <div className="col-md-4">{item.quantity}</div>
-                                        <div className="col-md-4 border"><button onClick={() => increaseQuantity(item)}>+</button></div>
-                                    </div>
-                                </td>
-                                <td>{item.productID.price * item.quantity}</td>
-                                <td><button onClick={() => handleRemoveProductFromCart(item)}>delete</button></td>
-                              </tr>)
-                        })}
-                </tbody>
-            </table>
-            <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/></>)}
-            <Link to='/checkout'>Checkout</Link>
-        </>
+                  </>
+                  )
+              })}
+               
+              </tbody>
+              </Table>
+              <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
+              </>)}
+              <Button className="btn-dark mt-4">
+                <Link to='/checkout' className="checkout">Checkout</Link>
+             </Button>
+      </>
     )
+    // return(
+    //     <>
+    //         <div>
+    //             <label htmlFor="search" >search :</label>
+    //             <input type="text" id="search" onChange={handleSearch} />
+    //         </div>
+    //         {currentCart.length === 0 ? (<div>no data available </div>) : (
+    //         <>
+    //         <table>
+    //             <thead>
+    //                 <tr>
+    //                     <th></th>
+    //                     <th>Name</th>
+    //                     <th>Unit Price</th>
+    //                     <th>In stock</th>
+    //                     <th>Available</th>
+    //                     <th>Quantity</th>
+    //                     <th>Total Price</th>
+    //                     <th></th>
+    //                 </tr>
+    //             </thead>
+    //             <tbody>
+    //                 {currentCart && currentCart.map((item, key) => {
+    //                     return(
+    //                           <tr key={key}>
+    //                             <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
+    //                             <td>{item.productID.name}</td>
+    //                             <td>Rs. {item.productID.price}</td>
+    //                             <td>{item.productID.quantity - item.productID.sold}</td>
+    //                             <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
+    //                             <td>
+    //                                 <div className="row text-center">
+    //                                     <div className="col-md-4 fs-small border"><button onClick={() => decreaseQuantity(item)}>-</button></div>
+    //                                     <div className="col-md-4">{item.quantity}</div>
+    //                                     <div className="col-md-4 border"><button onClick={() => increaseQuantity(item)}>+</button></div>
+    //                                 </div>
+    //                             </td>
+    //                             <td>Rs. {item.productID.price * item.quantity}</td>
+    //                             <td><button onClick={() => handleRemoveProductFromCart(item)}>delete</button></td>
+    //                           </tr>)
+    //                     })}
+    //             </tbody>
+    //         </table>
+    //         <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/></>)}
+    //         <Link to='/checkout'>Checkout</Link>
+    //     </>
+    // )
 }
 
 export default Cart

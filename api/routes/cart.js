@@ -13,9 +13,13 @@ router.get('/getList/:customerID', async (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-    let createdCart = await Cart.create(req.body)
-    createdCart = await createdCart.populate('productID')
-    res.send({ createdCart })
+    try {
+        let createdCart = await Cart.create(req.body)
+        createdCart = await createdCart.populate('productID')
+        res.send({ createdCart })
+    } catch (error) {
+        res.status(500).send({'error message' : error.message})
+    }
 })
 
 router.put('/changeItemQty', async (req, res) => {
@@ -32,6 +36,7 @@ router.put('/changeItemQty', async (req, res) => {
             res.status(200).send({message : result})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 }) 
 
@@ -43,6 +48,7 @@ router.delete('/removeAll/:customerID', async (req, res) => {
         res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 
@@ -54,6 +60,7 @@ router.delete('/removeOne/:productID/:customerID', async (req, res) => {
             res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 

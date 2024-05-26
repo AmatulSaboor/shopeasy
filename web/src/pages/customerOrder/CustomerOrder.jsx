@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import React, { Fragment } from 'react';
+import dateFormater from "../../utilityFunctions/dateFormater";
 const CustomerOrder = () => {
 
     const {customer} = useAuth()
@@ -9,11 +10,6 @@ const CustomerOrder = () => {
     const { data, error, loading} = useFetch(orderUrl)
     const [order, setOrder] = useState([])
     const [orderItems, setOrderItems] = useState([])
-
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-      };
 
     useEffect(() => {
         console.log(`data` ,data)
@@ -43,9 +39,9 @@ const CustomerOrder = () => {
                 <tbody>
                 {order && order.map((item, key) => {
                     return(
-                        <React.Fragment key={key}><tr>
+                        <Fragment key={key}><tr>
                             <td>{item._id}</td>
-                            <td>{formatDate(item.createdAt)}</td>
+                            <td>{dateFormater(item.createdAt)}</td>
                             <td>{item.status}</td>
                             <td>Rs. {item.subTotal}</td>
                             <td>Rs. {item.grandTotal}</td>
@@ -71,7 +67,7 @@ const CustomerOrder = () => {
                                     )
                                     else return null
                                 })}
-                    </React.Fragment>)}
+                    </Fragment>)}
                 )}
                 </tbody>
             </table>

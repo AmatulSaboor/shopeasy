@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button'
 
 const Pagination = ({productsPerPage, totalProducts, paginate}) => {
     const pageNumbers = []; 
@@ -6,15 +7,22 @@ const Pagination = ({productsPerPage, totalProducts, paginate}) => {
         pageNumbers.push(i);
     }
     return (
-        <nav> 
-            <ul className='Navigation'>
+        <div className='Navigation d-flex justify-content-center'>
                 {pageNumbers.map(number => (
-                    <li className='number' key = {number}>
-                        <button className='number-listing' onClick = {() => paginate(number)} >{number}</button>
-                    </li>
+                    <div className='number' key = {number}>
+                        <Button className='number-listing me-3 btn-warning' onClick = {() => paginate(number)} >{number}</Button>
+                    </div>
                 ))}
-            </ul>
-        </nav>
+            </div>
+        // <nav> 
+        //     <ul className='Navigation'>
+        //         {pageNumbers.map(number => (
+        //             <li className='number' key = {number}>
+        //                 <button className='number-listing' onClick = {() => paginate(number)} >{number}</button>
+        //             </li>
+        //         ))}
+        //     </ul>
+        // </nav>
     )
 }
 

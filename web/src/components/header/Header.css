@@ -40,3 +40,33 @@
     display: none;
     visibility: hidden;
 } */
+
+
+
+.menu-icon {
+    display: flex;
+    justify-content: flex-start;
+    height: 20px !important;
+    width: 20px;
+}
+
+.add-to-cart {
+    color: black !important;
+    text-decoration: none;
+}
+
+.navbar-expand , .btn-light{
+    background-color: #ecebeb !important;
+}
+
+.btn-light {
+    border: 1px solid #ecebeb !important;
+}
+
+.shopeasy-deading {
+    font-family: monospace !important;
+}
+
+.tagline {
+    font-family: revert-layer;
+}

@@ -65,7 +65,7 @@ const AdminProducts = () => {
     }
 
     useEffect(() => {
-    if (customer.role !== `664ada4ddde187ee1c525220`) (navigate('/customer/products'))
+    if (customer.role !== `664ada4ddde187ee1c525220`) (navigate('/customer-products'))
 
         // getProducts()
         if(data)
@@ -86,8 +86,8 @@ const AdminProducts = () => {
             <div className="row">
                 {currentProducts && currentProducts.map((item , key) => {
                     return (
-                        <div className="col-md-3">
-                            <Card key={key} style={{ width: '18rem', margin: '10px' }}>
+                        <div key={key} className="col-md-3">
+                            <Card  style={{ width: '18rem', margin: '10px' }}>
                                 <Card.Body >
                                     <Card.Title>{item.category?.name}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>

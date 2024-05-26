@@ -3,14 +3,22 @@ import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer style={styles.footer}>
-      <div style={styles.social}>
-        <a href="https://www.facebook.com" style={styles.icon}><FaFacebookF /></a>
-        <a href="https://www.twitter.com" style={styles.icon}><FaTwitter /></a>
-        <a href="https://www.instagram.com" style={styles.icon}><FaInstagram /></a>
+    <footer className="footer mt-5 py-4">
+      <div>
+        <a href="https://www.facebook.com" className="s-icon"><FaFacebookF /></a>
+        <a href="https://www.twitter.com" className="s-icon ms-3"><FaTwitter /></a>
+        <a href="https://www.instagram.com" className="s-icon ms-3"><FaInstagram /></a>
       </div>
-      <p style={styles.copyright}>&copy; 2024 Your Website</p>
-    </footer>
+      <p>&copy; 2024 Your Website</p>
+    </footer>
+    // <footer style={styles.footer}>
+    //   <div style={styles.social}>
+    //     <a href="https://www.facebook.com" style={styles.icon}><FaFacebookF /></a>
+    //     <a href="https://www.twitter.com" style={styles.icon}><FaTwitter /></a>
+    //     <a href="https://www.instagram.com" style={styles.icon}><FaInstagram /></a>
+    //   </div>
+    //   <p style={styles.copyright}>&copy; 2024 Your Website</p>
+    // </footer>
   );
 };
 

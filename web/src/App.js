@@ -18,6 +18,8 @@ import Success from './pages/success/Success';
 import { AuthProvider } from './context/AuthContext';
 import AuthenticatedRoutes from './routes/AuthenticatedRoute';
 import { useAuth } from './context/AuthContext';
+import Category from './pages/category/Category';
+import Profile from './pages/profile/Profile';
 function App() {
 
   const [error] = useState(null)
@@ -47,11 +49,14 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/customer-orders" element={<CustomerOrder />} />
               <Route path="/admin-orders" element={<AdminOrder />} />
+              <Route path="/admin-orders" element={<AdminOrder />} />
               <Route path="/success" element={<Success />} />
+              <Route path="/category" element={<Category />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
-        {/* <Footer /> */}
+        <Footer />
         </BrowserRouter>
       </AuthProvider>
     </div>

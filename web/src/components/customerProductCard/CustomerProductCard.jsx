@@ -5,16 +5,6 @@ import './CustomerProductCard.css'
 import { useState } from 'react'
 
 const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
-  const [quantity, setQuantity] = useState(1)
-  const increaseQuantity = () => {
-    if (quantity < product.quantity- product.sold)
-      setQuantity(prevCount => prevCount + 1)
-  }
-  const decreaseQuantity = () => {
-    if (quantity > 0)
-      setQuantity(prevCount => prevCount - 1)
-  }
-  
   const handleAddToWishList = () => {
     console.log(product._id, ' : ', customerID)
     try {

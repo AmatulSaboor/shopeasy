@@ -1,4 +1,8 @@
-.footer {
+/* .footer {
     background-color: rgb(228, 217, 118);
     height: 100px;
+} */
+.footer {
+    background-color: #ecebeb !important;
+    height: 150px !important;
 }

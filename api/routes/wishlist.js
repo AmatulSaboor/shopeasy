@@ -5,7 +5,7 @@ const WishList = require('../models/WishList')
 router.get('/getList/:customerID', async (req, res) => {
     try {
         console.log(req.params.customerID)
-        res.send(JSON.stringify({wishList : await WishList.find({customerID : req.params.customerID }).populate('productID')}))
+        res.send(JSON.stringify({wishlist : await WishList.find({customerID : req.params.customerID }).populate('productID')}))
     } catch (error) {
         console.log(error)
         res.status(500).send({'error message' : error.message})
@@ -19,6 +19,7 @@ router.post('/add', async (req, res) => {
         res.status(200).send({wishlistEntry})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
     // try {
     //     console.log(req.body)
@@ -49,6 +50,7 @@ router.delete('/removeAll/:customerID', async (req, res) => {
         res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 
@@ -59,6 +61,7 @@ router.delete('/removeOne/:productID/:customerID', async (req, res) => {
             res.status(200).send({message : 'deleted'})
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 

@@ -1,8 +1,7 @@
 import serverURL from "../../config/configFile";
 import { Form, Button } from "react-bootstrap";
 import {useEffect, useState} from 'react';
-import useFetch
- from "../../custom hooks/useFetch";
+import useFetch from "../../custom hooks/useFetch";
 const AddForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
    const [price, setPrice] = useState('');
