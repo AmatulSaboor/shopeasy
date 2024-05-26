@@ -9,7 +9,7 @@ const Profile = () => {
     const [name] = useState(customer.name);
    const [email] = useState(customer.email);
    const [phone, setPhone] = useState('');
-   const [gender, setGender] = useState();
+   const [gender, setGender] = useState('');
    const [houseNumber, setHouseNumber] = useState('');
    const [street, setStreet] = useState('');
    const [city, setCity] = useState('');
@@ -20,12 +20,28 @@ const Profile = () => {
    const {data, error, loading} = useFetch(url)
    // fetching data on submit
    const handleSubmit = (e) => {
+         e.preventDefault();
       // console.log('inside form submit', price, image, category)
       const formData = new FormData();
-      const fields = { phone, gender, image, houseNumber, street, city, country, postalCode };
-      Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
-      e.preventDefault();
-      console.log(formData)
+    // //   const fields = { phone, gender, image, houseNumber, street, city, country, postalCode };
+    // //   Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
+    //   console.log(`iam form data `, formData)
+    formData.append('phone', phone);
+    formData.append('gender', gender);
+    if (image) {
+        formData.append('image', image);
+    }
+    formData.append('houseNumber', houseNumber);
+    formData.append('street', street);
+    formData.append('city', city);
+    formData.append('country', country);
+    formData.append('postalCode', postalCode);
+
+    // Log FormData contents for debugging
+    console.log('FormData contents:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+    }
       fetch(serverURL + `customer/update/${customer.id}`,
       {
          mode: 'cors',
@@ -42,14 +58,14 @@ const Profile = () => {
 
    useEffect(() => {
       if (data){
-        setGender(data.customer.gender)
-        setPhone(data.customer.phone)
-        setImage(data.customer.image)
-        setHouseNumber(data.customer.houseNumber)
-        setStreet(data.customer.street)
-        setCity(data.customer.city)
-        setCountry(data.customer.country)
-        setPostalCode(data.customer.postalCode)
+        setGender(data.customer.gender || ``)
+        setPhone(data.customer.phone || ``)
+        setImage(data.customer.image || ``)
+        setHouseNumber(data.customer.houseNumber || ``)
+        setStreet(data.customer.street || ``)
+        setCity(data.customer.city || ``)
+        setCountry(data.customer.country || ``)
+        setPostalCode(data.customer.postalCode || ``)
       }
    }, [data])
 
