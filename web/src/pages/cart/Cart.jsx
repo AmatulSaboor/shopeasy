@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
 import { Link } from "react-router-dom"
-import { Pagination } from "react-bootstrap"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
-
+import Pagination from "../../components/pagination/Pagination"
 const Cart = () => {
     
     const { customer } = useAuth()
@@ -18,10 +17,11 @@ const Cart = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
+        setCurrentPage(1)
     }
-    // const currentCart = cart
-    //     .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-    //     .slice(indexOfFirstProduct,indexOfLastProduct);
+    const currentCart = cart
+        .filter(item => item.productID.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(indexOfFirstProduct,indexOfLastProduct);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const increaseQuantity = async (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
@@ -106,6 +106,8 @@ const Cart = () => {
                 <label htmlFor="search" >search :</label>
                 <input type="text" id="search" onChange={handleSearch} />
             </div>
+            {currentCart.length === 0 ? (<div>no data available </div>) : (
+            <>
             <table>
                 <thead>
                     <tr>
@@ -119,7 +121,7 @@ const Cart = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cart && cart.map((item, key) => {
+                    {currentCart && currentCart.map((item, key) => {
                         return(
                               <tr key={key}>
                                 <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
@@ -140,7 +142,7 @@ const Cart = () => {
                         })}
                 </tbody>
             </table>
-            {/* <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/> */}
+            <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/></>)}
             <Link to='/checkout'>Checkout</Link>
         </>
     )

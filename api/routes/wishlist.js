@@ -8,6 +8,7 @@ router.get('/getList/:customerID', async (req, res) => {
         res.send(JSON.stringify({wishList : await WishList.find({customerID : req.params.customerID }).populate('productID')}))
     } catch (error) {
         console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 
