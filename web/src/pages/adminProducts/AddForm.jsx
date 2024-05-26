@@ -38,7 +38,7 @@ const AddForm = ({handleClose, handleCreate}) => {
 
    useEffect(() => {
       if (data)
-         setCategoriesList(data)
+         setCategoriesList(data.categories)
    }, [data])
 
    if(loading) return <div>Loading...</div>

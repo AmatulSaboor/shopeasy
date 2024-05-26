@@ -8,7 +8,7 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
-import './Cart.css'
+import './Cart.css'
 
 const Cart = () => {
     
@@ -75,7 +75,6 @@ const Cart = () => {
     const handleRemoveProductFromCart = (item) => {
         try {
             console.log(item)
-            // fetch(serverURL + `cart/remove/${item._id}/${customer.id}`,
             fetch(serverURL + `cart/removeOne/${item.productID._id}/${customer.id}`,
             {
               mode: 'cors',
@@ -83,7 +82,6 @@ const Cart = () => {
               headers: {
                 'Content-Type': 'application/json' 
               },
-              // body: JSON.stringify({productID: product._id, customerID : customer.id}),
               credentials: 'include'
             })
             .then(res => res.json())
@@ -99,7 +97,6 @@ const Cart = () => {
     useEffect(() => {
         if(data)
             setCart(data.cart)
-        // getCart()
     }, [data])
 
 
@@ -109,8 +106,6 @@ const Cart = () => {
     return(
       <>
           <div className="d-flex justify-content-center">
-                {/* <label htmlFor="search" >search :</label>
-                <input type="text" id="search" onChange={handleSearch} /> */}
                  <Form className="d-flex justify-content-center col-md-3">
                   <Form.Control
                     type="search"
@@ -140,7 +135,6 @@ const Cart = () => {
               <tbody>
               {currentCart && currentCart.map((item,key)=> {
                   return (
-                  <>  
                     <tr key={key}>
                       <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
                       <td>{item.productID.name}</td>
@@ -150,19 +144,19 @@ const Cart = () => {
                       <td>
                       <InputGroup className="mb-3 col-md-3">
                         <InputGroup.Text onClick={() => decreaseQuantity(item)}>-</InputGroup.Text>
-                        <Form.Control value={item.quantity}/>
+                        <Form.Control value={item.quantity} onChange={() => {}}/>
                         <InputGroup.Text onClick={() => increaseQuantity(item)}>+</InputGroup.Text>
                       </InputGroup>
                       </td>
                       <td>{item.productID.price * item.quantity}</td>
                       <td><Button onClick={() => handleRemoveProductFromCart(item)} className="bg-danger">delete</Button></td>
                     </tr>
-                  </>
                   )
               })}
                
               </tbody>
               </Table>
+              <p>Note : Products marked as <b>NOT AVAILABLE</b> may or may not be delivered depending on the availibility at the time of delivery</p>
               <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
               </>)}
               <Button className="btn-dark mt-4">
@@ -170,53 +164,6 @@ const Cart = () => {
              </Button>
       </>
     )
-    // return(
-    //     <>
-    //         <div>
-    //             <label htmlFor="search" >search :</label>
-    //             <input type="text" id="search" onChange={handleSearch} />
-    //         </div>
-    //         {currentCart.length === 0 ? (<div>no data available </div>) : (
-    //         <>
-    //         <table>
-    //             <thead>
-    //                 <tr>
-    //                     <th></th>
-    //                     <th>Name</th>
-    //                     <th>Unit Price</th>
-    //                     <th>In stock</th>
-    //                     <th>Available</th>
-    //                     <th>Quantity</th>
-    //                     <th>Total Price</th>
-    //                     <th></th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {currentCart && currentCart.map((item, key) => {
-    //                     return(
-    //                           <tr key={key}>
-    //                             <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
-    //                             <td>{item.productID.name}</td>
-    //                             <td>Rs. {item.productID.price}</td>
-    //                             <td>{item.productID.quantity - item.productID.sold}</td>
-    //                             <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
-    //                             <td>
-    //                                 <div className="row text-center">
-    //                                     <div className="col-md-4 fs-small border"><button onClick={() => decreaseQuantity(item)}>-</button></div>
-    //                                     <div className="col-md-4">{item.quantity}</div>
-    //                                     <div className="col-md-4 border"><button onClick={() => increaseQuantity(item)}>+</button></div>
-    //                                 </div>
-    //                             </td>
-    //                             <td>Rs. {item.productID.price * item.quantity}</td>
-    //                             <td><button onClick={() => handleRemoveProductFromCart(item)}>delete</button></td>
-    //                           </tr>)
-    //                     })}
-    //             </tbody>
-    //         </table>
-    //         <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/></>)}
-    //         <Link to='/checkout'>Checkout</Link>
-    //     </>
-    // )
 }
 
 export default Cart

@@ -14,9 +14,16 @@ router.get('/getList/:customerID', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     try {
+        const productIsInCart  = await Cart.find(req.body)
+        console.log(productIsInCart)
+        if(!productIsInCart){
         let createdCart = await Cart.create(req.body)
         createdCart = await createdCart.populate('productID')
-        res.send({ createdCart })
+        await WishLis
+        res.send({ createdCart })}
+        else{
+        res.send({message: 'alreayd in cart'})
+        }
     } catch (error) {
         res.status(500).send({'error message' : error.message})
     }

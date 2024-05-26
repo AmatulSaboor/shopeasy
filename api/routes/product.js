@@ -28,8 +28,11 @@ router.get('/getList', async (req, res) => {
 
 // ==================== create product (only by admin) ==================== 
 router.post('/add', upload.single('image') ,async (req, res) => {
+    // console.log(`role object`, req.session.customer.role)
+    // console.log(`role name`, req.session.customer.populate('role').name)
     try {
-        if(req.session.customer && req.session.customer.role.name === 'admin'){
+        if(req.session.customer){
+        // if(req.session.customer && req.session.customer.role === '664ada4ddde187ee1c525220'){
             if(req.file) req.body.image = req.file.filename
             const createdProduct = await Product.create(req.body)
             console.log(createdProduct)
@@ -38,7 +41,7 @@ router.post('/add', upload.single('image') ,async (req, res) => {
             res.status(201).send({createdProduct})
         }
         else {
-            res.status(403).send({error : 'unauthorized request'})  // server refuses unauthorized request
+            res.status(403).send({error : 'unauthorized request'})  // 403 : server refuses unauthorized request
         }
     } catch(error){
         console.log(error)

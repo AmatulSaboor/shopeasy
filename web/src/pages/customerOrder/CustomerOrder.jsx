@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import React, { Fragment } from 'react';
-import dateFormater from "../../utilityFunctions/dateFormater";
+import dateFormater from "../../utils/dateFormater";
 const CustomerOrder = () => {
 
     const {customer} = useAuth()

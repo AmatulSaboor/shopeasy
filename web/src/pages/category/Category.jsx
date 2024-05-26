@@ -3,11 +3,15 @@ import serverURL from "../../config/configFile"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
-import dateFormater from "../../utilityFunctions/dateFormater"
+import dateFormater from "../../utils/dateFormater"
 import AddCategoryModal from "./AddCategoryModal"
+import ADMIN_ROLE from "../../utils/constants"
+import { useNavigate } from "react-router-dom"
+
 const Category = () => {
 
     const { customer } = useAuth()
+    const navigate = useNavigate()
     const url = `category/getList`;
     const { data, error, loading} = useFetch(url)
     const [categories, setCategories] = useState([])
@@ -25,36 +29,14 @@ const Category = () => {
         .slice(indexOfFirstProduct,indexOfLastProduct);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // const handleAddToCart = (item) => {
-    //     try {
-    //         console.log(item)
-    //         fetch(serverURL + `cart/add`,
-    //         {
-    //           mode: 'cors',
-    //           method: 'POST',
-    //           headers: {
-    //             'Content-Type': 'application/json' 
-    //           },
-    //           body:JSON.stringify({productID: item.productID._id, customerID : customer.id}),
-    //           credentials: 'include'
-    //         })
-    //         .then(res => res.json())
-    //         .then(res => {
-    //           console.log(res)
-    //           setWishlist(wishlist.filter(i => i.productID._id !== item.productID._id))
-    //         })
-    //         .catch(e => console.log(e))
-    //       } catch (error) {
-    //         console.log(error)
-    //       }
-    // }
-
     const handleCreate = (category) => {
         const copyCategories = [...categories];
         copyCategories.push(category);
         setCategories(copyCategories)
     }
     useEffect(() => {
+        if (customer.role !== ADMIN_ROLE) (navigate('/'))
+
         if(data)
             setCategories(data.categories)
     }, [data])

@@ -131,6 +131,7 @@ const Checkout = () => {
                         )
                     })}
                 </ul>
+                <p>Note : Products marked as <b>NOT AVAILABLE</b> may or may not be delivered depending on the availibility at the time of delivery</p>
             </div>
             <div className="section payment-method">
                 <h2>Payment Method</h2>

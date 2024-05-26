@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
-import dateFormater from "../../utilityFunctions/dateFormater"
+import dateFormater from "../../utils/dateFormater"
 
 const Wishlist = () => {
     
@@ -71,6 +71,7 @@ const Wishlist = () => {
           } catch (error) {
             console.log(error)
           }
+          handleRemoveProductFromWishlist(item)
     }
     useEffect(() => {
         if(data)

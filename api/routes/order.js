@@ -3,7 +3,8 @@ const router = express.Router();
 const Cart = require('../models/Cart')
 const Order = require('../models/Order')
 const OrderItem = require('../models/OrderItem')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Product = require('../models/Product');
 
 router.get('/getList/:customerID', async (req, res) => {
     try {
@@ -72,6 +73,12 @@ router.post('/add', async (req, res) => {
                 quantity: item1.quantity
             };
         });
+
+        await Promise.all(req.body.cart.map( async (item) => {
+            await Product.findByIdAndUpdate(item.productID._id, 
+                { $inc: { sold: item.quantity} },
+            {new:true})
+        }))
 
         await OrderItem.create(orderItemsData)
         

@@ -7,7 +7,7 @@ import Pagination from '../../components/pagination/Pagination';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../custom hooks/useFetch"
 import { useAuth } from "../../context/AuthContext"
-
+import ADMIN_ROLE from "../../utils/constants"
 const AdminProducts = () => {
     const { customer } = useAuth()
     const url = `product/getList`
@@ -65,7 +65,7 @@ const AdminProducts = () => {
     }
 
     useEffect(() => {
-    if (customer.role !== `664ada4ddde187ee1c525220`) (navigate('/customer-products'))
+    if (customer.role !== ADMIN_ROLE) (navigate('/'))
 
         // getProducts()
         if(data)

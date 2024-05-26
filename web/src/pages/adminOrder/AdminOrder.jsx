@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react"
 import useFetch from "../../custom hooks/useFetch"
-import React, {Fragment} from 'react';
-import dateFormater from "../../utilityFunctions/dateFormater";
+import React, {Fragment} from 'react'
+import dateFormater from "../../utils/dateFormater"
+import ADMIN_ROLE from "../../utils/constants"
+import { useAuth } from "../../context/AuthContext"
+import { useNavigate } from "react-router-dom"
 const AdminOrder = () => {
 
+    const {customer} = useAuth()
+    const navigate = useNavigate()
     const orderUrl = `order/getList/`
     const { data, error, loading} = useFetch(orderUrl)
     const [order, setOrder] = useState([])
     const [orderItems, setOrderItems] = useState([])
 
     useEffect(() => {
+        if (customer.role !== ADMIN_ROLE) (navigate('/'))
+
         console.log(`data` ,data)
         if(data){
             setOrder(data.orders)
