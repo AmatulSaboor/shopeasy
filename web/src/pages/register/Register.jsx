@@ -66,6 +66,8 @@ import { useAuth } from '../../context/AuthContext'
                     })
                     .catch(err => console.log(err));}
                 }}>
+      {validationError && <div className='validationError m-4 mandatory'>{validationError}</div>}  
+
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                         {/* <Form.Label>Name</Form.Label> */}
                         <Form.Control type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>

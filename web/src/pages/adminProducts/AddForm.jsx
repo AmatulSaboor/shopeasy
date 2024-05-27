@@ -13,6 +13,13 @@ const AddForm = ({handleClose, handleCreate}) => {
    const [image, setImage] = useState('');
    const url = `category/getList`
    const {data, error, loading} = useFetch(url)
+   function validateField(value, fieldName) {
+      if (!value || value.trim() === '') {
+          alert(fieldName + ' is required');
+          return false;
+      }
+      return true;
+  }
    // fetching data on submit
    const handleSubmit = (e) => {
       // console.log('inside form submit', price, image, category)
@@ -21,6 +28,11 @@ const AddForm = ({handleClose, handleCreate}) => {
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
 
       e.preventDefault();
+      if (!validateField(name, 'Name')) return;
+      if (!validateField(price, 'Price')) return;
+      if (!validateField(quantity, 'Quantity')) return;
+      if (!validateField(category, 'Category')) return;
+
       fetch(serverURL + "product/add",
       {
          mode: 'cors',

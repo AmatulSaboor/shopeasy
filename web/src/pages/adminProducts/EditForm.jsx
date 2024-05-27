@@ -11,16 +11,29 @@ const EditForm = ({item, handleEdit, handleClose}) => {
       const [quantity, setQunatity] = useState(item.quantity);
       const [description, setDescription] = useState(item.description);
       const [isAvailable, setIsAvailable] = useState(item.isAvailable);
-      const [category, setCategory] = useState(item.category._id);
+      const [category, setCategory] = useState(item.category_id);
       const [image, setImage] = useState('')
+      const [validationError, setValidationError] = useState(null)
       const [categoriesList, setCategoriesList] = useState([]);
       const url = `category/getList`
       const {data, error, loading} = useFetch(url)
+      function validateField(value, fieldName) {
+         if (!value || value === '') {
+            console.log(value)
+             alert(fieldName + ' is required');
+             return false;
+         }
+         return true;
+     }
       const formData = new FormData();
-      const fields = { _id : item._id ,name, price, image, category, quantity, isAvailable, description };
+      const fields = { _id : item._id ,name, price, image, category, isAvailable, description };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
       const handleSubmit =  (e) => {
          e.preventDefault();
+         if (!validateField(name, 'Name')) return;
+         if (!validateField(price, 'Price')) return;
+         if (!validateField(quantity, 'Quantity')) return;
+         if (!validateField(category, 'Category')) return;
          console.log('in handle edit submit')
          fetch(serverURL + "product/update",
          {
@@ -47,7 +60,7 @@ const EditForm = ({item, handleEdit, handleClose}) => {
    if(error) return <div>{error}</div>
    return (
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
-         {/* {validationError && <div className='validationError m-4'>{validationError}</div>} */}  
+         {validationError && <div className='validationError m-4'>{validationError}</div>}  
          <Form.Group>
             <div>
                <label className="form-label">Name: <span className="mandatory"> *</span></label>
@@ -70,6 +83,7 @@ const EditForm = ({item, handleEdit, handleClose}) => {
                   placeholder="price"
                   name="price"
                   value={price}
+                  min="0"
                   onChange = { (e) => setPrice(e.target.value)}
                   />
             </div>
@@ -83,7 +97,8 @@ const EditForm = ({item, handleEdit, handleClose}) => {
                placeholder="quantity"
                name="quantity"
                value={quantity}
-               onChange = { (e) => setQunatity(e.target.value)}
+               readOnly
+               // onChange = { (e) => setQunatity(e.target.value)}
                min="0"
             />
          </div>

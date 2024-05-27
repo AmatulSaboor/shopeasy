@@ -86,7 +86,8 @@ const Checkout = () => {
             const grandTotal = subTotal + tax + shippingCharges
 
         setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
-        const emailtext = `Dear ${customer.name}, \nyour order has been placed. Details are given below: \nSub total: ${subTotal}`
+        const emailtext = `Dear ${customer.name}, \nyour order has been placed. Details are given below: 
+        \nSub total: ${subTotal} \n Tax : ${tax} \n Shipping Charges : ${shippingCharges} \n Grand Total : ${grandTotal}`
         setEmailBody(emailtext);
         }
     }, [cart, paymentMethod, customer.name]);

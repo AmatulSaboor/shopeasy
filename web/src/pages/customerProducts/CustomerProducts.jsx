@@ -19,7 +19,7 @@ const CustomerProducts = () => {
     const [wishList, setWishList] = useState([])
     const [cart, setCart] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 8;
+    const productsPerPage = 4;
     const [searchQuery, setSearchQuery] = useState('')
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

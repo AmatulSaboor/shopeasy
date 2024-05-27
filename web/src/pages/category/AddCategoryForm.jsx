@@ -5,22 +5,12 @@ import {useEffect, useState} from 'react';
 //  from "../../custom hooks/useFetch";
 const AddCategoryForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
-   // const [price, setPrice] = useState('');
-   // const [quantity, setQunatity] = useState('');
-   // const [description, setDescription] = useState('');
-   // const [isAvailable, setIsAvailable] = useState(true);
-   // const [category, setCategory] = useState('');
-   // const [categoriesList, setCategoriesList] = useState([]);
-   // const [image, setImage] = useState('');
-   // const url = `category/getList`
-   // const {data, error, loading} = useFetch(url)
-   // fetching data on submit
+  
    const handleSubmit = (e) => {
-      // console.log('inside form submit', price, image, category)
-      // const formData = new FormData();
-      // const fields = { name };
-      // Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
 
+      if (!name || name == null || name === ''){
+         alert('name is required')
+         return}
       e.preventDefault();
       fetch(serverURL + "category/add",
       {

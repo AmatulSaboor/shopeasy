@@ -52,7 +52,7 @@ const Login = () => {
                             })
                         .catch(err => console.log(err));
                 }}>
-                {validationError && <div className='validationError m-4'>{validationError}</div>}
+                {validationError && <div className='validationError m-4 mandatory'>{validationError}</div>}
                     <Form.Group className="mb-3 ">
                         {/* <Form.Label className="text-start">Customer Name</Form.Label> */}
                         <Form.Control className ="text-username" type="text" name="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
