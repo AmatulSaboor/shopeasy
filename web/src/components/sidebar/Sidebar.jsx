@@ -44,7 +44,7 @@ const Sidebar = ({handleClose}) => {
                     <img src={Heart} className="me-2" alt=''/>My Wishlist</Link></li>
                 <li className="list"><Link to = '/cart' className="list" onClick={handleClose}> 
                     <img src={Cart} className="me-2" alt='' />My Cart </Link></li>
-                <li className="list"><Link to = '/customer-orders' className="list" onClick={handleClose}>
+                <li className="list"><Link to = '/orders' className="list" onClick={handleClose}>
                     <img src={Order} className="me-2" alt=''/>My Orders</Link></li>
                 {isAdmin && <>
                     <li className="list"><Link to = '/admin-products' className="list" onClick={handleClose}> 

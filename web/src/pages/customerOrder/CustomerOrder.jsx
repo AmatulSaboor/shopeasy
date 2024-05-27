@@ -25,7 +25,7 @@ const CustomerOrder = () => {
     return(
         <div>
             <p>My Orders</p>
-            {order && console.log(orderItems)}
+            {order.length === 0 ? (<div>no data available </div>) : (
             <table>
                 <thead>
                     <tr>
@@ -37,6 +37,7 @@ const CustomerOrder = () => {
                     </tr>
                 </thead>
                 <tbody>
+                {}
                 {order && order.map((item, key) => {
                     return(
                         <Fragment key={key}><tr>
@@ -70,7 +71,7 @@ const CustomerOrder = () => {
                     </Fragment>)}
                 )}
                 </tbody>
-            </table>
+            </table>)}
         </div>
     )
 }
