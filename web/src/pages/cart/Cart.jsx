@@ -16,7 +16,7 @@ const Cart = () => {
     const { data, error, loading} = useFetch(url)
     const [cart, setCart] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
-    const productsPerPage = 10
+    const productsPerPage = 6
     const indexOfLastProduct = currentPage * productsPerPage
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage
     const [searchQuery, setSearchQuery] = useState('')
@@ -106,12 +106,13 @@ const Cart = () => {
     }, [data])
 
 
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error: {error.message}</div>
+    if (loading) return <div className="mt-4 fw-bold fs-1">Loading...</div>;
+    if (error) return <div className="mt-4 fw-bold fs-3">Error: {error.message}</div>;
 
     // RETURN JSX
     return(
       <>
+      <h4 className="mt-4 mb-4">My Cart</h4>
           <div className="d-flex justify-content-center">
                  <Form className="d-flex justify-content-center col-md-3">
                   <Form.Control
@@ -121,10 +122,9 @@ const Cart = () => {
                     aria-label="Search"
                     onChange={handleSearch}
                   />
-                  <Button variant="outline-success" className="bg-warning">Search</Button>
                 </Form>
             </div>
-            {currentCart.length === 0 ? (<div>no data available </div>) : (
+            {currentCart.length === 0 ? (<div className="mt-4">You don't have anything in your cart</div>) : (
             <>
             <Table striped bordered hover>
               <thead>
@@ -147,7 +147,7 @@ const Cart = () => {
                       <td>{item.productID.name}</td>
                       <td>{item.productID.price}</td>
                       <td>{item.productID.quantity - item.productID.sold}</td>
-                      <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
+                      <td>{item.productID.isAvailable ? <span className="text-success fw-bold">Available</span>: <span className="text-danger fw-bold">Not Available</span>  }</td>
                       <td>
                       <InputGroup className="mb-3 col-md-3">
                         <InputGroup.Text onClick={() => decreaseQuantity(item)}>-</InputGroup.Text>
@@ -156,7 +156,7 @@ const Cart = () => {
                       </InputGroup>
                       </td>
                       <td>{item.productID.price * item.quantity}</td>
-                      <td><Button onClick={() => handleRemoveProductFromCart(item)} className="bg-danger">delete</Button></td>
+                      <td><Button onClick={() => handleRemoveProductFromCart(item)} className="bg-danger">remove</Button></td>
                     </tr>
                   )
               })}
@@ -166,9 +166,10 @@ const Cart = () => {
               <p>Note : Products marked as <b>NOT AVAILABLE</b> may or may not be delivered depending on the availibility at the time of delivery</p>
               <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
               </>)}
+              {currentCart.length !== 0 &&
               <Button className="btn-dark mt-4">
                 <Link to='/checkout' className="checkout">Checkout</Link>
-             </Button>
+             </Button>}
       </>
     )
 }

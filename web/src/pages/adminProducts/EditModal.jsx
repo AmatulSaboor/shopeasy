@@ -10,7 +10,7 @@ const EditModal = ({item, handleEdit})=> {
 
    return (
    <div>
-      <Button onClick={handleShow} className="btn btn-success" data-toggle="modal"><span>Edit</span></Button> 
+      <Button onClick={handleShow} className="btn btn-warning w-100" data-toggle="modal"><span>Edit</span></Button> 
       <Modal show={show} onHide={handleClose}>
          <Modal.Header>
             <Modal.Title>

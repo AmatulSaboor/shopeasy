@@ -1,8 +1,14 @@
 .card {
     width: 18rem;
     height: 30rem;
+    display: flex !important;
 }
 
 .description {
-    font-size: small;
-    }
+    font-size:small;
+}
+
+.img-card {
+    height: 200px;
+    width: 200px;
+}

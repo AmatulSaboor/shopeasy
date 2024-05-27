@@ -1,4 +1,4 @@
-    
+   
     .checkout-page {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -8,7 +8,7 @@
     }
 
     .section {
-    background-color: #fff9c4;
+    background-color: #ecebeb;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
@@ -19,7 +19,7 @@
     .shipping-address h2,
     .order-items h2,
     .order-summary h2 {
-    color: #2e7d32;
+    color: black;
     }
 
     h2 {
@@ -40,4 +40,23 @@
     margin: 5px 0;
     }
 
+     
+     .shipping {
+        border-radius: 10px;
+        padding:5px ;
+    }
     
+    .back-to-cart {
+        height: 40px;
+        width: 140px;
+    }
+    
+    .link-back {
+        color: yellow !important;
+        text-decoration: none;
+    }
+    
+    .pay-meth {
+        border-radius: 20px;
+        
+    }

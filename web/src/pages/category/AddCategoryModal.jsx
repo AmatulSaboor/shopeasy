@@ -9,7 +9,7 @@ const handleClose = () => setShow(false);
 
 return (
    <div>
-      <Button className="button-create" onClick={handleShow} data-toggle="modal"><span className="button-create">Add Product</span></Button> 
+      <Button className="button-create bg-warning mb-4" onClick={handleShow} data-toggle="modal"><span className="button-create mt-4">Add Category</span></Button> 
       <Modal show={show} onHide={handleClose}>
          <Modal.Header>
             <Modal.Title>

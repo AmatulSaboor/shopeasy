@@ -1,4 +1,8 @@
 .checkout {
-    color:yellow !important;
+    background-color: #ffc107;
+    color:black !important;
     text-decoration: none !important;
+}
+.btn-dark{
+    background-color: #ffc107;
 }

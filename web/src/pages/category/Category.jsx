@@ -7,6 +7,10 @@ import dateFormater from "../../utils/dateFormater"
 import AddCategoryModal from "./AddCategoryModal"
 import ADMIN_ROLE from "../../utils/constants"
 import { useNavigate } from "react-router-dom"
+import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Table'
+import Form from 'react-bootstrap/Form'
+
 
 const Category = () => {
 
@@ -39,22 +43,32 @@ const Category = () => {
 
         if(data)
             setCategories(data.categories)
-    }, [data])
+    }, [data, customer.role, navigate])
 
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (loading) return <div className="mt-4 fw-bold fs-1">Loading...</div>;
+    if (error) return <div className="mt-4 fw-bold fs-3">Error: {error.message}</div>;
 
     return(
 <>
-            <div>
-                <label htmlFor="search" >search :</label>
-                <input type="text" id="search" onChange={handleSearch} />
-            </div>
+<h4 className="mt-4 mb-4">Categories List</h4>
             <AddCategoryModal handleCreate = {handleCreate} />
-            {currentCategories.length === 0 ? (<div>no data available </div>) : (
+<div className="d-flex justify-content-center ">
+                 <Form className="d-flex justify-content-center col-md-3">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                    onChange={handleSearch}
+                  />
+                  {/* <Button variant="outline-success" className="bg-warning">Search</Button> */}
+                </Form>
+            </div>
+            {currentCategories.length === 0 ? (<div className="mt-4">No categories have been added yet! </div>) : (
             <>
-            <table>
+            <div className="mt-4 container">
+            <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -70,7 +84,9 @@ const Category = () => {
                               </tr>)
                         })}
                 </tbody>
-            </table>
+            </Table>
+
+            </div>
             <Pagination productsPerPage = {productsPerPage} totalProducts = {categories.length} paginate = {paginate}/></>)}
         </>
     )

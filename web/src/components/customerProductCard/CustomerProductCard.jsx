@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import './CustomerProductCard.css'
 import { useState } from 'react'
+import Parcel from '../../assets/parcel.png'
 
 const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
   const handleAddToWishList = () => {
@@ -102,27 +103,28 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handl
   }
 
   return (
-    <Card className="card d-flex justify-content-center">
-      <Card.Img variant="top" src={serverURL + `uploads/products/` + product.image} className="p-5"/>
-      <Card.Body>
-        <div className="row text-center">
-          <div className="col-md-6 fs-small">{product.isAvailable ? 'Available' : 'Not Availabe'}</div>
-          <div className="col-md-4">{product.quantity - product.sold > 0 ? `${product.quantity - product.sold} in stock` : 'Out of stock'}</div>
-          <div className="col-md-6 fs-small">{product.name}</div>
-          <div className="col-md-6">{product.category.name}</div>
-          <div className="col-md-6">RS. {product.price}</div>
-        </div>
-        <div>description : {product.description}</div>
-        {isInWishlist(product._id) ? 
-        <Button onClick={handleRemoveFromWishList}>Remove from Whishlist</Button> : 
-        <Button onClick={handleAddToWishList}>Add to Whishlist</Button> }
-      <br />
-          {isInCart(product._id) ?          
-          <Button variant="primary" onClick={handleRemoveFromCart}>Remove from cart</Button> :
-          <Button variant="primary" onClick={handleAddToCart}>Add to cart</Button>
-          }
-      </Card.Body>
-  </Card>
+  <>    
+        <Card className='my-4 '>
+          <div className="d-flex justify-content-between">
+            <div className="available mt-3"><p className="px-2 pt-2">{product.isAvailable ? <span className='text-success fw-bold' >Available</span>: <span className='text-danger fw-bold'>Not Available</span>}</p></div>
+            <div className="price me-2 mt-3 fw-bold">Rs. {product.price}</div>
+          </div>
+          <Card.Img variant="top" src={product.image ? serverURL + `uploads/products/` + product.image : Parcel} className="p-3 img-card"/>
+          <Card.Body>
+          <div className=" fs-medium fw-bold text-center">{product.name}</div>
+          <div className="fs-small">{product.category.name}</div>
+          <div>{product.description}</div>
+           {isInWishlist(product._id) ? 
+           <Button onClick={handleRemoveFromWishList} className="my-2 bg-warning">Remove from Whishlist</Button> : 
+           <Button onClick={handleAddToWishList} className="mt-2 bg-warning">Add to Whishlist</Button> }
+           <br></br>
+           {isInCart(product._id) ?          
+            <Button variant="warning" onClick={handleRemoveFromCart} className="my-2">Remove from cart</Button> : 
+            <Button variant="warning" onClick={handleAddToCart} className="mt-2">Add to cart</Button>
+           }
+          </Card.Body>
+        </Card>
+      </>
   );
 }
 

@@ -139,7 +139,9 @@ const AddForm = ({handleClose, handleCreate}) => {
             />
          </div>
       </Form.Group>
-      <Button variant="success" type="submit">Add</Button>
+      <div className="col-md-12 mt-2">
+      <Button variant="warning" type="submit" className="w-100">Add</Button>
+      </div>
    </Form>
    )
 }
