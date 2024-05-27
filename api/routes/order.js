@@ -8,17 +8,14 @@ const Product = require('../models/Product');
 
 router.get('/getList/:customerID', async (req, res) => {
     try {
-        console.log(req.params.customerID)
         const orders =  await Order.find({customerEmail : req.params.customerID })
         let orderItems = await Promise.all(orders.map(async (order) => {
             return await OrderItem.find({ orderID: order._id });
           }));
           orderItems = orderItems.flat()
-          console.log(orderItems)
         res.send(JSON.stringify({orders , orderItems}))
-        // res.send(JSON.stringify({orders : await Order.find({customerEmail : req.params.customerID }).populate('productID')}))
     } catch (error) {
-        console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 
@@ -26,15 +23,9 @@ router.get('/getList', async (req, res) => {
     try {
         const orders =  await Order.find()
         const orderItems = await OrderItem.find()
-        // let orderItems = await Promise.all(orders.map(async (order) => {
-        //     return await OrderItem.find({ orderID: order._id });
-        //   }));
-        //   orderItems = orderItems.flat()
-          console.log(orderItems)
         res.send(JSON.stringify({orders , orderItems}))
-        // res.send(JSON.stringify({orders : await Order.find({customerEmail : req.params.customerID }).populate('productID')}))
     } catch (error) {
-        console.log(error)
+        res.status(500).send({'error message' : error.message})
     }
 })
 
@@ -64,7 +55,6 @@ router.post('/add', async (req, res) => {
 
         // save items in order items table
         const orderItemsData = req.body.cart.map(item1 => {
-            // const item3 = order.find(item => item.id === item1.id);
             return {
                 orderID: order._id,
                 productID: item1.productID,

@@ -31,13 +31,11 @@ router.post('/login', async (req, res) => {
             const isValidPassword = await bcrypt.compare(req.body.password, result.password);
             if (isValidPassword) {
                 req.session.isAuthenticated = true;
-                // req.body.password = await bcrypt.hash(req.body.password, 10);
                 req.body.id = result._id;
                 req.body.name = result.name;
                 req.body.role = result.role;
                 req.body.image = result.image;
                 req.session.customer = req.body;
-                // res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, id: result._id, name: req.body.name, email: result.email, role: result.role.name }));
                 res.send(JSON.stringify({ message: 'Welcome ' + req.body.name, id: result._id, name: req.body.name, email: result.email, email: result.role, email: result.image }));
             } else {
                 res.send(JSON.stringify({ error: 'Incorrect Password' }));
@@ -51,35 +49,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// router.post('/login', (req, res) => {
-//     console.log('I am inside login....')
-//     console.log(req.session);
-//     try{
-//         Customer.findOne({customerName:req.body.customerName}, async (err, result) => {
-//             if (err) throw err;
-//             console.log(result);
-//             if (result){
-//                 const isValidPassword = await bcrypt.compare(req.body.password, result.password);
-//                 if(isValidPassword){
-//                     req.session.isAuthenticated = true;
-//                     req.body.password = await bcrypt.hash(req.body.password, 10);
-//                     req.body.email = result.email;
-//                     req.session.customer = req.body;
-//                     res.send(JSON.stringify({message: 'Welcome ' + req.body.customerName, customerName: req.body.customerName, email:result.email}));
-//                 }
-//                 else{
-//                     res.send(JSON.stringify({error: 'Incorrect Password'}));
-//                 }
-//             }
-//             else{
-//                 res.send(JSON.stringify({error: "Customer doesn't exist"}));
-//             }
-//         });
-//     }catch(e){
-//         console.error(e.message)
-//     }
-// });
-  
 // ================================================= register ===================================================
 router.post('/register', async (req, res) => {
     const regex = /^(?!.*\s)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).{10,16}$/;
@@ -121,8 +90,7 @@ router.post('/register', async (req, res) => {
           console.log(`inside else for invalid password`)
           e = e.message;
       }
-    //   return res.send(JSON.stringify({error: e, name: req.body.name, email:req.body.email}));
-      return res.send(JSON.stringify({error: e}));
+      return res.status(500).send(JSON.stringify({error: e}));
     }
 });
 

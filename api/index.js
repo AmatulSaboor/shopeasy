@@ -11,7 +11,6 @@ const uri = process.env.MONGO_URI;
 const mongoose = require('mongoose');
 const productRouter = require('./routes/product')
 const categoryRouter = require('./routes/category')
-const paymentRouter = require('./routes/payment')
 const customerRouter = require('./routes/customer')
 const orderRouter = require('./routes/order')
 const wishlistRouter = require('./routes/wishlist')
@@ -58,9 +57,6 @@ app.use('/category', categoryRouter)
 app.use('/auth', authRouter)
 app.use('/order', orderRouter)
 app.use('/email', emailRouter)
-// app.use('/order', orderRouter)
-// app.use('/payment', paymentRouter)
-
 
 app.listen(port, () => {
     console.log(`server is listening at ${port}`)

@@ -28,11 +28,9 @@ router.get('/getList', async (req, res) => {
 
 // ==================== create product (only by admin) ==================== 
 router.post('/add', upload.single('image') ,async (req, res) => {
-    // console.log(`role object`, req.session.customer.role)
-    // console.log(`role name`, req.session.customer.populate('role').name)
+
     try {
         if(req.session.customer){
-        // if(req.session.customer && req.session.customer.role === '664ada4ddde187ee1c525220'){
             if(req.file) req.body.image = req.file.filename
             const createdProduct = await Product.create(req.body)
             console.log(createdProduct)
@@ -55,19 +53,14 @@ router.put('/update', upload.single('image'), async (req, res) => {
     try {
         session.startTransaction()
         const prod = await Product.findById(req.body._id)
-        console.log(`prod`, prod)
         if(req.file){
             if(prod.image)
                 fs.unlinkSync(`./public/uploads/products/${prod.image}`)
-            console.log(`prod image `, prod?.image)
             req.body.image = req.file.filename
-            console.log('after image deletion')
         }else{
             req.body.image = prod.image
-            console.log('after image same')
         }
         const updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body, {new : true})
-        console.log('in update product', updatedProduct)
         if(updatedProduct)
             {
                 await session.commitTransaction();
@@ -77,7 +70,6 @@ router.put('/update', upload.single('image'), async (req, res) => {
         else {
             await session.abortTransaction();
             session.endSession();
-            // else res.status(404).send(JSON.stringify({})) // TODO: try giving a wrong id through postman and check
         }
     } catch (error) {
         await session.abortTransaction();

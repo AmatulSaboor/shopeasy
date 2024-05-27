@@ -6,8 +6,7 @@ const router = express.Router();
 router.post('/send-email', async (req, res) => {
     const { to, subject, body } = req.body;
 
-    // Configure the email transporter
-    let transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
         service: 'gmail',
             auth: {
             user: process.env.EMAIL_USER,
@@ -15,17 +14,15 @@ router.post('/send-email', async (req, res) => {
         }
     });
 
-    // Email options
-    let mailOptions = {
+    const mailOptions = {
         from: process.env.EMAIL_USER,
         to: to,
         subject: subject,
         text: body
     };
 
-    // Send the email
     try {
-        let info = await transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
         res.status(200).send({ message: 'Email sent', info });
     } catch (error) {
         res.status(500).send({ message: 'Error sending email', error });
