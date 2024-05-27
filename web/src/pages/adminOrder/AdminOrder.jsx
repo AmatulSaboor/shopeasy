@@ -43,17 +43,6 @@ if (customer.role !== ADMIN_ROLE) (navigate('/'))
             {currentOrders.length === 0 ? (<div className="mt-4">You have not ordered anything yet!!</div>) : (
                 <div className="container mt-4">
             <Table bordered hover>
-                {/* <thead>
-                    <tr>
-                        <th>S. No.</th>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Status</th>
-                        <th>Sub Total</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody> */}
                 {currentOrders && currentOrders.map((item, key) => {
                     return(
                         <Fragment key={key}>
@@ -104,64 +93,9 @@ if (customer.role !== ADMIN_ROLE) (navigate('/'))
                     </Fragment>)}
                 )}
             </Table>
-           <Pagination productsPerPage = {ordersPerPage} totalProducts = {orders.length} paginate = {paginate}/>
-            
+           <Pagination itemsPerPage = {ordersPerPage} totalItems = {orders.length} paginate = {paginate}/>
             </div>)}
-
         </div>
-        // <div>
-        //     <h4>My Orders</h4>
-        //     {currentOrders.length === 0 ? (<div>no data available </div>) : (
-        //     <><table>
-        //         <thead>
-        //             <tr>
-        //                 <th>S. No. </th>
-        //                 <th>Order Number</th>
-        //                 <th>Order Date</th>
-        //                 <th>Sub Total</th>
-        //                 <th>Total</th>
-        //                 <th>Status</th>
-        //             </tr>
-        //         </thead>
-        //         <tbody>
-        //         {}
-        //         {currentOrders && currentOrders.map((item, key) => {
-        //             return(
-        //                 <Fragment key={key}><tr>
-        //                     <td>{key + 1}</td>
-        //                     <td>{item._id}</td>
-        //                     <td>{dateFormater(item.createdAt)}</td>
-        //                     <td>Rs. {item.subTotal}</td>
-        //                     <td>Rs. {item.grandTotal}</td>
-        //                     <td>{item.status ? 'pending' : 'completed' }</td>
-        //                 </tr>
-        //                 <tr>
-        //                     <th>Product Name</th>
-        //                     <th>Unit Price</th>
-        //                     <th>Quantity</th>
-        //                     <th>Total Price</th>
-        //                 </tr>
-                        
-        //                         {orderItems && orderItems.map((i, k) => {
-        //                             console.log(k, item._id, i.orderID)
-        //                             if(item._id === i.orderID)
-        //                             return(
-        //                                 <tr key={k}>
-        //                                     <td>{i.productName}</td>
-        //                                     <td>Rs. {i.price}</td>
-        //                                     <td>{i.quantity}</td>
-        //                                     <td>Rs. {i.price * i.quantity}</td>
-        //                                 </tr>
-        //                             )
-        //                             else return null
-        //                         })}
-        //             </Fragment>)}
-        //         )}
-        //         </tbody>
-        //     </table>
-        //     <Pagination productsPerPage = {ordersPerPage} totalProducts = {orders.length} paginate = {paginate}/>
-        //     </>)}
-        // </div>
     )
 }
 

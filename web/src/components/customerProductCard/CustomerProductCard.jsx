@@ -2,7 +2,6 @@ import serverURL from '../../config/configFile'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import './CustomerProductCard.css'
-import { useState } from 'react'
 import Parcel from '../../assets/parcel.png'
 
 const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handleUpdateWishList, handleRemoveWL, handleUpdateCart, handleRemoveCT}) => {
@@ -45,7 +44,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handl
       })
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         handleUpdateCart(res.createdCart)
       })
       .catch(e => console.log(e))
@@ -64,7 +62,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handl
         headers: {
           'Content-Type': 'application/json' 
         },
-        // body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())
@@ -88,7 +85,6 @@ const CustomerProductCard = ({product, isInWishlist, isInCart, customerID, handl
         headers: {
           'Content-Type': 'application/json'
         },
-        // body: JSON.stringify({productID: product._id, customerID : customerID}),
         credentials: 'include'
       })
       .then(res => res.json())

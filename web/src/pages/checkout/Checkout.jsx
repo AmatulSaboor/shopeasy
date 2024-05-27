@@ -75,8 +75,7 @@ const Checkout = () => {
             setCart(cartData.cart)
         if(customerData)
             setCustomerDetails(customerData.customer)
-        // getCart()
-        // getCustomer()
+  
     }, [cartData, customerData])
     useEffect(() => {
         if (cart.length > 0) {
@@ -118,7 +117,6 @@ const Checkout = () => {
                 <p><input className="shipping me-2" type="text" name="city" placeholder="city" value={customerDetails.city ? customerDetails.city : ''} onChange={handleInputChange}/>
                 <input className="shipping me-2" type="text" name="country" placeholder="country" value={customerDetails.country ? customerDetails.country : ''} onChange={handleInputChange}/>
                 <input className="shipping" type="text" name="postalCode" placeholder="postal code" value={customerDetails.postalCode ? customerDetails.postalCode : ''} onChange={handleInputChange}/></p>
-                {/* <textarea name="description" TODO: add aditional comments section */}
             </div>
             <div className="section order-items">
                 <h2>Order Items</h2>
@@ -162,56 +160,6 @@ const Checkout = () => {
 
             </div>
         </div>
-        //     <div className="checkout-page">
-        //     <div className="section personal-info">
-        //         <h2>Personal Info</h2>
-        //         <p>{customerDetails.name}</p>
-        //         <p>{customerDetails.email}</p>
-        //         <p>{customerDetails.phone}</p>
-        //     </div>
-        //     <div className="section shipping-address">
-        //         <h2>Shipping Address</h2>
-        //         <p>House # <input type="text" name="houseNumber" value={customerDetails.houseNumber ? customerDetails.houseNumber : ''} onChange={handleInputChange}/>, 
-        //         street {customerDetails.street} <input type="text" name="street" value={customerDetails.street ? customerDetails.street : ''} onChange={handleInputChange}/></p>
-        //         <p><input type="text" name="city" placeholder="city" value={customerDetails.city ? customerDetails.city : ''} onChange={handleInputChange}/>
-        //         <input type="text" name="country" placeholder="country" value={customerDetails.country ? customerDetails.country : ''} onChange={handleInputChange}/>
-        //         <input type="text" name="postalCode" placeholder="postal code" value={customerDetails.postalCode ? customerDetails.postalCode : ''} onChange={handleInputChange}/></p>
-        //         {/* <textarea name="description" TODO: add aditional comments section */}
-        //     </div>
-        //     <div className="section order-items">
-        //         <h2>Order Items</h2>
-        //         <ul>
-        //             {cart && cart.map((item, key) => {
-        //                 return(
-        //                     <li key={key}>
-        //                         {item.quantity}
-        //                         <img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={30} height={30} />
-        //                         {item.productID.name} Rs. {item.quantity * item.productID.price}
-        //                     </li>
-        //                 )
-        //             })}
-        //         </ul>
-        //         <p>Note : Products marked as <b>NOT AVAILABLE</b> may or may not be delivered depending on the availibility at the time of delivery</p>
-        //     </div>
-        //     <div className="section payment-method">
-        //         <h2>Payment Method</h2>
-        //         <select value={paymentMethod} onChange={handlePaymentChange}>
-        //         {paymentMethods.map((method) => (
-        //             <option key={method} value={method} disabled={method !== 'cash on delivery'}>{method}</option>
-        //         ))}
-        //         </select>
-        //     </div>   
-        //     <div className="section order-summary">
-        //         <h2>Order Summary</h2>
-        //         <p><span>Sub Total : </span> Rs. {orderSummary.subTotal}</p>
-        //         <p><span>Tax : </span> Rs. {orderSummary.tax}</p>
-        //         <p><span>Shipping Charges : </span> Rs. {orderSummary.shippingCharges}</p>
-        //         <p><b><span>Grand Total : </span> Rs. {orderSummary.grandTotal}</b></p>
-        //         <p>Estimated Delivery: 3-5 business days</p>
-        //     </div>
-        //     <Link to='/cart' >back to cart</Link>
-        //     <button onClick={() => handleConfirmOrder()}>Confirm Order</button>
-        // </div>
     )
 }
 

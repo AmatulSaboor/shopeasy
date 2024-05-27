@@ -1,8 +1,6 @@
 import serverURL from "../../config/configFile";
 import { Form, Button } from "react-bootstrap";
-import {useEffect, useState} from 'react';
-// import useFetch
-//  from "../../custom hooks/useFetch";
+import { useState} from 'react';
 const AddCategoryForm = ({handleClose, handleCreate}) => {
    const [name, setName] = useState('');
   
@@ -28,11 +26,8 @@ const AddCategoryForm = ({handleClose, handleCreate}) => {
       .catch(err => console.log(err));
    }
 
-   // useEffect(() => {
-   // },[])
    return (
    <Form encType="multipart/form-data" onSubmit={handleSubmit}>
-      {/* {validationError && <div className='validationError m-4'>{validationError}</div>} */}  
       <Form.Group>
          <div>
             <label className="form-label">Name: <span className="mandatory"> *</span></label>

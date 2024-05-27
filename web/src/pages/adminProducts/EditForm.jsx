@@ -3,8 +3,8 @@ import { Form, Button } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import serverURL from "../../config/configFile";
 import useFetch from "../../custom hooks/useFetch";
-import Parcel from '../../assets/parcel.png'
-const EditForm = ({item, handleEdit, handleClose}) => {
+
+   const EditForm = ({item, handleEdit, handleClose}) => {
       console.log(`in edit from`, item)
       const [name, setName] = useState(item.name);
       const [price, setPrice] = useState(item.price);
@@ -98,7 +98,6 @@ const EditForm = ({item, handleEdit, handleClose}) => {
                name="quantity"
                value={quantity}
                readOnly
-               // onChange = { (e) => setQunatity(e.target.value)}
                min="0"
             />
          </div>
@@ -117,7 +116,6 @@ const EditForm = ({item, handleEdit, handleClose}) => {
          </select>
          </div>
       </Form.Group>
-      {/* <Card.Img variant="top" src={product.image ? serverURL + `uploads/products/` + product.image : Parcel} className="p-3 img-card"/> */}
 
          <img src={item.image ? serverURL + `uploads/products/` + item.image : ''} height={200} width={200} alt="not available" />
          <Form.Group>
@@ -133,7 +131,6 @@ const EditForm = ({item, handleEdit, handleClose}) => {
          </Form.Group>
          <Form.Group>
       <div>
-        {/* <label className="form-label">Is Available?</label> */}
         <Form.Check
           type="checkbox"
           label="Available"

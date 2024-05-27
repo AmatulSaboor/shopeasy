@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import CustomerProductCard from '../../components/customerProductCard/CustomerProductCard'
-import { Link } from "react-router-dom"
 import Pagination from "../../components/pagination/Pagination"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
@@ -61,7 +60,6 @@ const CustomerProducts = () => {
         };
     const isInCart = (productId) => {
         return cart.some(item => { 
-            // console.log('isincart', item.productID._id, productId)
             return item.productID._id === productId}
         );
     };
@@ -91,7 +89,6 @@ const CustomerProducts = () => {
                     aria-label="Search"
                     onChange={handleSearch}
                   />
-                  {/* <Button variant="outline-success" className="bg-warning">Search</Button> */}
                 </Form>
             </div>
             <div className="d-flex justify-content-center">
@@ -109,7 +106,7 @@ const CustomerProducts = () => {
                     )
                 }))}
             </div>
-            <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
+            <Pagination itemsPerPage = {productsPerPage} totalItems = {productsList.length} paginate = {paginate}/>
         </>
     )
 }

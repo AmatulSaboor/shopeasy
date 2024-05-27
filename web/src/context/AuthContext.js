@@ -21,18 +21,9 @@ export const AuthProvider = ({ children }) => {
           setCustomer({id : res.id, name:res.name,  email:res.email, role : res.role})
         }
     })
-    .catch(err => {console.log(err);
+    .catch(
+      err => {console.log(err);
     })
-      // // Replace this with your actual authentication check and fetching customer data
-      // const customerData = {
-      //   id: 1,
-      //   name: 'John Doe',
-      //   email: 'john@example.com',
-      // };
-
-      // setCustomer(customerData);
-      // setIsAuthenticated(authStatus);
-      // setLoading(false);
     };
 
     fetchCustomer();

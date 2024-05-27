@@ -164,7 +164,7 @@ const Cart = () => {
               </tbody>
               </Table>
               <p>Note : Products marked as <b>NOT AVAILABLE</b> may or may not be delivered depending on the availibility at the time of delivery</p>
-              <Pagination productsPerPage = {productsPerPage} totalProducts = {cart.length} paginate = {paginate}/>
+              <Pagination itemsPerPage = {productsPerPage} totalItems = {cart.length} paginate = {paginate}/>
               </>)}
               {currentCart.length !== 0 &&
               <Button className="btn-dark mt-4">

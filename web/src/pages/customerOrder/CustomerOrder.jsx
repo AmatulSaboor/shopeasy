@@ -37,17 +37,7 @@ const CustomerOrder = () => {
             {currentOrders.length === 0 ? (<div className="mt-4">You have not ordered anything yet!!</div>) : (
                 <div className="container mt-4">
             <Table bordered hover>
-                {/* <thead>
-                    <tr>
-                        <th>S. No.</th>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Status</th>
-                        <th>Sub Total</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody> */}
+
                 {currentOrders && currentOrders.map((item, key) => {
                     return(
                         <Fragment key={key}>
@@ -98,7 +88,7 @@ const CustomerOrder = () => {
                     </Fragment>)}
                 )}
             </Table>
-           <Pagination productsPerPage = {ordersPerPage} totalProducts = {orders.length} paginate = {paginate}/>
+           <Pagination itemsPerPage = {ordersPerPage} totalItems = {orders.length} paginate = {paginate}/>
             </div>)}
         </div>
     )

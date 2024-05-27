@@ -1,4 +1,3 @@
-// import './EditModal.css';
 import { useState } from 'react';
 import { Modal, Button} from 'react-bootstrap';
 import EditForm from './EditForm';

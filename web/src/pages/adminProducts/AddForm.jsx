@@ -22,7 +22,6 @@ const AddForm = ({handleClose, handleCreate}) => {
   }
    // fetching data on submit
    const handleSubmit = (e) => {
-      // console.log('inside form submit', price, image, category)
       const formData = new FormData();
       const fields = { name, price, category, image, quantity, description, isAvailable };
       Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
@@ -57,7 +56,6 @@ const AddForm = ({handleClose, handleCreate}) => {
    if(error) return <div>{error}</div>
    return (
    <Form encType="multipart/form-data" onSubmit={handleSubmit}>
-      {/* {validationError && <div className='validationError m-4'>{validationError}</div>} */}  
       <Form.Group>
          <div>
             <label className="form-label">Name: <span className="mandatory"> *</span></label>
@@ -130,7 +128,6 @@ const AddForm = ({handleClose, handleCreate}) => {
       </Form.Group>
       <Form.Group>
       <div>
-        {/* <label className="form-label">Is Available?</label> */}
         <Form.Check
           type="checkbox"
           label="Available"

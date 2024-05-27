@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import serverURL from "../../config/configFile"
-import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
@@ -98,7 +97,6 @@ const Wishlist = () => {
                     aria-label="Search"
                     onChange={handleSearch}
                   />
-                  {/* <Button variant="outline-success" className="bg-warning">Search</Button> */}
                 </Form>
             </div>
             {currentWishlist.length === 0 ? (<div className="mt-4">You don't have anything in your wishlist</div>) : (
@@ -134,48 +132,9 @@ const Wishlist = () => {
            
           </tbody>
           </Table>
-          <Pagination productsPerPage = {productsPerPage} totalProducts = {wishlist.length} paginate = {paginate}/>
+          <Pagination itemsPerPage = {productsPerPage} totalItems = {wishlist.length} paginate = {paginate}/>
           </div>)}
         </>
-        // <>
-        //     <div>
-        //         <label htmlFor="search" >search :</label>
-        //         <input type="text" id="search" onChange={handleSearch} />
-        //     </div>
-        //     {currentWishlist.length === 0 ? (<div>no data available </div>) : (
-        //     <>
-        //     <table>
-        //         <thead>
-        //             <tr>
-        //                 <th></th>
-        //                 <th>Name</th>
-        //                 <th>Price</th>
-        //                 <th>In stock</th>
-        //                 <th>Available</th>
-        //                 <th>Added On</th>
-        //                 <th></th>
-        //                 <th></th>
-        //             </tr>
-        //         </thead>
-        //         <tbody>
-        //             {currentWishlist && currentWishlist.map((item, key) => {
-        //                 return(
-        //                       <tr key={key}>
-        //                         <td><img src={serverURL + '/uploads/products/' + item.productID.image} alt="not available" width={50} height={50} /></td>
-        //                         <td>{item.productID.name}</td>
-        //                         <td>Rs. {item.productID.price}</td>
-        //                         <td>{item.productID.quantity - item.productID.sold}</td>
-        //                         <td>{item.productID.isAvailable ? 'Available' : 'Not available'  }</td>
-        //                         <td>{dateFormater(item.productID.createdAt)}</td>
-        //                         <td><button onClick={() => handleRemoveProductFromWishlist(item)}>delete</button></td>
-        //                         <td><button onClick={() => handleAddToCart(item)}>add to cart</button></td>
-        //                       </tr>)
-        //                 })}
-        //         </tbody>
-        //     </table>
-        //     <Pagination productsPerPage = {productsPerPage} totalProducts = {wishlist.length} paginate = {paginate}/></>)}
-        //     <Link to='/'>Go back</Link>
-        // </>
     )
 }
 

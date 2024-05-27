@@ -21,14 +21,6 @@ const AdminProducts = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate()
 
-    const logout = () => {
-        fetch(serverURL + `auth/logout`, {credentials : `include`})
-        .then(res => res.json())
-        .then(res => {if(res.logout) {
-            navigate('/login')
-        }})
-        .catch( err => console.log(err))
-    }
     // get current products
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -57,20 +49,10 @@ const AdminProducts = () => {
             return updatedList;
         });
     };
-    
-    const handleDelete = (id)=>{
-        fetch(serverURL + `product/delete/${id}`, {method:'DELETE'})
-        .then( response => response.json())
-        .then (response => {
-                setProductsList(productsList.filter(i => i._id !== id));
-            })
-        .catch(e => console.log(e));
-    }
 
     useEffect(() => {
     if (customer.role !== ADMIN_ROLE) (navigate('/'))
 
-        // getProducts()
         if(data)
             setProductsList(data.productsList)
     }, [data, customer.role, navigate])
@@ -80,8 +62,6 @@ const AdminProducts = () => {
     if ( error ) return <div className="mt-4 fw-bold fs-3">Error fetching data</div>;
 
     return(
-    
-
 <>  
 <h4 className="mt-4 mb-4">All Products</h4>
 
@@ -95,7 +75,6 @@ const AdminProducts = () => {
                     aria-label="Search"
                     onChange={handleSearch}
                   />
-                  {/* <Button variant="outline-success" className="bg-warning">Search</Button> */}
                 </Form>
             </div>
             <div className="row">
@@ -120,73 +99,9 @@ const AdminProducts = () => {
                 }))}  
             </div>
 
-            <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
+            <Pagination itemsPerPage = {productsPerPage} totalItems = {productsList.length} paginate = {paginate}/>
         </>
-//         <>  
-//             <AddModal handleCreate = {handleCreate}/>
-//             <div>
-//                 <label htmlFor="search" >search :</label>
-//                 <input type="text" id="search" onChange={handleSearch} />
-//             </div>
-//             <div className="row">
-//                 {currentProducts && currentProducts.map((item , key) => {
-//                     return (
-//                         <div key={key} className="col-md-3">
-//                             <Card  style={{ width: '18rem', margin: '10px' }}>
-//                                 <Card.Body >
-//                                     <Card.Title>{item.category?.name}</Card.Title>
-//                                     <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
-//                                     <Card.Text>{item.quantity}</Card.Text>
-//                                     <Card.Img variant="top" src={serverURL + `uploads/products/` + item.image} width={200} height={200} />
-//                                     <Card.Text>{item.description}</Card.Text>
-//                                     <Card.Text>Rs. {item.price}</Card.Text>
-//                                     <Card.Text>Sold: {item.sold}</Card.Text>
-//                                     <EditModal item={item} handleEdit={handleEdit} />
-//                                     <button onClick={() => handleDelete(item._id)}>Delete</button>
-//                                 </Card.Body>
-//                             </Card>
-//                         </div>
-//                     )
-//                 })}  
-//             </div>
-
-//             <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
-//             <button onClick = {logout}>Log Out</button>
-//         </>
-
-
     )
-    // return(
-    //     <>  
-    //         <AddModal handleCreate = {handleCreate}/>
-    //         <div>
-    //             <label htmlFor="search" >search :</label>
-    //             <input type="text" id="search" onChange={handleSearch} />
-    //         </div>
-    //         <Row>
-    //             <Col sm={3}> 
-    //             {currentProducts && currentProducts.map((item, key) => {
-    //                 return(
-    //                 <Card key={key} style={{ width: '18rem', margin: '10px' }}>
-    //                     <Card.Body >
-    //                         <Card.Title>{item.category?.name}</Card.Title>
-    //                         <Card.Subtitle className="mb-2 text-muted">{item.name}</Card.Subtitle>
-    //                         <Card.Text>{item.quantity}</Card.Text>
-    //                         <Card.Img variant="top" src={serverURL + `uploads/products/` + item.image} width={200} height={200} />
-    //                         <Card.Text>{item.description}</Card.Text>
-    //                         <Card.Text>Rs. {item.price}</Card.Text>
-    //                         <Card.Text>Sold: {item.sold}</Card.Text>
-    //                         <EditModal item={item} handleEdit={handleEdit} />
-    //                         <button onClick={() => handleDelete(item._id)}>Delete</button>
-    //                     </Card.Body>
-    //                 </Card>)})}
-    //             </Col>
-    //         </Row>
-    //         <Pagination productsPerPage = {productsPerPage} totalProducts = {productsList.length} paginate = {paginate}/>
-    //         <button onClick = {logout}>Log Out</button>
-    //     </>
-    // )
-    
     
 }
 

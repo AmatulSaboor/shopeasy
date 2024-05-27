@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import serverURL from "../../config/configFile"
 import { useAuth } from "../../context/AuthContext"
 import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
@@ -8,7 +7,6 @@ import AddCategoryModal from "./AddCategoryModal"
 import ADMIN_ROLE from "../../utils/constants"
 import { useNavigate } from "react-router-dom"
 import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 
 
@@ -62,7 +60,6 @@ const Category = () => {
                     aria-label="Search"
                     onChange={handleSearch}
                   />
-                  {/* <Button variant="outline-success" className="bg-warning">Search</Button> */}
                 </Form>
             </div>
             {currentCategories.length === 0 ? (<div className="mt-4">No categories have been added yet! </div>) : (
@@ -87,7 +84,7 @@ const Category = () => {
             </Table>
 
             </div>
-            <Pagination productsPerPage = {productsPerPage} totalProducts = {categories.length} paginate = {paginate}/></>)}
+            <Pagination itemsPerPage = {productsPerPage} totalItems = {categories.length} paginate = {paginate}/></>)}
         </>
     )
 }
