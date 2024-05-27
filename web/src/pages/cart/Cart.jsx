@@ -1,42 +1,45 @@
-import { useEffect, useState } from "react"
-import serverURL from "../../config/configFile"
-import { Link } from "react-router-dom"
-import { useAuth } from "../../context/AuthContext"
-import useFetch from "../../custom hooks/useFetch"
 import Pagination from "../../components/pagination/Pagination"
-import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { useAuth } from "../../context/AuthContext"
+import InputGroup from 'react-bootstrap/InputGroup'
+import useFetch from "../../custom hooks/useFetch"
+import serverURL from "../../config/configFile"
+import Button from 'react-bootstrap/Button'
+import { useEffect, useState } from "react"
+import Table from 'react-bootstrap/Table'
+import { Link } from "react-router-dom"
+import Form from 'react-bootstrap/Form'
 import './Cart.css'
 
 const Cart = () => {
-    
     const { customer } = useAuth()
-    const url = `cart/getList/${customer.id}`;
+    const url = `cart/getList/${customer.id}`
     const { data, error, loading} = useFetch(url)
     const [cart, setCart] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 2;
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const [searchQuery, setSearchQuery] = useState("");
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-        setCurrentPage(1)
-    }
+    const [currentPage, setCurrentPage] = useState(1)
+    const productsPerPage = 10
+    const indexOfLastProduct = currentPage * productsPerPage
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage
+    const [searchQuery, setSearchQuery] = useState('')
     const currentCart = cart
         .filter(item => item.productID.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        .slice(indexOfFirstProduct,indexOfLastProduct);
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+        .slice(indexOfFirstProduct,indexOfLastProduct)
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
+    
+    // handle search
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value)
+        setCurrentPage(1)
+    }
+
+    // increase quantity
     const increaseQuantity = async (item) => {
         if (item.quantity < (item.productID.quantity - item.productID.sold))
             {const updatedCart = cart.map(cartItem => 
                 cartItem.productID._id === item.productID._id
                   ? { ...cartItem, quantity: cartItem.quantity + 1 }
                   : cartItem
-              );
-              setCart(updatedCart);
+              )
+              setCart(updatedCart)
 
               await fetch(serverURL + `cart/changeItemQty`,
                 {
@@ -51,13 +54,15 @@ const Cart = () => {
               )
             }
     }
+
+    // decrease quatity
     const decreaseQuantity = async (item) => {
             const updatedCart = cart.map(cartItem => 
                 cartItem.productID._id === item.productID._id
                   ? { ...cartItem, quantity: Math.max(cartItem.quantity - 1, 1) }
                   : cartItem
-              );
-              setCart(updatedCart);
+              )
+              setCart(updatedCart)
 
               await fetch(serverURL + `cart/changeItemQty`,
                 {
@@ -71,6 +76,7 @@ const Cart = () => {
                 }
               )
     }
+
 
     const handleRemoveProductFromCart = (item) => {
         try {
@@ -100,9 +106,10 @@ const Cart = () => {
     }, [data])
 
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>Error: {error.message}</div>
 
+    // RETURN JSX
     return(
       <>
           <div className="d-flex justify-content-center">
