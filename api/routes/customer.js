@@ -10,5 +10,13 @@ router.get('/getById/:id', async (req, res) => {
     }
 })
 
+router.get('/getById/:id', async (req, res) => {
+    try {
+        res.send(JSON.stringify({customer : await Customer.findById(req.params.id)}))
+    } catch (error) {
+        res.status(500).send({'error message' : error.message})        
+    }
+})
+
 
 module.exports = router

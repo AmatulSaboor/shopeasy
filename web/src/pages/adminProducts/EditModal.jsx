@@ -7,6 +7,7 @@ const EditModal = ({item, handleEdit})=> {
    const handleShow = () => setShow(true);
    const handleClose = () => setShow(false);
 
+   // RETURN JSX
    return (
    <div>
       <Button onClick={handleShow} className="btn btn-warning w-100" data-toggle="modal"><span>Edit</span></Button> 

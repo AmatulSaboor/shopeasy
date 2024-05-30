@@ -38,13 +38,17 @@ const Sidebar = ({handleClose}) => {
                 <li className="text-decortation-none"><img src={customerImage ? customerImage : User} alt="customer" className="user" /></li>
                 <li>Welcome, {customer.name}</li>
                 <li>{customer.email}</li>
-                <li className="list"><Link to = '/' className="list" onClick={handleClose}> 
+                <li className="list">
+                    <Link to = '/' className="list" onClick={handleClose}> 
                     <img src={Home} className="me-2" alt=''/>Go To Home</Link></li>
-                <li className="list"><Link to = '/wishlist' className="list" onClick={handleClose}>
+                <li className="list">
+                    <Link to = '/wishlist' className="list" onClick={handleClose}>
                     <img src={Heart} className="me-2" alt=''/>My Wishlist</Link></li>
-                <li className="list"><Link to = '/cart' className="list" onClick={handleClose}> 
+                <li className="list">
+                    <Link to = '/cart' className="list" onClick={handleClose}> 
                     <img src={Cart} className="me-2" alt='' />My Cart </Link></li>
-                <li className="list"><Link to = '/orders' className="list" onClick={handleClose}>
+                <li className="list">
+                    <Link to = '/orders' className="list" onClick={handleClose}>
                     <img src={Order} className="me-2" alt=''/>My Orders</Link></li>
                 {isAdmin && <>
                     <li className="list"><Link to = '/admin-products' className="list" onClick={handleClose}> 

@@ -18,7 +18,6 @@ import Success from './pages/success/Success'
 import Login from './pages/login/Login'
 import Cart from './pages/cart/Cart'
 
-
 function App() { 
   return(
     <div className="App">

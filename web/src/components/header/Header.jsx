@@ -16,28 +16,28 @@ import Logo from '../../assets/logo.png'
 import './Header.css'
 
 const Header = () => {
-  const navigate = useNavigate()
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-  const { isAuthenticated, setCustomer, setIsAuthenticated, setLoading} = useAuth()
-  
-  // logout function
-  const logout = () => {
-    fetch(serverURL + `auth/logout`, {credentials : `include`})
-    .then(res => res.json())
-    .then(res => {
-		if(res.logout) {
-			setCustomer(null)
-			setIsAuthenticated(false)
-			setLoading(false)
-			navigate('/login')
-    }})
-    .catch( err => console.log(err)
-	)}
+	const navigate = useNavigate()
+	const [show, setShow] = useState(false)
+	const handleClose = () => setShow(false)
+	const handleShow = () => setShow(true)
+	const { isAuthenticated, setCustomer, setIsAuthenticated, setLoading} = useAuth()
+	
+	// logout function
+	const logout = () => {
+		fetch(serverURL + `auth/logout`, {credentials : `include`})
+		.then(res => res.json())
+		.then(res => {
+			if(res.logout) {
+				setCustomer(null)
+				setIsAuthenticated(false)
+				setLoading(false)
+				navigate('/login')
+		}})
+		.catch( err => console.log(err)
+		)}
 
-  // RETURN JSX
-  return (
+	// RETURN JSX
+	return (
 		<>
 			<Navbar>
 				<Container className="d-flex justify-content-start">

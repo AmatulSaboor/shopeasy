@@ -17,14 +17,12 @@ import { useAuth } from '../../context/AuthContext'
     const {setLoading, setCustomer, setIsAuthenticated, isAuthenticated} = useAuth();
 
     useEffect(() => {
-        if (isAuthenticated){
+        if (isAuthenticated)
             navigate('/')
-        }
     }, [isAuthenticated, navigate])
 
     return (
         <div className="d-flex justify-content-center">
-
             <Form className="col-md-4"
             onSubmit={(e)=>{
                     e.preventDefault();
@@ -33,55 +31,49 @@ import { useAuth } from '../../context/AuthContext'
                         return;
                     }
                     else{
-                    
-                    console.log(`inside register`);
-                    fetch(serverURL + "auth/register",
-                    {
-                        mode: 'cors',
-                        method: 'POST',
-                        headers: { 'Content-Type':'application/json' },
-                        body: JSON.stringify({phone, confirmPassword, email, name, password, role:'664ada57dde187ee1c525222'}),
-                        credentials : 'include'
-                    })
-                    .then((response) => response.json())
-                    .then(response => {
-                        console.log(response)
-                        if(response.message){
-                            setValidationError(null)
-                            setLoading(false)
-                            setCustomer({id:response.id, name:response.name, email: response.email})
-                            setIsAuthenticated(true)
-                            navigate('/')}
-                        else if(response.existedCustomer){
-                            
+                        fetch(serverURL + "auth/register",
+                        {
+                            mode: 'cors',
+                            method: 'POST',
+                            headers: { 'Content-Type':'application/json' },
+                            body: JSON.stringify({phone, confirmPassword, email, name, password, role:'664ada57dde187ee1c525222'}),
+                            credentials : 'include'
+                        })
+                        .then((response) => response.json())
+                        .then(response => {
+                            if(response.message){
+                                setValidationError(null)
+                                setLoading(false)
+                                setCustomer({id:response.id, name:response.name, email: response.email})
+                                setIsAuthenticated(true)
+                                navigate('/')}
+                            else if(response.existedCustomer){
                         }else{
-                            console.log(response.error)
                             setValidationError(response.error)
                         }
                     })
                     .catch(err => console.log(err));}
                 }}>
-      {validationError && <div className='validationError m-4 mandatory'>{validationError}</div>}  
-
+                {validationError && <div className='validationError m-4 mandatory'>{validationError}</div>}  
                 <Form.Group className="mb-3" controlId="formGroupEmail">
                         <Form.Control type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formGroupEmail">
-                        <Form.Control type="text" placeholder="Email" onChange={e => setEmail(e.target.value)} />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formGroupEmail">
-                        <Form.Control type="text" placeholder="Phone Number" onChange={e => setPhone(e.target.value)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formGroupPassword">
-                        <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formGroupPassword">
-                        <Form.Control type="password" placeholder="Confirm Password" onChange={e => setConfirmPassword(e.target.value)} />
-                    </Form.Group>
-                    <Button className="button btn-warning" type="submit">Register</Button>
-                     <p className="text">Already have an account??<Link className="login" to = "/login">Login Now</Link></p>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                    <Form.Control type="text" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                    <Form.Control type="text" placeholder="Phone Number" onChange={e => setPhone(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPassword">
+                    <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formGroupPassword">
+                    <Form.Control type="password" placeholder="Confirm Password" onChange={e => setConfirmPassword(e.target.value)} />
+                </Form.Group>
+                <Button className="button btn-warning" type="submit">Register</Button>
+                <p className="text">Already have an account??<Link className="login" to = "/login">Login Now</Link></p>
             </Form>
-            </div>
+        </div>
     )
 }
 

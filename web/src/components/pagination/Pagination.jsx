@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from 'react-bootstrap/Button'
 
 const Pagination = ({itemsPerPage, totalItems, paginate}) => {
@@ -6,6 +5,8 @@ const Pagination = ({itemsPerPage, totalItems, paginate}) => {
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++){
         pageNumbers.push(i);
     }
+
+    // RETURN JSX
     return (
         <div className='Navigation d-flex justify-content-center'>
                 {pageNumbers.map(number => (

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import serverURL from "../../config/configFile"
-import './Checkout.css'
 import { useAuth } from '../../context/AuthContext';
 import useFetch from "../../custom hooks/useFetch";
 import Button from 'react-bootstrap/Button'
+import './Checkout.css'
 
 const Checkout = () => {
-
     const navigate = useNavigate()
     const {customer} = useAuth()
     const cartUrl = `cart/getList/${customer.id}`
@@ -20,7 +19,10 @@ const Checkout = () => {
     const [customerDetails, setCustomerDetails] = useState({name:'', email: '', houseNumber: ''})
     const [orderSummary, setOrderSummary] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('cash on delivery');
-    const paymentMethods = ['cash on delivery', 'card on delivery (not available)', 'card (not available)', 'easy paisa (not available)'];
+    const paymentMethods = ['cash on delivery', 
+                            'card on delivery (not available)', 
+                            'card (not available)', 
+                            'easy paisa (not available)'];
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     };
@@ -31,31 +33,28 @@ const Checkout = () => {
             {
                 mode: 'cors',
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                credentials: 'include',
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(emailData),
-                credentials: 'include'
             })
             .then((response) => response.json())
             .then(response => {
                 console.log(`email has been sent successfully`)
             })
-      .catch(err => console.log(err));
+            .catch(err => console.log(err));
         } catch (error) {
             console.log(error)
         }
     }
+
+    // send order
     const handleConfirmOrder = () => {
-        console.log('in confirm order')
         try {
             fetch(serverURL + "order/add",
             {
                 mode: 'cors',
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({customer,orderSummary, cart}),
                 credentials: 'include'
             })
@@ -64,7 +63,7 @@ const Checkout = () => {
                 sendEmail(emailData)
                 navigate('/success')
             })
-      .catch(err => console.log(err));
+            .catch(err => console.log(err));
         } catch (error) {
             console.log(error)
         }
@@ -75,21 +74,22 @@ const Checkout = () => {
             setCart(cartData.cart)
         if(customerData)
             setCustomerDetails(customerData.customer)
-  
     }, [cartData, customerData])
+
     useEffect(() => {
+        // calculate order bill
         if (cart.length > 0) {
             const subTotal = cart.reduce((acc, current) => acc + (current.productID.price *  current.quantity), 0)
             const tax = (subTotal * 5)/100
             const shippingCharges = 200
             const grandTotal = subTotal + tax + shippingCharges
 
-        setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
-        const emailtext = `Dear ${customer.name}, \nyour order has been placed. Details are given below: 
-        \nSub total: ${subTotal} \n Tax : ${tax} \n Shipping Charges : ${shippingCharges} \n Grand Total : ${grandTotal}`
-        setEmailBody(emailtext);
+            setOrderSummary({subTotal, tax, shippingCharges, grandTotal, paymentMethod: 'cash on delivery'})
+            const emailtext = `Dear ${customer.name}, \nThank you for your shopping. \n\nYour order has been placed. Details are given below: \nSub total: Rs. ${subTotal} \n Tax : Rs. ${tax} \n Shipping Charges : Rs. ${shippingCharges} \n Grand Total : Rs. ${grandTotal} \n Estimated time of delivery is 3-5 working days....`
+            setEmailBody(emailtext);
         }
     }, [cart, paymentMethod, customer.name]);
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setCustomerDetails((prevCustomer) => ({
@@ -102,6 +102,7 @@ const Checkout = () => {
     if (cartLoading || customerLoading ) return <div className="mt-4 fw-bold fs-1">Loading...</div>;
     if (cartError || customerError ) return <div className="mt-4 fw-bold fs-3">Error fetching data</div>;
 
+    // RETURN JSX
     return(
         <div className="checkout-page">
             <div className="section personal-info">
@@ -124,12 +125,12 @@ const Checkout = () => {
                     {cart && cart.length > 0 ? cart.map((item, key) => {
                         return(
                             <li key={key}>
-                            <li>{(item.productID.image !== '' && item.productID.image != null) ? <img src={serverURL + '/uploads/products/' + item.productID.image} alt='' width={50} height={50} /> : ''}</li>
+                                <li>{(item.productID.image !== '' && item.productID.image != null) ? <img src={serverURL + '/uploads/products/' + item.productID.image} alt='' width={50} height={50} /> : ''}</li>
 
-                                <br/>
-                                Quantity: {item.quantity}
-                                <br/>
-                                {item.productID.name} <br></br>Rs. {item.quantity * item.productID.price}
+                                    <br/>
+                                    Quantity: {item.quantity}
+                                    <br/>
+                                    {item.productID.name} <br></br>Rs. {item.quantity * item.productID.price}
                             </li>
                         )
                     }) : <p>Your cart is empty</p>}
@@ -153,11 +154,10 @@ const Checkout = () => {
                 <p>Estimated Delivery: 3-5 business days</p>
             </div>
             <div className="m-auto">
-            <Button onClick={() => handleConfirmOrder()} className="btn-warning col-md-4 back-to-cart me-3">Confirm Order</Button>
-            <Button className="back-to-cart btn-dark">
-                <Link to='/cart'className="link-back" >back to cart</Link>
-            </Button>
-
+                <Button onClick={() => handleConfirmOrder()} className="btn-warning col-md-4 back-to-cart me-3">Confirm Order</Button>
+                <Button className="back-to-cart btn-dark">
+                    <Link to='/cart'className="link-back" >back to cart</Link>
+                </Button>
             </div>
         </div>
     )

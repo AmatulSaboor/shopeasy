@@ -60,7 +60,9 @@ router.put('/update', upload.single('image'), async (req, res) => {
         }else{
             req.body.image = prod.image
         }
-        const updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body, {new : true})
+        updatedProduct = await Product.findByIdAndUpdate(req.body._id, req.body, {new : true})
+        updatedProduct = await updatedProduct.populate('category')
+        console.log('updated product : ', updatedProduct)
         if(updatedProduct)
             {
                 await session.commitTransaction();

@@ -31,20 +31,16 @@ const Wishlist = () => {
 
     const handleRemoveProductFromWishlist = (item) => {
         try {
-            console.log(item)
             fetch(serverURL + `wishlist/removeOne/${item.productID._id}/${customer.id}`,
             {
-              mode: 'cors',
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json' 
-              },
-              credentials: 'include'
+                mode: 'cors',
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json' },
+                credentials: 'include'
             })
             .then(res => res.json())
             .then(res => {
-              console.log(res)
-              setWishlist(wishlist.filter(i => i.productID._id !== item.productID._id))
+                setWishlist(wishlist.filter(i => i.productID._id !== item.productID._id))
                 setCurrentPage(1)
             })
             .catch(e => console.log(e))
@@ -54,28 +50,25 @@ const Wishlist = () => {
     }
     const handleAddToCart = (item) => {
         try {
-            console.log(item)
             fetch(serverURL + `cart/add`,
             {
-              mode: 'cors',
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json' 
-              },
-              body:JSON.stringify({productID: item.productID._id, customerID : customer.id}),
-              credentials: 'include'
+                mode: 'cors',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json' },
+                body:JSON.stringify({productID: item.productID._id, customerID : customer.id}),
+                credentials: 'include'
             })
             .then(res => res.json())
             .then(res => {
-              console.log(res)
-              setWishlist(wishlist.filter(i => i.productID._id !== item.productID._id))
+                setWishlist(wishlist.filter(i => i.productID._id !== item.productID._id))
             })
             .catch(e => console.log(e))
           } catch (error) {
-            console.log(error)
+                console.log(error)
           }
           handleRemoveProductFromWishlist(item)
     }
+
     useEffect(() => {
         if(data)
             setWishlist(data.wishlist)
@@ -85,55 +78,55 @@ const Wishlist = () => {
     if (loading) return <div className="mt-4 fw-bold fs-1">Loading...</div>;
     if (error) return <div className="mt-4 fw-bold fs-3">Error: {error.message}</div>;
 
+    // RETURN JSX
     return(
-      <>
-      <h4 className="mt-4 mb-4">My Wishlist</h4>
-      <div className="d-flex justify-content-center">
-                 <Form className="d-flex justify-content-center col-md-3">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                    onChange={handleSearch}
-                  />
+        <>
+            <h4 className="mt-4 mb-4">My Wishlist</h4>
+            <div className="d-flex justify-content-center">
+                <Form className="d-flex justify-content-center col-md-3">
+                    <Form.Control
+                        type="search"
+                        placeholder="Search"
+                        className="me-2"
+                        aria-label="Search"
+                        onChange={handleSearch}
+                    />
                 </Form>
             </div>
             {currentWishlist.length === 0 ? (<div className="mt-4">You don't have anything in your wishlist</div>) : (
-        <div className="container mt-4">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-            <th></th>
-               <th>Name</th>
-               <th>Price</th>
-               <th>In stock</th>
-               <th>Availability</th>
-               <th>Added On</th>
-               <th></th>
-               <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          {currentWishlist && currentWishlist.map((item,key)=> {
-              return (
-                <tr key={key}>
-                  <td>{(item.productID.image !== '' && item.productID.image != null) ? <img src={serverURL + '/uploads/products/' + item.productID.image} alt='' width={50} height={50} /> : ''}</td>
-                  <td>{item.productID.name}</td>
-                  <td>Rs. {item.productID.price}</td>
-                  <td>{item.productID.quantity - item.productID.sold}</td>
-                  <td>{item.productID.isAvailable ? <span className="text-success fw-bold">Available</span>: <span className="text-danger fw-bold">Not Available</span>  }</td>
-                  <td>{dateFormater(item.productID.createdAt)}</td>
-                  <td><Button onClick={() => handleRemoveProductFromWishlist(item)} className="bg-danger">remove</Button></td>
-                  <td><Button onClick={() => handleAddToCart(item)} className="bg-warning text-dark"><img src={Cart} className="me-2" alt=""/></Button></td>
-                </tr>
-              )
-          })}
-           
-          </tbody>
-          </Table>
-          <Pagination itemsPerPage = {productsPerPage} totalItems = {wishlist.length} paginate = {paginate}/>
-          </div>)}
+            <div className="container mt-4">
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>In stock</th>
+                            <th>Availability</th>
+                            <th>Added On</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {currentWishlist && currentWishlist.map((item,key)=> {
+                        return (
+                        <tr key={key}>
+                            <td>{(item.productID.image !== '' && item.productID.image != null) ? <img src={serverURL + '/uploads/products/' + item.productID.image} alt='' width={50} height={50} /> : ''}</td>
+                            <td>{item.productID.name}</td>
+                            <td>Rs. {item.productID.price}</td>
+                            <td>{item.productID.quantity - item.productID.sold}</td>
+                            <td>{item.productID.isAvailable ? <span className="text-success fw-bold">Available</span>: <span className="text-danger fw-bold">Not Available</span>  }</td>
+                            <td>{dateFormater(item.productID.createdAt)}</td>
+                            <td><Button onClick={() => handleRemoveProductFromWishlist(item)} className="bg-danger">remove</Button></td>
+                            <td><Button onClick={() => handleAddToCart(item)} className="bg-warning text-dark"><img src={Cart} className="me-2" alt=""/></Button></td>
+                        </tr>
+                        )
+                    })}
+                    </tbody>
+                </Table>
+                <Pagination itemsPerPage = {productsPerPage} totalItems = {wishlist.length} paginate = {paginate}/>
+            </div>)}
         </>
     )
 }

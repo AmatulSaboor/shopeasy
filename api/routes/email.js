@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/send-email', async (req, res) => {
     const { to, subject, body } = req.body;
+    console.log(req.body)
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',

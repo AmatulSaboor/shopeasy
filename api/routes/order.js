@@ -29,6 +29,18 @@ router.get('/getList', async (req, res) => {
     }
 })
 
+router.put('/markCompleted/:id', async (req, res) => {
+    try {
+        const isMarkCompleted = await Order.findByIdAndUpdate(req.params.id,
+            {status:'completed'},
+            {new: true}
+        )
+        res.send(JSON.stringify({isMarkCompleted}))
+    } catch (error) {
+        res.status(500).send({'error message' : error.message})
+    }
+})
+
 router.post('/add', async (req, res) => {
     console.log('in order')
     const session = await mongoose.startSession();

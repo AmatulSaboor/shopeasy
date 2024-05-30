@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs');
 
 // =============================================== checks authentication ====================================
 router.get('/session', (req, res) => {
-    console.log(`i am inside session`)
     if (req.session.isAuthenticated)
         res.send(JSON.stringify({
             isAuthenticated: true, error: null, 
